@@ -1,0 +1,63 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=utf-8"><meta http-equiv="X-UA-Compatible" content="IE=edge,IE=9,chrome=1"><meta name="generator" content="MATLAB 2022a"><title>SMGO: interfacing through TCP (server)</title><style type="text/css">.rtcContent { padding: 30px; } .S0 { margin: 3px 10px 5px 4px; padding: 0px; line-height: 28.8px; min-height: 0px; white-space: pre-wrap; color: rgb(192, 76, 11); font-family: Helvetica, Arial, sans-serif; font-style: normal; font-size: 24px; font-weight: 400; text-align: left;  }
+.S1 { margin: 2px 10px 9px 4px; padding: 0px; line-height: 21px; min-height: 0px; white-space: pre-wrap; color: rgb(33, 33, 33); font-family: Helvetica, Arial, sans-serif; font-style: normal; font-size: 14px; font-weight: 400; text-align: left;  }
+.CodeBlock { background-color: #F5F5F5; margin: 10px 0 10px 0; }
+.S2 { border-left: 1px solid rgb(191, 191, 191); border-right: 1px solid rgb(191, 191, 191); border-top: 1px solid rgb(191, 191, 191); border-bottom: 1px solid rgb(191, 191, 191); border-radius: 4px; padding: 6px 45px 4px 13px; line-height: 18.004px; min-height: 0px; white-space: nowrap; color: rgb(33, 33, 33); font-family: Menlo, Monaco, Consolas, "Courier New", monospace; font-size: 14px;  }
+.S3 { margin: 10px 10px 9px 4px; padding: 0px; line-height: 21px; min-height: 0px; white-space: pre-wrap; color: rgb(33, 33, 33); font-family: Helvetica, Arial, sans-serif; font-style: normal; font-size: 14px; font-weight: 400; text-align: left;  }
+.S4 { border-left: 1px solid rgb(191, 191, 191); border-right: 1px solid rgb(191, 191, 191); border-top: 1px solid rgb(191, 191, 191); border-bottom: 0px none rgb(33, 33, 33); border-radius: 4px 4px 0px 0px; padding: 6px 45px 0px 13px; line-height: 18.004px; min-height: 0px; white-space: nowrap; color: rgb(33, 33, 33); font-family: Menlo, Monaco, Consolas, "Courier New", monospace; font-size: 14px;  }
+.S5 { border-left: 1px solid rgb(191, 191, 191); border-right: 1px solid rgb(191, 191, 191); border-top: 0px none rgb(33, 33, 33); border-bottom: 1px solid rgb(191, 191, 191); border-radius: 0px 0px 4px 4px; padding: 0px 45px 4px 13px; line-height: 18.004px; min-height: 0px; white-space: nowrap; color: rgb(33, 33, 33); font-family: Menlo, Monaco, Consolas, "Courier New", monospace; font-size: 14px;  }
+.S6 { border-left: 1px solid rgb(191, 191, 191); border-right: 1px solid rgb(191, 191, 191); border-top: 0px none rgb(33, 33, 33); border-bottom: 0px none rgb(33, 33, 33); border-radius: 0px; padding: 0px 45px 0px 13px; line-height: 18.004px; min-height: 0px; white-space: nowrap; color: rgb(33, 33, 33); font-family: Menlo, Monaco, Consolas, "Courier New", monospace; font-size: 14px;  }</style></head><body><div class = rtcContent><h1  class = 'S0' id = 'T_5C4244F3' ><span>SMGO: interfacing through TCP (server)</span></h1><div  class = 'S1'><span>This example illustrates a basic usage case where SMGO can listen to TCP packets to receive the objective and constraint values. Note that this is the server application that runs SMGO itself. For the client that simulates the evaluation and sends the values, please refer to the TCP client example.</span></div><div  class = 'S1'><span></span></div><div  class = 'S1'><span>Clear struct </span><span style=' font-family: monospace;'>options</span><span> to start this example.</span></div><div class="CodeBlock"><div class="inlineWrapper"><div  class = 'S2'><span style="white-space: pre"><span >clear </span><span style="color: rgb(167, 9, 245);">options</span><span >;</span></span></div></div></div><div  class = 'S3'><span></span></div><div  class = 'S1' id = 'M_B03F19E6' ><span>We populate the TCP server-related options to </span><span style=' font-family: monospace;'>tcp_options</span><span>. </span><span style=' font-style: italic;'>Please populate with the proper IP address and port as needed. If connection is not working, please troubleshoot if server and client firewall settings allow their connection through your specified </span><span style=' font-style: italic; font-family: monospace;'>port</span><span style=' font-style: italic;'>.</span></div><div class="CodeBlock"><div class="inlineWrapper"><div  class = 'S4'><span style="white-space: pre"><span >tcp_options.addr = </span><span style="color: rgb(167, 9, 245);">'192.168.137.1'</span><span >;</span></span></div></div><div class="inlineWrapper"><div  class = 'S5'><span style="white-space: pre"><span >tcp_options.port = 51001;</span></span></div></div></div><div  class = 'S3'><span></span></div><div  class = 'S1'><span>Then this struct </span><span style=' font-family: monospace;'>tcp_options</span><span> becomes our objective function. Furthermore, we supply the bounds and maximum experiment budget as usual.</span></div><div class="CodeBlock"><div class="inlineWrapper"><div  class = 'S4'><span style="white-space: pre"><span >options.objfun  = tcp_options;</span></span></div></div><div class="inlineWrapper"><div  class = 'S6'><span style="white-space: pre"><span >options.bounds  = repmat([-5 5], 2, 1);</span></span></div></div><div class="inlineWrapper"><div  class = 'S5'><span style="white-space: pre"><span >options.maxiter = 100;</span></span></div></div></div><div  class = 'S3'><span></span></div><div  class = 'S1'><span>Run the SMGO algorithm using the supplied arguments in </span><span style=' font-family: monospace;'>options</span><span>.</span></div><div class="CodeBlock"><div class="inlineWrapper"><div  class = 'S2'><span style="white-space: pre"><span >out             = smgo(options);</span></span></div></div></div><div  class = 'S3'><span></span></div><div  class = 'S1'><span>Plot the resulting samples distribution throughout the search space.</span></div><div class="CodeBlock"><div class="inlineWrapper"><div  class = 'S2'><span style="white-space: pre"><span >plot3(out.hist_x(1,:), out.hist_x(2,:), out.hist_z, </span><span style="color: rgb(167, 9, 245);">'.'</span><span >); grid </span><span style="color: rgb(167, 9, 245);">on</span><span >, title(</span><span style="color: rgb(167, 9, 245);">'Sampled points'</span><span >);</span></span></div></div></div><div  class = 'S3'><span></span></div><div  class = 'S1'><span></span></div><div  class = 'S1'></div>
+<br>
+<!-- 
+##### SOURCE BEGIN #####
+%% SMGO: interfacing through TCP (server)
+% This example illustrates a basic usage case where SMGO can listen to TCP packets 
+% to receive the objective and constraint values. Note that this is the server 
+% application that runs SMGO itself. For the client that simulates the evaluation 
+% and sends the values, please refer to the TCP client example.
+% 
+% 
+% 
+% Clear struct |options| to start this example.
+
+clear options;
+%% 
+% 
+% 
+% We populate the TCP server-related options to |tcp_options|. _Please populate 
+% with the proper IP address and port as needed. If connection is not working, 
+% please troubleshoot if server and client firewall settings allow their connection 
+% through your specified |port|._
+
+tcp_options.addr = '192.168.137.1';
+tcp_options.port = 51001;
+%% 
+% 
+% 
+% Then this struct |tcp_options| becomes our objective function. Furthermore, 
+% we supply the bounds and maximum experiment budget as usual.
+
+options.objfun  = tcp_options;
+options.bounds  = repmat([-5 5], 2, 1);
+options.maxiter = 100;
+%% 
+% 
+% 
+% Run the SMGO algorithm using the supplied arguments in |options|.
+
+out             = smgo(options);
+%% 
+% 
+% 
+% Plot the resulting samples distribution throughout the search space.
+
+plot3(out.hist_x(1,:), out.hist_x(2,:), out.hist_z, '.'); grid on, title('Sampled points');
+%% 
+% 
+% 
+% 
+% 
+%
+##### SOURCE END #####
+-->
+</div></body></html>

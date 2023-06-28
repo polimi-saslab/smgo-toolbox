@@ -1,0 +1,174 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=utf-8"><meta http-equiv="X-UA-Compatible" content="IE=edge,IE=9,chrome=1"><meta name="generator" content="MATLAB 2022a"><title>SMGO: interfacing through TCP (client)</title><style type="text/css">.rtcContent { padding: 30px; } .S0 { margin: 3px 10px 5px 4px; padding: 0px; line-height: 28.8px; min-height: 0px; white-space: pre-wrap; color: rgb(192, 76, 11); font-family: Helvetica, Arial, sans-serif; font-style: normal; font-size: 24px; font-weight: 400; text-align: left;  }
+.S1 { margin: 2px 10px 9px 4px; padding: 0px; line-height: 21px; min-height: 0px; white-space: pre-wrap; color: rgb(33, 33, 33); font-family: Helvetica, Arial, sans-serif; font-style: normal; font-size: 14px; font-weight: 400; text-align: left;  }
+.CodeBlock { background-color: #F5F5F5; margin: 10px 0 10px 0; }
+.S2 { border-left: 1px solid rgb(191, 191, 191); border-right: 1px solid rgb(191, 191, 191); border-top: 1px solid rgb(191, 191, 191); border-bottom: 0px none rgb(33, 33, 33); border-radius: 4px 4px 0px 0px; padding: 6px 45px 0px 13px; line-height: 18.004px; min-height: 0px; white-space: nowrap; color: rgb(33, 33, 33); font-family: Menlo, Monaco, Consolas, "Courier New", monospace; font-size: 14px;  }
+.S3 { border-left: 1px solid rgb(191, 191, 191); border-right: 1px solid rgb(191, 191, 191); border-top: 0px none rgb(33, 33, 33); border-bottom: 0px none rgb(33, 33, 33); border-radius: 0px; padding: 0px 45px 0px 13px; line-height: 18.004px; min-height: 0px; white-space: nowrap; color: rgb(33, 33, 33); font-family: Menlo, Monaco, Consolas, "Courier New", monospace; font-size: 14px;  }
+.S4 { border-left: 1px solid rgb(191, 191, 191); border-right: 1px solid rgb(191, 191, 191); border-top: 0px none rgb(33, 33, 33); border-bottom: 1px solid rgb(191, 191, 191); border-radius: 0px 0px 4px 4px; padding: 0px 45px 4px 13px; line-height: 18.004px; min-height: 0px; white-space: nowrap; color: rgb(33, 33, 33); font-family: Menlo, Monaco, Consolas, "Courier New", monospace; font-size: 14px;  }
+.S5 { margin: 10px 10px 9px 4px; padding: 0px; line-height: 21px; min-height: 0px; white-space: pre-wrap; color: rgb(33, 33, 33); font-family: Helvetica, Arial, sans-serif; font-style: normal; font-size: 14px; font-weight: 400; text-align: left;  }
+.S6 { border-left: 1px solid rgb(191, 191, 191); border-right: 1px solid rgb(191, 191, 191); border-top: 0px none rgb(33, 33, 33); border-bottom: 1px solid rgb(191, 191, 191); border-radius: 0px; padding: 0px 45px 4px 13px; line-height: 18.004px; min-height: 0px; white-space: nowrap; color: rgb(33, 33, 33); font-family: Menlo, Monaco, Consolas, "Courier New", monospace; font-size: 14px;  }
+.S7 { color: rgb(33, 33, 33); padding: 10px 0px 6px 17px; background: rgb(255, 255, 255) none repeat scroll 0% 0% / auto padding-box border-box; font-family: Menlo, Monaco, Consolas, "Courier New", monospace; font-size: 14px; overflow-x: hidden; line-height: 17.234px;  }
+/* Styling that is common to warnings and errors is in diagnosticOutput.css */.embeddedOutputsErrorElement {    min-height: 18px;    max-height: 550px;}
+.embeddedOutputsErrorElement .diagnosticMessage-errorType {    overflow: auto;}
+.embeddedOutputsErrorElement.inlineElement {}
+.embeddedOutputsErrorElement.rightPaneElement {}
+/* Styling that is common to warnings and errors is in diagnosticOutput.css */.embeddedOutputsWarningElement {    min-height: 18px;    max-height: 550px;}
+.embeddedOutputsWarningElement .diagnosticMessage-warningType {    overflow: auto;}
+.embeddedOutputsWarningElement.inlineElement {}
+.embeddedOutputsWarningElement.rightPaneElement {}
+/* Copyright 2015-2019 The MathWorks, Inc. *//* In this file, styles are not scoped to rtcContainer since they could be in the Dojo Tooltip */.diagnosticMessage-wrapper {    font-family: Menlo, Monaco, Consolas, "Courier New", monospace;    font-size: 12px;}
+.diagnosticMessage-wrapper.diagnosticMessage-warningType {    color: rgb(255,100,0);}
+.diagnosticMessage-wrapper.diagnosticMessage-warningType a {    color: rgb(255,100,0);    text-decoration: underline;}
+.diagnosticMessage-wrapper.diagnosticMessage-errorType {    color: rgb(230,0,0);}
+.diagnosticMessage-wrapper.diagnosticMessage-errorType a {    color: rgb(230,0,0);    text-decoration: underline;}
+.diagnosticMessage-wrapper .diagnosticMessage-messagePart,.diagnosticMessage-wrapper .diagnosticMessage-causePart {    white-space: pre-wrap;}
+.diagnosticMessage-wrapper .diagnosticMessage-stackPart {    white-space: pre;}
+.embeddedOutputsTextElement,.embeddedOutputsVariableStringElement {    white-space: pre;    word-wrap:  initial;    min-height: 18px;    max-height: 550px;}
+.embeddedOutputsTextElement .textElement,.embeddedOutputsVariableStringElement .textElement {    overflow: auto;}
+.textElement,.rtcDataTipElement .textElement {    padding-top: 2px;}
+.embeddedOutputsTextElement.inlineElement,.embeddedOutputsVariableStringElement.inlineElement {}
+.inlineElement .textElement {}
+.embeddedOutputsTextElement.rightPaneElement,.embeddedOutputsVariableStringElement.rightPaneElement {    min-height: 16px;}
+.rightPaneElement .textElement {    padding-top: 2px;    padding-left: 9px;}</style></head><body><div class = rtcContent><h1  class = 'S0' id = 'T_5C4244F3' ><span>SMGO: interfacing through TCP (client)</span></h1><div  class = 'S1'><span>This example illustrates a basic usage case where SMGO can listen to TCP packets to receive the objective and constraint values. This script serves as a client that simulates the evaluation of the objective/constraints. It waits in TCP for a string packet composed of space-separated values, representing the test point.</span></div><div  class = 'S1'><span></span></div><div  class = 'S1'><span>We simply setup the TCP client that matches that of the server. We also set the </span><span style=' font-family: monospace;'>Timeout</span><span> to 30 seconds. </span><span style=' font-style: italic;'>Please populate with the proper server IP address and port as needed. If connection is not working, please troubleshoot if server and client firewall settings allow their connection throught your specified </span><span style=' font-family: monospace;'>port</span><span style=' font-style: italic;'>.</span></div><div class="CodeBlock"><div class="inlineWrapper"><div  class = 'S2'><span style="white-space: pre"><span >addr = </span><span style="color: rgb(167, 9, 245);">'192.168.137.1'</span><span >;</span></span></div></div><div class="inlineWrapper"><div  class = 'S3'><span style="white-space: pre"><span >port = 51001;</span></span></div></div><div class="inlineWrapper"><div  class = 'S4'><span style="white-space: pre"><span >t    = tcpclient(</span><span style="color: rgb(167, 9, 245);">'192.168.137.1'</span><span >,51001,</span><span style="color: rgb(167, 9, 245);">'ConnectTimeout'</span><span >,30);</span></span></div></div></div><div  class = 'S5'><span></span></div><div  class = 'S1'><span>Read the string </span></div><div class="CodeBlock"><div class="inlineWrapper"><div  class = 'S2'><span style="white-space: pre"><span style="color: rgb(14, 0, 255);">while</span><span >(true)</span></span></div></div><div class="inlineWrapper"><div  class = 'S3'><span style="white-space: pre"><span >    </span><span style="color: rgb(14, 0, 255);">if </span><span >t.NumBytesAvailable</span></span></div></div><div class="inlineWrapper"><div  class = 'S3'><span style="white-space: pre"><span >        rcv_dat = read(t,t.NumBytesAvailable,</span><span style="color: rgb(167, 9, 245);">"string"</span><span >);</span></span></div></div><div class="inlineWrapper"><div  class = 'S3'><span style="white-space: pre"><span >        eval_pt = str2num(rcv_dat);</span></span></div></div><div class="inlineWrapper"><div  class = 'S3'>&nbsp;</div></div><div class="inlineWrapper"><div  class = 'S3'><span style="white-space: pre"><span >        </span><span style="color: rgb(0, 128, 19);">% eval_pt at this point is a non-empty double vector if the string </span></span></div></div><div class="inlineWrapper"><div  class = 'S3'><span style="white-space: pre"><span >        </span><span style="color: rgb(0, 128, 19);">% received in rcv_dat is not garbage. Hence we use the ~isempty condition</span></span></div></div><div class="inlineWrapper"><div  class = 'S3'><span style="white-space: pre"><span >        </span><span style="color: rgb(14, 0, 255);">if </span><span >~isempty(eval_pt)</span></span></div></div><div class="inlineWrapper"><div  class = 'S3'><span style="white-space: pre"><span >            eval_val = num2str(fn_styblinski(eval_pt'));</span></span></div></div><div class="inlineWrapper"><div  class = 'S3'><span style="white-space: pre"><span >            fprintf(</span><span style="color: rgb(167, 9, 245);">"Point: %s, Objective: %s\n"</span><span >, rcv_dat, eval_val);</span></span></div></div><div class="inlineWrapper"><div  class = 'S3'><span style="white-space: pre"><span >            write(t,eval_val,</span><span style="color: rgb(167, 9, 245);">"string"</span><span >);</span></span></div></div><div class="inlineWrapper"><div  class = 'S3'><span style="white-space: pre"><span >        </span><span style="color: rgb(14, 0, 255);">end</span></span></div></div><div class="inlineWrapper"><div  class = 'S3'><span style="white-space: pre"><span >    </span><span style="color: rgb(14, 0, 255);">end</span></span></div></div><div class="inlineWrapper outputs"><div  class = 'S6'><span style="white-space: pre"><span style="color: rgb(14, 0, 255);">end</span></span></div><div  class = 'S7'><div class="inlineElement eoOutputWrapper embeddedOutputsTextElement" uid="7FAD655F" data-scroll-top="null" data-scroll-left="null" prevent-scroll="true" data-testid="output_0" style="width: 1146px; white-space: pre; font-style: normal; color: rgb(33, 33, 33); font-size: 12px;"><div class="textElement eoOutputContent" data-width="1116" data-height="1402" data-hashorizontaloverflow="false" style="max-height: 261px; white-space: pre; font-style: normal; color: rgb(33, 33, 33); font-size: 12px;">Point: -3.7301      4.1338, Objective: 202.0211
+Point: -4.2301      3.6338, Objective: 221.4443
+Point: 4.9609     -4.9609, Objective: 814.8908
+Point: -5 -5, Objective: 812.0599
+Point: -3.7091      4.1948, Objective: 207.1722
+Point: -3.7614      4.1025, Objective: 204.2258
+Point: 4.9219      4.9219, Objective: 786.7914
+Point: 0.019531     -4.9805, Objective: -41.5375
+Point: 0.87891     0.87891, Objective: -7.4394
+Point: -4.6484    -0.35156, Objective: -71.7068
+Point: 4.9414   -0.058594, Objective: -23.2019
+Point: 0.058594      4.9805, Objective: -37.735
+Point: -4.4941     0.14648, Objective: -70.1167
+Point: -4.4023    -0.10547, Objective: -74.3365
+Point: -4.165     0.09668, Objective: -75.2576
+Point: -3.9189     0.34277, Objective: -69.9748
+Point: -4.041   -0.027344, Objective: -76.4239
+Point: -4.166    -0.15234, Objective: -76.4783
+Point: -4.0435    -0.23486, Objective: -78.8866
+Point: -3.9219    -0.15234, Objective: -77.3311
+Point: -3.9814    -0.29688, Objective: -78.8582
+Point: -1.5625      2.1875, Objective: -38.6604
+Point: -0.71211     -1.8965, Objective: -30.149
+Point: -4.9609      4.9609, Objective: 783.9302
+Point: 2.5586     -2.5195, Objective: -12.1967
+Point: -1.6602     0.13672, Objective: -25.1297
+Point: 2.9375      2.9375, Objective: 19.0285
+Point: 2.7102    -0.33672, Objective: -34.1891
+Point: -3.5474    -0.73096, Objective: -72.8515
+Point: -4.2935    -0.48486, Objective: -76.6692
+Point: -4.1602    -0.35156, Objective: -78.3836
+Point: -4.1018    -0.29321, Objective: -77.4362
+Point: 0.17578      2.9883, Objective: -49.0449
+Point: -2.7734     -3.4766, Objective: 25.8148
+Point: 0.078125     -3.3594, Objective: -59.4072
+Point: 0.99219    -0.99219, Objective: -11.3811
+Point: 3.7109      1.2891, Objective: -36.3203
+Point: -1.8016      4.1516, Objective: -26.0481
+Point: 1.8672     -4.3672, Objective: -3.3284
+Point: -3.563    0.065918, Objective: -72.738
+Point: -3.7954    -0.48291, Objective: -76.0168
+Point: -4.0503    -0.13428, Objective: -77.231
+Point: -3.9924    -0.18384, Objective: -77.9829
+Point: 4.9414     -2.0352, Objective: 128.2954
+Point: 2.0352      4.9805, Objective: 125.0989
+Point: -3.1641      1.9141, Objective: -31.5993
+Point: -2.3436     -1.7865, Objective: -44.5506
+Point: -1.6797     -4.8828, Objective: 54.3034
+Point: -5 -3, Objective: 176.9358
+Point: -5         1.8, Objective: 71.4961
+Point: -4.5435    -0.73486, Objective: -71.2978
+Point: -3.7974     0.01123, Objective: -75.9737
+Point: -3.9194    -0.35889, Objective: -77.0408
+Point: -4.104    -0.19775, Objective: -76.9963
+Point: 1.5537      2.2906, Objective: -26.3863
+Point: -0.2375     -0.2375, Objective: -1.8274
+Point: -0.58594      1.1812, Objective: -14.8287
+Point: 4.9297      2.9297, Objective: 191.6795
+Point: 2.2812           1, Objective: -28.3876
+Point: -1.3086     -3.3086, Objective: -41.9554
+Point: 3.5117     -1.5352, Objective: -12.9794
+Point: -4.0415    -0.73291, Objective: -76.1026
+Point: -4.0425    -0.48389, Objective: -78.5422
+Point: -4.043    -0.35938, Objective: -78.4858
+Point: -4.0396    -0.29346, Objective: -79.0259
+Point: -3.9885    -0.24243, Objective: -78.6786
+Point: 0.99766     -2.3117, Objective: -33.396
+Point: -3.7954     -2.2897, Objective: -13.5735
+Point: 1.4857      3.6051, Objective: -18.7647
+Point: 4.9367      1.1367, Objective: -11.391
+Point: -2.6419      3.1648, Objective: -9.0846
+Point: -2.2081      1.2021, Objective: -39.7993
+Point: -1.0352      3.2617, Objective: -55.1754
+Point: -3.5747     -0.2583, Objective: -75.1132
+Point: -4.2854    -0.28154, Objective: -78.4415
+Point: -3.9893    -0.41309, Objective: -78.7726
+Point: -3.9812    -0.35132, Objective: -77.8318
+Point: 2.082      -1.418, Objective: -23.6708
+Point: 3.7948     0.11484, Objective: -49.0021
+Point: -1.4047    -0.99219, Objective: -25.1698
+Point: 1.5396  -0.0087891, Objective: -11.9969
+Point: 0.31198      1.8659, Objective: -23.4108
+Point: 1.5576     -3.2689, Objective: -38.481
+Point: 4.2795     -3.5106, Objective: 237.5022
+Point: -4.2739    -0.74658, Objective: -74.341
+Point: -3.8052    -0.24658, Objective: -77.471
+Point: -4.105    -0.40894, Objective: -78.5461
+Point: -4.0979    -0.35181, Objective: -78.0795
+Point: -1.0312      4.9219, Objective: -35.0616
+Point: -2.4401    -0.63227, Objective: -49.2892
+Point: -0.2375      3.9525, Objective: -62.5516
+Point: -0.69385     -4.1306, Objective: -48.4046
+Point: 0.85938     -4.1406, Objective: -57.0632
+Point: 2.8617      1.8461, Objective: -25.7135
+Point: 4.3266    -0.92031, Objective: -16.0169
+Point: -3.8091    -0.74268, Objective: -75.3338
+Point: -4.1613    -0.52148, Objective: -77.7375
+Point: -3.9152    -0.24409, Objective: -77.6019
+Point: -0.57432       2.339, Objective: -37.8923
+Point: 0.034668     -1.2517, Objective: -11.5943</div></div></div></div></div>
+<br>
+<!-- 
+##### SOURCE BEGIN #####
+%% SMGO: interfacing through TCP (client)
+% This example illustrates a basic usage case where SMGO can listen to TCP packets 
+% to receive the objective and constraint values. This script serves as a client 
+% that simulates the evaluation of the objective/constraints. It waits in TCP 
+% for a string packet composed of space-separated values, representing the test 
+% point.
+% 
+% 
+% 
+% We simply setup the TCP client that matches that of the server. We also set 
+% the |Timeout| to 30 seconds. _Please populate with the proper server IP address 
+% and port as needed. If connection is not working, please troubleshoot if server 
+% and client firewall settings allow their connection throught your specified_ 
+% |port|_._
+
+addr = '192.168.137.1';
+port = 51001;
+t    = tcpclient('192.168.137.1',51001,'ConnectTimeout',30);
+%% 
+% 
+% 
+% Read the string 
+
+while(true)
+    if t.NumBytesAvailable
+        rcv_dat = read(t,t.NumBytesAvailable,"string");
+        eval_pt = str2num(rcv_dat);
+
+        % eval_pt at this point is a non-empty double vector if the string 
+        % received in rcv_dat is not garbage. Hence we use the ~isempty condition
+        if ~isempty(eval_pt)
+            eval_val = num2str(fn_styblinski(eval_pt'));
+            fprintf("Point: %s, Objective: %s\n", rcv_dat, eval_val);
+            write(t,eval_val,"string");
+        end
+    end
+end
+##### SOURCE END #####
+-->
+</div></body></html>

@@ -1,0 +1,5117 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=utf-8"><meta http-equiv="X-UA-Compatible" content="IE=edge,IE=9,chrome=1"><meta name="generator" content="MATLAB 2022a"><title>SMGO: use with time-varying functions</title><style type="text/css">.rtcContent { padding: 30px; } .S0 { margin: 3px 10px 5px 4px; padding: 0px; line-height: 28.8px; min-height: 0px; white-space: pre-wrap; color: rgb(192, 76, 11); font-family: Helvetica, Arial, sans-serif; font-style: normal; font-size: 24px; font-weight: 400; text-align: left;  }
+.S1 { margin: 2px 10px 9px 4px; padding: 0px; line-height: 21px; min-height: 0px; white-space: pre-wrap; color: rgb(33, 33, 33); font-family: Helvetica, Arial, sans-serif; font-style: normal; font-size: 14px; font-weight: 400; text-align: left;  }
+.CodeBlock { background-color: #F5F5F5; margin: 10px 0 10px 0; }
+.S2 { border-left: 1px solid rgb(191, 191, 191); border-right: 1px solid rgb(191, 191, 191); border-top: 1px solid rgb(191, 191, 191); border-bottom: 1px solid rgb(191, 191, 191); border-radius: 4px; padding: 6px 45px 4px 13px; line-height: 18.004px; min-height: 0px; white-space: nowrap; color: rgb(33, 33, 33); font-family: Menlo, Monaco, Consolas, "Courier New", monospace; font-size: 14px;  }
+.S3 { margin: 10px 10px 9px 4px; padding: 0px; line-height: 21px; min-height: 0px; white-space: pre-wrap; color: rgb(33, 33, 33); font-family: Helvetica, Arial, sans-serif; font-style: normal; font-size: 14px; font-weight: 400; text-align: left;  }
+.S4 { border-left: 1px solid rgb(191, 191, 191); border-right: 1px solid rgb(191, 191, 191); border-top: 1px solid rgb(191, 191, 191); border-bottom: 0px none rgb(33, 33, 33); border-radius: 4px 4px 0px 0px; padding: 6px 45px 0px 13px; line-height: 18.004px; min-height: 0px; white-space: nowrap; color: rgb(33, 33, 33); font-family: Menlo, Monaco, Consolas, "Courier New", monospace; font-size: 14px;  }
+.S5 { border-left: 1px solid rgb(191, 191, 191); border-right: 1px solid rgb(191, 191, 191); border-top: 0px none rgb(33, 33, 33); border-bottom: 0px none rgb(33, 33, 33); border-radius: 0px; padding: 0px 45px 0px 13px; line-height: 18.004px; min-height: 0px; white-space: nowrap; color: rgb(33, 33, 33); font-family: Menlo, Monaco, Consolas, "Courier New", monospace; font-size: 14px;  }
+.S6 { border-left: 1px solid rgb(191, 191, 191); border-right: 1px solid rgb(191, 191, 191); border-top: 0px none rgb(33, 33, 33); border-bottom: 1px solid rgb(191, 191, 191); border-radius: 0px; padding: 0px 45px 4px 13px; line-height: 18.004px; min-height: 0px; white-space: nowrap; color: rgb(33, 33, 33); font-family: Menlo, Monaco, Consolas, "Courier New", monospace; font-size: 14px;  }
+.S7 { color: rgb(33, 33, 33); padding: 10px 0px 6px 17px; background: rgb(255, 255, 255) none repeat scroll 0% 0% / auto padding-box border-box; font-family: Menlo, Monaco, Consolas, "Courier New", monospace; font-size: 14px; overflow-x: hidden; line-height: 17.234px;  }
+/* Styling that is common to warnings and errors is in diagnosticOutput.css */.embeddedOutputsErrorElement {    min-height: 18px;    max-height: 550px;}
+.embeddedOutputsErrorElement .diagnosticMessage-errorType {    overflow: auto;}
+.embeddedOutputsErrorElement.inlineElement {}
+.embeddedOutputsErrorElement.rightPaneElement {}
+/* Styling that is common to warnings and errors is in diagnosticOutput.css */.embeddedOutputsWarningElement {    min-height: 18px;    max-height: 550px;}
+.embeddedOutputsWarningElement .diagnosticMessage-warningType {    overflow: auto;}
+.embeddedOutputsWarningElement.inlineElement {}
+.embeddedOutputsWarningElement.rightPaneElement {}
+/* Copyright 2015-2019 The MathWorks, Inc. *//* In this file, styles are not scoped to rtcContainer since they could be in the Dojo Tooltip */.diagnosticMessage-wrapper {    font-family: Menlo, Monaco, Consolas, "Courier New", monospace;    font-size: 12px;}
+.diagnosticMessage-wrapper.diagnosticMessage-warningType {    color: rgb(255,100,0);}
+.diagnosticMessage-wrapper.diagnosticMessage-warningType a {    color: rgb(255,100,0);    text-decoration: underline;}
+.diagnosticMessage-wrapper.diagnosticMessage-errorType {    color: rgb(230,0,0);}
+.diagnosticMessage-wrapper.diagnosticMessage-errorType a {    color: rgb(230,0,0);    text-decoration: underline;}
+.diagnosticMessage-wrapper .diagnosticMessage-messagePart,.diagnosticMessage-wrapper .diagnosticMessage-causePart {    white-space: pre-wrap;}
+.diagnosticMessage-wrapper .diagnosticMessage-stackPart {    white-space: pre;}
+.embeddedOutputsTextElement,.embeddedOutputsVariableStringElement {    white-space: pre;    word-wrap:  initial;    min-height: 18px;    max-height: 550px;}
+.embeddedOutputsTextElement .textElement,.embeddedOutputsVariableStringElement .textElement {    overflow: auto;}
+.textElement,.rtcDataTipElement .textElement {    padding-top: 2px;}
+.embeddedOutputsTextElement.inlineElement,.embeddedOutputsVariableStringElement.inlineElement {}
+.inlineElement .textElement {}
+.embeddedOutputsTextElement.rightPaneElement,.embeddedOutputsVariableStringElement.rightPaneElement {    min-height: 16px;}
+.rightPaneElement .textElement {    padding-top: 2px;    padding-left: 9px;}
+.S8 { border-left: 1px solid rgb(191, 191, 191); border-right: 1px solid rgb(191, 191, 191); border-top: 1px solid rgb(191, 191, 191); border-bottom: 1px solid rgb(191, 191, 191); border-radius: 0px 0px 4px 4px; padding: 6px 45px 4px 13px; line-height: 18.004px; min-height: 0px; white-space: nowrap; color: rgb(33, 33, 33); font-family: Menlo, Monaco, Consolas, "Courier New", monospace; font-size: 14px;  }
+.S9 { border-left: 1px solid rgb(191, 191, 191); border-right: 1px solid rgb(191, 191, 191); border-top: 0px none rgb(33, 33, 33); border-bottom: 1px solid rgb(191, 191, 191); border-radius: 0px 0px 4px 4px; padding: 0px 45px 4px 13px; line-height: 18.004px; min-height: 0px; white-space: nowrap; color: rgb(33, 33, 33); font-family: Menlo, Monaco, Consolas, "Courier New", monospace; font-size: 14px;  }
+.S10 { border-left: 1px solid rgb(191, 191, 191); border-right: 1px solid rgb(191, 191, 191); border-top: 1px solid rgb(191, 191, 191); border-bottom: 1px solid rgb(191, 191, 191); border-radius: 4px 4px 0px 0px; padding: 6px 45px 4px 13px; line-height: 18.004px; min-height: 0px; white-space: nowrap; color: rgb(33, 33, 33); font-family: Menlo, Monaco, Consolas, "Courier New", monospace; font-size: 14px;  }</style></head><body><div class = rtcContent><h1  class = 'S0' id = 'T_5C4244F3' ><span>SMGO: use with time-varying functions</span></h1><div  class = 'S1'><span>We use SMGO in this example with a function that changes its form with respect to time. It is assumed here that each evaluation corresponds to a (unitless) time step.</span></div><div  class = 'S1'><span></span></div><div  class = 'S1'><span>Clear struct </span><span style=' font-family: monospace;'>options</span><span> to start this example.</span></div><div class="CodeBlock"><div class="inlineWrapper"><div  class = 'S2'><span style="white-space: pre"><span >clear </span><span style="color: rgb(167, 9, 245);">options</span><span >;</span></span></div></div></div><div  class = 'S3'><span></span></div><div  class = 'S1'><span>First, we try to extract an initial model. </span></div><div class="CodeBlock"><div class="inlineWrapper"><div  class = 'S4'><span style="white-space: pre"><span >options.objfun  = @(x)fn_styblinski(x);</span></span></div></div><div class="inlineWrapper"><div  class = 'S5'><span style="white-space: pre"><span >options.bounds  = repmat([-5 5], 2, 1);</span></span></div></div><div class="inlineWrapper"><div  class = 'S5'><span style="white-space: pre"><span >options.maxiter = 250;</span></span></div></div><div class="inlineWrapper outputs"><div  class = 'S6'><span style="white-space: pre"><span >init_run        = smgo(options);</span></span></div><div  class = 'S7'><div class="inlineElement eoOutputWrapper embeddedOutputsTextElement" uid="FB0F9AC7" data-scroll-top="null" data-scroll-left="null" prevent-scroll="true" data-testid="output_0" style="width: 1146px; white-space: pre; font-style: normal; color: rgb(33, 33, 33); font-size: 12px;"><div class="textElement eoOutputContent" data-width="1116" data-height="17530" data-hashorizontaloverflow="false" style="max-height: 261px; white-space: pre; font-style: normal; color: rgb(33, 33, 33); font-size: 12px;">[INFO] No start point supplied. Starting from a random start point.
+============
+Running SMGO
+============
+Iteration: 1
+Progress: 0.40% complete
+============
+Running SMGO
+============
+Iteration: 2
+Progress: 0.80% complete
+============
+Running SMGO
+============
+Iteration: 3
+Progress: 1.20% complete
+============
+Running SMGO
+============
+Iteration: 4
+Progress: 1.60% complete
+============
+Running SMGO
+============
+Iteration: 5
+Progress: 2.00% complete
+============
+Running SMGO
+============
+Iteration: 6
+Progress: 2.40% complete
+============
+Running SMGO
+============
+Iteration: 7
+Progress: 2.80% complete
+============
+Running SMGO
+============
+Iteration: 8
+Progress: 3.20% complete
+============
+Running SMGO
+============
+Iteration: 9
+Progress: 3.60% complete
+============
+Running SMGO
+============
+Iteration: 10
+Progress: 4.00% complete
+============
+Running SMGO
+============
+Iteration: 11
+Progress: 4.40% complete
+============
+Running SMGO
+============
+Iteration: 12
+Progress: 4.80% complete
+============
+Running SMGO
+============
+Iteration: 13
+Progress: 5.20% complete
+============
+Running SMGO
+============
+Iteration: 14
+Progress: 5.60% complete
+============
+Running SMGO
+============
+Iteration: 15
+Progress: 6.00% complete
+============
+Running SMGO
+============
+Iteration: 16
+Progress: 6.40% complete
+============
+Running SMGO
+============
+Iteration: 17
+Progress: 6.80% complete
+============
+Running SMGO
+============
+Iteration: 18
+Progress: 7.20% complete
+============
+Running SMGO
+============
+Iteration: 19
+Progress: 7.60% complete
+============
+Running SMGO
+============
+Iteration: 20
+Progress: 8.00% complete
+============
+Running SMGO
+============
+Iteration: 21
+Progress: 8.40% complete
+============
+Running SMGO
+============
+Iteration: 22
+Progress: 8.80% complete
+============
+Running SMGO
+============
+Iteration: 23
+Progress: 9.20% complete
+============
+Running SMGO
+============
+Iteration: 24
+Progress: 9.60% complete
+============
+Running SMGO
+============
+Iteration: 25
+Progress: 10.00% complete
+============
+Running SMGO
+============
+Iteration: 26
+Progress: 10.40% complete
+============
+Running SMGO
+============
+Iteration: 27
+Progress: 10.80% complete
+============
+Running SMGO
+============
+Iteration: 28
+Progress: 11.20% complete
+============
+Running SMGO
+============
+Iteration: 29
+Progress: 11.60% complete
+============
+Running SMGO
+============
+Iteration: 30
+Progress: 12.00% complete
+============
+Running SMGO
+============
+Iteration: 31
+Progress: 12.40% complete
+============
+Running SMGO
+============
+Iteration: 32
+Progress: 12.80% complete
+============
+Running SMGO
+============
+Iteration: 33
+Progress: 13.20% complete
+============
+Running SMGO
+============
+Iteration: 34
+Progress: 13.60% complete
+============
+Running SMGO
+============
+Iteration: 35
+Progress: 14.00% complete
+============
+Running SMGO
+============
+Iteration: 36
+Progress: 14.40% complete
+============
+Running SMGO
+============
+Iteration: 37
+Progress: 14.80% complete
+============
+Running SMGO
+============
+Iteration: 38
+Progress: 15.20% complete
+============
+Running SMGO
+============
+Iteration: 39
+Progress: 15.60% complete
+============
+Running SMGO
+============
+Iteration: 40
+Progress: 16.00% complete
+============
+Running SMGO
+============
+Iteration: 41
+Progress: 16.40% complete
+============
+Running SMGO
+============
+Iteration: 42
+Progress: 16.80% complete
+============
+Running SMGO
+============
+Iteration: 43
+Progress: 17.20% complete
+============
+Running SMGO
+============
+Iteration: 44
+Progress: 17.60% complete
+============
+Running SMGO
+============
+Iteration: 45
+Progress: 18.00% complete
+============
+Running SMGO
+============
+Iteration: 46
+Progress: 18.40% complete
+============
+Running SMGO
+============
+Iteration: 47
+Progress: 18.80% complete
+============
+Running SMGO
+============
+Iteration: 48
+Progress: 19.20% complete
+============
+Running SMGO
+============
+Iteration: 49
+Progress: 19.60% complete
+============
+Running SMGO
+============
+Iteration: 50
+Progress: 20.00% complete
+============
+Running SMGO
+============
+Iteration: 51
+Progress: 20.40% complete
+============
+Running SMGO
+============
+Iteration: 52
+Progress: 20.80% complete
+============
+Running SMGO
+============
+Iteration: 53
+Progress: 21.20% complete
+============
+Running SMGO
+============
+Iteration: 54
+Progress: 21.60% complete
+============
+Running SMGO
+============
+Iteration: 55
+Progress: 22.00% complete
+============
+Running SMGO
+============
+Iteration: 56
+Progress: 22.40% complete
+============
+Running SMGO
+============
+Iteration: 57
+Progress: 22.80% complete
+============
+Running SMGO
+============
+Iteration: 58
+Progress: 23.20% complete
+============
+Running SMGO
+============
+Iteration: 59
+Progress: 23.60% complete
+============
+Running SMGO
+============
+Iteration: 60
+Progress: 24.00% complete
+============
+Running SMGO
+============
+Iteration: 61
+Progress: 24.40% complete
+============
+Running SMGO
+============
+Iteration: 62
+Progress: 24.80% complete
+============
+Running SMGO
+============
+Iteration: 63
+Progress: 25.20% complete
+============
+Running SMGO
+============
+Iteration: 64
+Progress: 25.60% complete
+============
+Running SMGO
+============
+Iteration: 65
+Progress: 26.00% complete
+============
+Running SMGO
+============
+Iteration: 66
+Progress: 26.40% complete
+============
+Running SMGO
+============
+Iteration: 67
+Progress: 26.80% complete
+============
+Running SMGO
+============
+Iteration: 68
+Progress: 27.20% complete
+============
+Running SMGO
+============
+Iteration: 69
+Progress: 27.60% complete
+============
+Running SMGO
+============
+Iteration: 70
+Progress: 28.00% complete
+============
+Running SMGO
+============
+Iteration: 71
+Progress: 28.40% complete
+============
+Running SMGO
+============
+Iteration: 72
+Progress: 28.80% complete
+============
+Running SMGO
+============
+Iteration: 73
+Progress: 29.20% complete
+============
+Running SMGO
+============
+Iteration: 74
+Progress: 29.60% complete
+============
+Running SMGO
+============
+Iteration: 75
+Progress: 30.00% complete
+============
+Running SMGO
+============
+Iteration: 76
+Progress: 30.40% complete
+============
+Running SMGO
+============
+Iteration: 77
+Progress: 30.80% complete
+============
+Running SMGO
+============
+Iteration: 78
+Progress: 31.20% complete
+============
+Running SMGO
+============
+Iteration: 79
+Progress: 31.60% complete
+============
+Running SMGO
+============
+Iteration: 80
+Progress: 32.00% complete
+============
+Running SMGO
+============
+Iteration: 81
+Progress: 32.40% complete
+============
+Running SMGO
+============
+Iteration: 82
+Progress: 32.80% complete
+============
+Running SMGO
+============
+Iteration: 83
+Progress: 33.20% complete
+============
+Running SMGO
+============
+Iteration: 84
+Progress: 33.60% complete
+============
+Running SMGO
+============
+Iteration: 85
+Progress: 34.00% complete
+============
+Running SMGO
+============
+Iteration: 86
+Progress: 34.40% complete
+============
+Running SMGO
+============
+Iteration: 87
+Progress: 34.80% complete
+============
+Running SMGO
+============
+Iteration: 88
+Progress: 35.20% complete
+============
+Running SMGO
+============
+Iteration: 89
+Progress: 35.60% complete
+============
+Running SMGO
+============
+Iteration: 90
+Progress: 36.00% complete
+============
+Running SMGO
+============
+Iteration: 91
+Progress: 36.40% complete
+============
+Running SMGO
+============
+Iteration: 92
+Progress: 36.80% complete
+============
+Running SMGO
+============
+Iteration: 93
+Progress: 37.20% complete
+============
+Running SMGO
+============
+Iteration: 94
+Progress: 37.60% complete
+============
+Running SMGO
+============
+Iteration: 95
+Progress: 38.00% complete
+============
+Running SMGO
+============
+Iteration: 96
+Progress: 38.40% complete
+============
+Running SMGO
+============
+Iteration: 97
+Progress: 38.80% complete
+============
+Running SMGO
+============
+Iteration: 98
+Progress: 39.20% complete
+============
+Running SMGO
+============
+Iteration: 99
+Progress: 39.60% complete
+============
+Running SMGO
+============
+Iteration: 100
+Progress: 40.00% complete
+============
+Running SMGO
+============
+Iteration: 101
+Progress: 40.40% complete
+============
+Running SMGO
+============
+Iteration: 102
+Progress: 40.80% complete
+============
+Running SMGO
+============
+Iteration: 103
+Progress: 41.20% complete
+============
+Running SMGO
+============
+Iteration: 104
+Progress: 41.60% complete
+============
+Running SMGO
+============
+Iteration: 105
+Progress: 42.00% complete
+============
+Running SMGO
+============
+Iteration: 106
+Progress: 42.40% complete
+============
+Running SMGO
+============
+Iteration: 107
+Progress: 42.80% complete
+============
+Running SMGO
+============
+Iteration: 108
+Progress: 43.20% complete
+============
+Running SMGO
+============
+Iteration: 109
+Progress: 43.60% complete
+============
+Running SMGO
+============
+Iteration: 110
+Progress: 44.00% complete
+============
+Running SMGO
+============
+Iteration: 111
+Progress: 44.40% complete
+============
+Running SMGO
+============
+Iteration: 112
+Progress: 44.80% complete
+============
+Running SMGO
+============
+Iteration: 113
+Progress: 45.20% complete
+============
+Running SMGO
+============
+Iteration: 114
+Progress: 45.60% complete
+============
+Running SMGO
+============
+Iteration: 115
+Progress: 46.00% complete
+============
+Running SMGO
+============
+Iteration: 116
+Progress: 46.40% complete
+============
+Running SMGO
+============
+Iteration: 117
+Progress: 46.80% complete
+============
+Running SMGO
+============
+Iteration: 118
+Progress: 47.20% complete
+============
+Running SMGO
+============
+Iteration: 119
+Progress: 47.60% complete
+============
+Running SMGO
+============
+Iteration: 120
+Progress: 48.00% complete
+============
+Running SMGO
+============
+Iteration: 121
+Progress: 48.40% complete
+============
+Running SMGO
+============
+Iteration: 122
+Progress: 48.80% complete
+============
+Running SMGO
+============
+Iteration: 123
+Progress: 49.20% complete
+============
+Running SMGO
+============
+Iteration: 124
+Progress: 49.60% complete
+============
+Running SMGO
+============
+Iteration: 125
+Progress: 50.00% complete
+============
+Running SMGO
+============
+Iteration: 126
+Progress: 50.40% complete
+============
+Running SMGO
+============
+Iteration: 127
+Progress: 50.80% complete
+============
+Running SMGO
+============
+Iteration: 128
+Progress: 51.20% complete
+============
+Running SMGO
+============
+Iteration: 129
+Progress: 51.60% complete
+============
+Running SMGO
+============
+Iteration: 130
+Progress: 52.00% complete
+============
+Running SMGO
+============
+Iteration: 131
+Progress: 52.40% complete
+============
+Running SMGO
+============
+Iteration: 132
+Progress: 52.80% complete
+============
+Running SMGO
+============
+Iteration: 133
+Progress: 53.20% complete
+============
+Running SMGO
+============
+Iteration: 134
+Progress: 53.60% complete
+============
+Running SMGO
+============
+Iteration: 135
+Progress: 54.00% complete
+============
+Running SMGO
+============
+Iteration: 136
+Progress: 54.40% complete
+============
+Running SMGO
+============
+Iteration: 137
+Progress: 54.80% complete
+============
+Running SMGO
+============
+Iteration: 138
+Progress: 55.20% complete
+============
+Running SMGO
+============
+Iteration: 139
+Progress: 55.60% complete
+============
+Running SMGO
+============
+Iteration: 140
+Progress: 56.00% complete
+============
+Running SMGO
+============
+Iteration: 141
+Progress: 56.40% complete
+============
+Running SMGO
+============
+Iteration: 142
+Progress: 56.80% complete
+============
+Running SMGO
+============
+Iteration: 143
+Progress: 57.20% complete
+============
+Running SMGO
+============
+Iteration: 144
+Progress: 57.60% complete
+============
+Running SMGO
+============
+Iteration: 145
+Progress: 58.00% complete
+============
+Running SMGO
+============
+Iteration: 146
+Progress: 58.40% complete
+============
+Running SMGO
+============
+Iteration: 147
+Progress: 58.80% complete
+============
+Running SMGO
+============
+Iteration: 148
+Progress: 59.20% complete
+============
+Running SMGO
+============
+Iteration: 149
+Progress: 59.60% complete
+============
+Running SMGO
+============
+Iteration: 150
+Progress: 60.00% complete
+============
+Running SMGO
+============
+Iteration: 151
+Progress: 60.40% complete
+============
+Running SMGO
+============
+Iteration: 152
+Progress: 60.80% complete
+============
+Running SMGO
+============
+Iteration: 153
+Progress: 61.20% complete
+============
+Running SMGO
+============
+Iteration: 154
+Progress: 61.60% complete
+============
+Running SMGO
+============
+Iteration: 155
+Progress: 62.00% complete
+============
+Running SMGO
+============
+Iteration: 156
+Progress: 62.40% complete
+============
+Running SMGO
+============
+Iteration: 157
+Progress: 62.80% complete
+============
+Running SMGO
+============
+Iteration: 158
+Progress: 63.20% complete
+============
+Running SMGO
+============
+Iteration: 159
+Progress: 63.60% complete
+============
+Running SMGO
+============
+Iteration: 160
+Progress: 64.00% complete
+============
+Running SMGO
+============
+Iteration: 161
+Progress: 64.40% complete
+============
+Running SMGO
+============
+Iteration: 162
+Progress: 64.80% complete
+============
+Running SMGO
+============
+Iteration: 163
+Progress: 65.20% complete
+============
+Running SMGO
+============
+Iteration: 164
+Progress: 65.60% complete
+============
+Running SMGO
+============
+Iteration: 165
+Progress: 66.00% complete
+============
+Running SMGO
+============
+Iteration: 166
+Progress: 66.40% complete
+============
+Running SMGO
+============
+Iteration: 167
+Progress: 66.80% complete
+============
+Running SMGO
+============
+Iteration: 168
+Progress: 67.20% complete
+============
+Running SMGO
+============
+Iteration: 169
+Progress: 67.60% complete
+============
+Running SMGO
+============
+Iteration: 170
+Progress: 68.00% complete
+============
+Running SMGO
+============
+Iteration: 171
+Progress: 68.40% complete
+============
+Running SMGO
+============
+Iteration: 172
+Progress: 68.80% complete
+============
+Running SMGO
+============
+Iteration: 173
+Progress: 69.20% complete
+============
+Running SMGO
+============
+Iteration: 174
+Progress: 69.60% complete
+============
+Running SMGO
+============
+Iteration: 175
+Progress: 70.00% complete
+============
+Running SMGO
+============
+Iteration: 176
+Progress: 70.40% complete
+============
+Running SMGO
+============
+Iteration: 177
+Progress: 70.80% complete
+============
+Running SMGO
+============
+Iteration: 178
+Progress: 71.20% complete
+============
+Running SMGO
+============
+Iteration: 179
+Progress: 71.60% complete
+============
+Running SMGO
+============
+Iteration: 180
+Progress: 72.00% complete
+============
+Running SMGO
+============
+Iteration: 181
+Progress: 72.40% complete
+============
+Running SMGO
+============
+Iteration: 182
+Progress: 72.80% complete
+============
+Running SMGO
+============
+Iteration: 183
+Progress: 73.20% complete
+============
+Running SMGO
+============
+Iteration: 184
+Progress: 73.60% complete
+============
+Running SMGO
+============
+Iteration: 185
+Progress: 74.00% complete
+============
+Running SMGO
+============
+Iteration: 186
+Progress: 74.40% complete
+============
+Running SMGO
+============
+Iteration: 187
+Progress: 74.80% complete
+============
+Running SMGO
+============
+Iteration: 188
+Progress: 75.20% complete
+============
+Running SMGO
+============
+Iteration: 189
+Progress: 75.60% complete
+============
+Running SMGO
+============
+Iteration: 190
+Progress: 76.00% complete
+============
+Running SMGO
+============
+Iteration: 191
+Progress: 76.40% complete
+============
+Running SMGO
+============
+Iteration: 192
+Progress: 76.80% complete
+============
+Running SMGO
+============
+Iteration: 193
+Progress: 77.20% complete
+============
+Running SMGO
+============
+Iteration: 194
+Progress: 77.60% complete
+============
+Running SMGO
+============
+Iteration: 195
+Progress: 78.00% complete
+============
+Running SMGO
+============
+Iteration: 196
+Progress: 78.40% complete
+============
+Running SMGO
+============
+Iteration: 197
+Progress: 78.80% complete
+============
+Running SMGO
+============
+Iteration: 198
+Progress: 79.20% complete
+============
+Running SMGO
+============
+Iteration: 199
+Progress: 79.60% complete
+============
+Running SMGO
+============
+Iteration: 200
+Progress: 80.00% complete
+============
+Running SMGO
+============
+Iteration: 201
+Progress: 80.40% complete
+============
+Running SMGO
+============
+Iteration: 202
+Progress: 80.80% complete
+============
+Running SMGO
+============
+Iteration: 203
+Progress: 81.20% complete
+============
+Running SMGO
+============
+Iteration: 204
+Progress: 81.60% complete
+============
+Running SMGO
+============
+Iteration: 205
+Progress: 82.00% complete
+============
+Running SMGO
+============
+Iteration: 206
+Progress: 82.40% complete
+============
+Running SMGO
+============
+Iteration: 207
+Progress: 82.80% complete
+============
+Running SMGO
+============
+Iteration: 208
+Progress: 83.20% complete
+============
+Running SMGO
+============
+Iteration: 209
+Progress: 83.60% complete
+============
+Running SMGO
+============
+Iteration: 210
+Progress: 84.00% complete
+============
+Running SMGO
+============
+Iteration: 211
+Progress: 84.40% complete
+============
+Running SMGO
+============
+Iteration: 212
+Progress: 84.80% complete
+============
+Running SMGO
+============
+Iteration: 213
+Progress: 85.20% complete
+============
+Running SMGO
+============
+Iteration: 214
+Progress: 85.60% complete
+============
+Running SMGO
+============
+Iteration: 215
+Progress: 86.00% complete
+============
+Running SMGO
+============
+Iteration: 216
+Progress: 86.40% complete
+============
+Running SMGO
+============
+Iteration: 217
+Progress: 86.80% complete
+============
+Running SMGO
+============
+Iteration: 218
+Progress: 87.20% complete
+============
+Running SMGO
+============
+Iteration: 219
+Progress: 87.60% complete
+============
+Running SMGO
+============
+Iteration: 220
+Progress: 88.00% complete
+============
+Running SMGO
+============
+Iteration: 221
+Progress: 88.40% complete
+============
+Running SMGO
+============
+Iteration: 222
+Progress: 88.80% complete
+============
+Running SMGO
+============
+Iteration: 223
+Progress: 89.20% complete
+============
+Running SMGO
+============
+Iteration: 224
+Progress: 89.60% complete
+============
+Running SMGO
+============
+Iteration: 225
+Progress: 90.00% complete
+============
+Running SMGO
+============
+Iteration: 226
+Progress: 90.40% complete
+============
+Running SMGO
+============
+Iteration: 227
+Progress: 90.80% complete
+============
+Running SMGO
+============
+Iteration: 228
+Progress: 91.20% complete
+============
+Running SMGO
+============
+Iteration: 229
+Progress: 91.60% complete
+============
+Running SMGO
+============
+Iteration: 230
+Progress: 92.00% complete
+============
+Running SMGO
+============
+Iteration: 231
+Progress: 92.40% complete
+============
+Running SMGO
+============
+Iteration: 232
+Progress: 92.80% complete
+============
+Running SMGO
+============
+Iteration: 233
+Progress: 93.20% complete
+============
+Running SMGO
+============
+Iteration: 234
+Progress: 93.60% complete
+============
+Running SMGO
+============
+Iteration: 235
+Progress: 94.00% complete
+============
+Running SMGO
+============
+Iteration: 236
+Progress: 94.40% complete
+============
+Running SMGO
+============
+Iteration: 237
+Progress: 94.80% complete
+============
+Running SMGO
+============
+Iteration: 238
+Progress: 95.20% complete
+============
+Running SMGO
+============
+Iteration: 239
+Progress: 95.60% complete
+============
+Running SMGO
+============
+Iteration: 240
+Progress: 96.00% complete
+============
+Running SMGO
+============
+Iteration: 241
+Progress: 96.40% complete
+============
+Running SMGO
+============
+Iteration: 242
+Progress: 96.80% complete
+============
+Running SMGO
+============
+Iteration: 243
+Progress: 97.20% complete
+============
+Running SMGO
+============
+Iteration: 244
+Progress: 97.60% complete
+============
+Running SMGO
+============
+Iteration: 245
+Progress: 98.00% complete
+============
+Running SMGO
+============
+Iteration: 246
+Progress: 98.40% complete
+============
+Running SMGO
+============
+Iteration: 247
+Progress: 98.80% complete
+============
+Running SMGO
+============
+Iteration: 248
+Progress: 99.20% complete
+============
+Running SMGO
+============
+Iteration: 249
+Progress: 99.60% complete
+============
+Running SMGO
+============
+Iteration: 250
+Progress: 100.00% complete
+Optimization complete. Results are inside struct 'out'.</div></div></div></div><div class="inlineWrapper"><div  class = 'S8'><span style="white-space: pre"><span >init_dat        = [init_run.hist_x; init_run.hist_z];</span></span></div></div></div><div  class = 'S3'><span></span></div><div class="CodeBlock"><div class="inlineWrapper"><div  class = 'S2'><span style="white-space: pre"><span >clear </span><span style="color: rgb(167, 9, 245);">options</span><span >;</span></span></div></div></div><div  class = 'S3'><span></span></div><div  class = 'S1' id = 'M_B03F19E6' ><span>We supply the objective function handle (the 2-dimensional </span><span style=' font-style: italic;'>time-varying </span><span>Styblinski-Tang function found in </span><span style=' font-family: monospace;'>examples/test_functions/</span><span>), the search space bounds, and the maximum budget of experiments/iterations. Furthermore, we set the </span><span style=' font-family: monospace;'>timevarying</span><span> flag to </span><span style=' font-family: monospace;'>true</span><span>, and to accelerate the computations, we also set the </span><span style=' font-family: monospace;'>filtercdpt</span><span> flag.</span></div><div class="CodeBlock"><div class="inlineWrapper"><div  class = 'S4'><span style="white-space: pre"><span >options.objfun      = @(x)fn_styblinski_tv(x);</span></span></div></div><div class="inlineWrapper"><div  class = 'S5'><span style="white-space: pre"><span >options.bounds      = repmat([-5 5], 2, 1);</span></span></div></div><div class="inlineWrapper"><div  class = 'S5'><span style="white-space: pre"><span >options.maxiter     = 3000;</span></span></div></div><div class="inlineWrapper"><div  class = 'S5'><span style="white-space: pre"><span >options.timevarying = true;</span></span></div></div><div class="inlineWrapper"><div  class = 'S5'><span style="white-space: pre"><span >options.startX      = init_dat;</span></span></div></div><div class="inlineWrapper"><div  class = 'S9'><span style="white-space: pre"><span >options.filtercdpt  = true;</span></span></div></div></div><div  class = 'S3'><span></span></div><div  class = 'S1'><span>Use an iteration-based feedback function to show the currently-stored samples collection after each iteration.</span></div><div class="CodeBlock"><div class="inlineWrapper"><div  class = 'S2'><span style="white-space: pre"><span >options.iterfdbackfun = @(X_n)tvplot(X_n);</span></span></div></div></div><div  class = 'S3'><span></span></div><div  class = 'S1'><span>Run the SMGO algorithm using the supplied arguments in </span><span style=' font-family: monospace;'>options</span><span>.</span></div><div class="CodeBlock"><div class="inlineWrapper outputs"><div  class = 'S10'><span style="white-space: pre"><span >out             = smgo(options);</span></span></div><div  class = 'S7'><div class="inlineElement eoOutputWrapper embeddedOutputsTextElement" uid="24F9FE0A" data-scroll-top="null" data-scroll-left="null" prevent-scroll="true" data-testid="output_1" style="width: 1146px; white-space: pre; font-style: normal; color: rgb(33, 33, 33); font-size: 12px;"><div class="textElement eoOutputContent" data-width="1116" data-height="52768" data-hashorizontaloverflow="false" style="max-height: 261px; white-space: pre; font-style: normal; color: rgb(33, 33, 33); font-size: 12px;">[INFO] No start point, but initial samples supplied. SMGO will immediately compute the next sampling point from initial samples.
+============
+Running SMGO
+============
+Iteration: 1
+Progress: 0.03% complete
+============
+Running SMGO
+============
+Iteration: 2
+Progress: 0.07% complete
+============
+Running SMGO
+============
+Iteration: 3
+Progress: 0.10% complete
+============
+Running SMGO
+============
+Iteration: 4
+Progress: 0.13% complete
+============
+Running SMGO
+============
+Iteration: 5
+Progress: 0.17% complete
+============
+Running SMGO
+============
+Iteration: 6
+Progress: 0.20% complete
+============
+Running SMGO
+============
+Iteration: 7
+Progress: 0.23% complete
+============
+Running SMGO
+============
+Iteration: 8
+Progress: 0.27% complete
+============
+Running SMGO
+============
+Iteration: 9
+Progress: 0.30% complete
+============
+Running SMGO
+============
+Iteration: 10
+Progress: 0.33% complete
+============
+Running SMGO
+============
+Iteration: 11
+Progress: 0.37% complete
+============
+Running SMGO
+============
+Iteration: 12
+Progress: 0.40% complete
+============
+Running SMGO
+============
+Iteration: 13
+Progress: 0.43% complete
+============
+Running SMGO
+============
+Iteration: 14
+Progress: 0.47% complete
+============
+Running SMGO
+============
+Iteration: 15
+Progress: 0.50% complete
+============
+Running SMGO
+============
+Iteration: 16
+Progress: 0.53% complete
+============
+Running SMGO
+============
+Iteration: 17
+Progress: 0.57% complete
+============
+Running SMGO
+============
+Iteration: 18
+Progress: 0.60% complete
+============
+Running SMGO
+============
+Iteration: 19
+Progress: 0.63% complete
+============
+Running SMGO
+============
+Iteration: 20
+Progress: 0.67% complete
+============
+Running SMGO
+============
+Iteration: 21
+Progress: 0.70% complete
+============
+Running SMGO
+============
+Iteration: 22
+Progress: 0.73% complete
+============
+Running SMGO
+============
+Iteration: 23
+Progress: 0.77% complete
+============
+Running SMGO
+============
+Iteration: 24
+Progress: 0.80% complete
+============
+Running SMGO
+============
+Iteration: 25
+Progress: 0.83% complete
+============
+Running SMGO
+============
+Iteration: 26
+Progress: 0.87% complete
+============
+Running SMGO
+============
+Iteration: 27
+Progress: 0.90% complete
+============
+Running SMGO
+============
+Iteration: 28
+Progress: 0.93% complete
+============
+Running SMGO
+============
+Iteration: 29
+Progress: 0.97% complete
+============
+Running SMGO
+============
+Iteration: 30
+Progress: 1.00% complete
+============
+Running SMGO
+============
+Iteration: 31
+Progress: 1.03% complete
+============
+Running SMGO
+============
+Iteration: 32
+Progress: 1.07% complete
+============
+Running SMGO
+============
+Iteration: 33
+Progress: 1.10% complete
+============
+Running SMGO
+============
+Iteration: 34
+Progress: 1.13% complete
+============
+Running SMGO
+============
+Iteration: 35
+Progress: 1.17% complete
+============
+Running SMGO
+============
+Iteration: 36
+Progress: 1.20% complete
+============
+Running SMGO
+============
+Iteration: 37
+Progress: 1.23% complete
+============
+Running SMGO
+============
+Iteration: 38
+Progress: 1.27% complete
+============
+Running SMGO
+============
+Iteration: 39
+Progress: 1.30% complete
+============
+Running SMGO
+============
+Iteration: 40
+Progress: 1.33% complete
+============
+Running SMGO
+============
+Iteration: 41
+Progress: 1.37% complete
+============
+Running SMGO
+============
+Iteration: 42
+Progress: 1.40% complete
+============
+Running SMGO
+============
+Iteration: 43
+Progress: 1.43% complete
+============
+Running SMGO
+============
+Iteration: 44
+Progress: 1.47% complete
+============
+Running SMGO
+============
+Iteration: 45
+Progress: 1.50% complete
+============
+Running SMGO
+============
+Iteration: 46
+Progress: 1.53% complete
+============
+Running SMGO
+============
+Iteration: 47
+Progress: 1.57% complete
+============
+Running SMGO
+============
+Iteration: 48
+Progress: 1.60% complete
+============
+Running SMGO
+============
+Iteration: 49
+Progress: 1.63% complete
+============
+Running SMGO
+============
+Iteration: 50
+Progress: 1.67% complete
+============
+Running SMGO
+============
+Iteration: 51
+Progress: 1.70% complete
+============
+Running SMGO
+============
+Iteration: 52
+Progress: 1.73% complete
+============
+Running SMGO
+============
+Iteration: 53
+Progress: 1.77% complete
+============
+Running SMGO
+============
+Iteration: 54
+Progress: 1.80% complete
+============
+Running SMGO
+============
+Iteration: 55
+Progress: 1.83% complete
+============
+Running SMGO
+============
+Iteration: 56
+Progress: 1.87% complete
+============
+Running SMGO
+============
+Iteration: 57
+Progress: 1.90% complete
+============
+Running SMGO
+============
+Iteration: 58
+Progress: 1.93% complete
+============
+Running SMGO
+============
+Iteration: 59
+Progress: 1.97% complete
+============
+Running SMGO
+============
+Iteration: 60
+Progress: 2.00% complete
+============
+Running SMGO
+============
+Iteration: 61
+Progress: 2.03% complete
+============
+Running SMGO
+============
+Iteration: 62
+Progress: 2.07% complete
+============
+Running SMGO
+============
+Iteration: 63
+Progress: 2.10% complete
+============
+Running SMGO
+============
+Iteration: 64
+Progress: 2.13% complete
+============
+Running SMGO
+============
+Iteration: 65
+Progress: 2.17% complete
+============
+Running SMGO
+============
+Iteration: 66
+Progress: 2.20% complete
+============
+Running SMGO
+============
+Iteration: 67
+Progress: 2.23% complete
+============
+Running SMGO
+============
+Iteration: 68
+Progress: 2.27% complete
+============
+Running SMGO
+============
+Iteration: 69
+Progress: 2.30% complete
+============
+Running SMGO
+============
+Iteration: 70
+Progress: 2.33% complete
+============
+Running SMGO
+============
+Iteration: 71
+Progress: 2.37% complete
+============
+Running SMGO
+============
+Iteration: 72
+Progress: 2.40% complete
+============
+Running SMGO
+============
+Iteration: 73
+Progress: 2.43% complete
+============
+Running SMGO
+============
+Iteration: 74
+Progress: 2.47% complete
+============
+Running SMGO
+============
+Iteration: 75
+Progress: 2.50% complete
+============
+Running SMGO
+============
+Iteration: 76
+Progress: 2.53% complete
+============
+Running SMGO
+============
+Iteration: 77
+Progress: 2.57% complete
+============
+Running SMGO
+============
+Iteration: 78
+Progress: 2.60% complete
+============
+Running SMGO
+============
+Iteration: 79
+Progress: 2.63% complete
+============
+Running SMGO
+============
+Iteration: 80
+Progress: 2.67% complete
+============
+Running SMGO
+============
+Iteration: 81
+Progress: 2.70% complete
+============
+Running SMGO
+============
+Iteration: 82
+Progress: 2.73% complete
+============
+Running SMGO
+============
+Iteration: 83
+Progress: 2.77% complete
+============
+Running SMGO
+============
+Iteration: 84
+Progress: 2.80% complete
+============
+Running SMGO
+============
+Iteration: 85
+Progress: 2.83% complete
+============
+Running SMGO
+============
+Iteration: 86
+Progress: 2.87% complete
+============
+Running SMGO
+============
+Iteration: 87
+Progress: 2.90% complete
+============
+Running SMGO
+============
+Iteration: 88
+Progress: 2.93% complete
+============
+Running SMGO
+============
+Iteration: 89
+Progress: 2.97% complete
+============
+Running SMGO
+============
+Iteration: 90
+Progress: 3.00% complete
+============
+Running SMGO
+============
+Iteration: 91
+Progress: 3.03% complete
+============
+Running SMGO
+============
+Iteration: 92
+Progress: 3.07% complete
+============
+Running SMGO
+============
+Iteration: 93
+Progress: 3.10% complete
+============
+Running SMGO
+============
+Iteration: 94
+Progress: 3.13% complete
+============
+Running SMGO
+============
+Iteration: 95
+Progress: 3.17% complete
+============
+Running SMGO
+============
+Iteration: 96
+Progress: 3.20% complete
+============
+Running SMGO
+============
+Iteration: 97
+Progress: 3.23% complete
+============
+Running SMGO
+============
+Iteration: 98
+Progress: 3.27% complete
+============
+Running SMGO
+============
+Iteration: 99
+Progress: 3.30% complete
+============
+Running SMGO
+============
+Iteration: 100
+Progress: 3.33% complete
+============
+Running SMGO
+============
+Iteration: 101
+Progress: 3.37% complete
+============
+Running SMGO
+============
+Iteration: 102
+Progress: 3.40% complete
+============
+Running SMGO
+============
+Iteration: 103
+Progress: 3.43% complete
+============
+Running SMGO
+============
+Iteration: 104
+Progress: 3.47% complete
+============
+Running SMGO
+============
+Iteration: 105
+Progress: 3.50% complete
+============
+Running SMGO
+============
+Iteration: 106
+Progress: 3.53% complete
+============
+Running SMGO
+============
+Iteration: 107
+Progress: 3.57% complete
+============
+Running SMGO
+============
+Iteration: 108
+Progress: 3.60% complete
+============
+Running SMGO
+============
+Iteration: 109
+Progress: 3.63% complete
+============
+Running SMGO
+============
+Iteration: 110
+Progress: 3.67% complete
+============
+Running SMGO
+============
+Iteration: 111
+Progress: 3.70% complete
+============
+Running SMGO
+============
+Iteration: 112
+Progress: 3.73% complete
+============
+Running SMGO
+============
+Iteration: 113
+Progress: 3.77% complete
+============
+Running SMGO
+============
+Iteration: 114
+Progress: 3.80% complete
+============
+Running SMGO
+============
+Iteration: 115
+Progress: 3.83% complete
+============
+Running SMGO
+============
+Iteration: 116
+Progress: 3.87% complete
+============
+Running SMGO
+============
+Iteration: 117
+Progress: 3.90% complete
+============
+Running SMGO
+============
+Iteration: 118
+Progress: 3.93% complete
+============
+Running SMGO
+============
+Iteration: 119
+Progress: 3.97% complete
+============
+Running SMGO
+============
+Iteration: 120
+Progress: 4.00% complete
+============
+Running SMGO
+============
+Iteration: 121
+Progress: 4.03% complete
+============
+Running SMGO
+============
+Iteration: 122
+Progress: 4.07% complete
+============
+Running SMGO
+============
+Iteration: 123
+Progress: 4.10% complete
+============
+Running SMGO
+============
+Iteration: 124
+Progress: 4.13% complete
+============
+Running SMGO
+============
+Iteration: 125
+Progress: 4.17% complete
+============
+Running SMGO
+============
+Iteration: 126
+Progress: 4.20% complete
+============
+Running SMGO
+============
+Iteration: 127
+Progress: 4.23% complete
+============
+Running SMGO
+============
+Iteration: 128
+Progress: 4.27% complete
+============
+Running SMGO
+============
+Iteration: 129
+Progress: 4.30% complete
+============
+Running SMGO
+============
+Iteration: 130
+Progress: 4.33% complete
+============
+Running SMGO
+============
+Iteration: 131
+Progress: 4.37% complete
+============
+Running SMGO
+============
+Iteration: 132
+Progress: 4.40% complete
+============
+Running SMGO
+============
+Iteration: 133
+Progress: 4.43% complete
+============
+Running SMGO
+============
+Iteration: 134
+Progress: 4.47% complete
+============
+Running SMGO
+============
+Iteration: 135
+Progress: 4.50% complete
+============
+Running SMGO
+============
+Iteration: 136
+Progress: 4.53% complete
+============
+Running SMGO
+============
+Iteration: 137
+Progress: 4.57% complete
+============
+Running SMGO
+============
+Iteration: 138
+Progress: 4.60% complete
+============
+Running SMGO
+============
+Iteration: 139
+Progress: 4.63% complete
+============
+Running SMGO
+============
+Iteration: 140
+Progress: 4.67% complete
+============
+Running SMGO
+============
+Iteration: 141
+Progress: 4.70% complete
+============
+Running SMGO
+============
+Iteration: 142
+Progress: 4.73% complete
+============
+Running SMGO
+============
+Iteration: 143
+Progress: 4.77% complete
+============
+Running SMGO
+============
+Iteration: 144
+Progress: 4.80% complete
+============
+Running SMGO
+============
+Iteration: 145
+Progress: 4.83% complete
+============
+Running SMGO
+============
+Iteration: 146
+Progress: 4.87% complete
+============
+Running SMGO
+============
+Iteration: 147
+Progress: 4.90% complete
+============
+Running SMGO
+============
+Iteration: 148
+Progress: 4.93% complete
+============
+Running SMGO
+============
+Iteration: 149
+Progress: 4.97% complete
+============
+Running SMGO
+============
+Iteration: 150
+Progress: 5.00% complete
+============
+Running SMGO
+============
+Iteration: 151
+Progress: 5.03% complete
+============
+Running SMGO
+============
+Iteration: 152
+Progress: 5.07% complete
+============
+Running SMGO
+============
+Iteration: 153
+Progress: 5.10% complete
+============
+Running SMGO
+============
+Iteration: 154
+Progress: 5.13% complete
+============
+Running SMGO
+============
+Iteration: 155
+Progress: 5.17% complete
+============
+Running SMGO
+============
+Iteration: 156
+Progress: 5.20% complete
+============
+Running SMGO
+============
+Iteration: 157
+Progress: 5.23% complete
+============
+Running SMGO
+============
+Iteration: 158
+Progress: 5.27% complete
+============
+Running SMGO
+============
+Iteration: 159
+Progress: 5.30% complete
+============
+Running SMGO
+============
+Iteration: 160
+Progress: 5.33% complete
+============
+Running SMGO
+============
+Iteration: 161
+Progress: 5.37% complete
+============
+Running SMGO
+============
+Iteration: 162
+Progress: 5.40% complete
+============
+Running SMGO
+============
+Iteration: 163
+Progress: 5.43% complete
+============
+Running SMGO
+============
+Iteration: 164
+Progress: 5.47% complete
+============
+Running SMGO
+============
+Iteration: 165
+Progress: 5.50% complete
+============
+Running SMGO
+============
+Iteration: 166
+Progress: 5.53% complete
+============
+Running SMGO
+============
+Iteration: 167
+Progress: 5.57% complete
+============
+Running SMGO
+============
+Iteration: 168
+Progress: 5.60% complete
+============
+Running SMGO
+============
+Iteration: 169
+Progress: 5.63% complete
+============
+Running SMGO
+============
+Iteration: 170
+Progress: 5.67% complete
+============
+Running SMGO
+============
+Iteration: 171
+Progress: 5.70% complete
+============
+Running SMGO
+============
+Iteration: 172
+Progress: 5.73% complete
+============
+Running SMGO
+============
+Iteration: 173
+Progress: 5.77% complete
+============
+Running SMGO
+============
+Iteration: 174
+Progress: 5.80% complete
+============
+Running SMGO
+============
+Iteration: 175
+Progress: 5.83% complete
+============
+Running SMGO
+============
+Iteration: 176
+Progress: 5.87% complete
+============
+Running SMGO
+============
+Iteration: 177
+Progress: 5.90% complete
+============
+Running SMGO
+============
+Iteration: 178
+Progress: 5.93% complete
+============
+Running SMGO
+============
+Iteration: 179
+Progress: 5.97% complete
+============
+Running SMGO
+============
+Iteration: 180
+Progress: 6.00% complete
+============
+Running SMGO
+============
+Iteration: 181
+Progress: 6.03% complete
+============
+Running SMGO
+============
+Iteration: 182
+Progress: 6.07% complete
+============
+Running SMGO
+============
+Iteration: 183
+Progress: 6.10% complete
+============
+Running SMGO
+============
+Iteration: 184
+Progress: 6.13% complete
+============
+Running SMGO
+============
+Iteration: 185
+Progress: 6.17% complete
+============
+Running SMGO
+============
+Iteration: 186
+Progress: 6.20% complete
+============
+Running SMGO
+============
+Iteration: 187
+Progress: 6.23% complete
+============
+Running SMGO
+============
+Iteration: 188
+Progress: 6.27% complete
+============
+Running SMGO
+============
+Iteration: 189
+Progress: 6.30% complete
+============
+Running SMGO
+============
+Iteration: 190
+Progress: 6.33% complete
+============
+Running SMGO
+============
+Iteration: 191
+Progress: 6.37% complete
+============
+Running SMGO
+============
+Iteration: 192
+Progress: 6.40% complete
+============
+Running SMGO
+============
+Iteration: 193
+Progress: 6.43% complete
+============
+Running SMGO
+============
+Iteration: 194
+Progress: 6.47% complete
+============
+Running SMGO
+============
+Iteration: 195
+Progress: 6.50% complete
+============
+Running SMGO
+============
+Iteration: 196
+Progress: 6.53% complete
+============
+Running SMGO
+============
+Iteration: 197
+Progress: 6.57% complete
+============
+Running SMGO
+============
+Iteration: 198
+Progress: 6.60% complete
+============
+Running SMGO
+============
+Iteration: 199
+Progress: 6.63% complete
+============
+Running SMGO
+============
+Iteration: 200
+Progress: 6.67% complete
+============
+Running SMGO
+============
+Iteration: 201
+Progress: 6.70% complete
+============
+Running SMGO
+============
+Iteration: 202
+Progress: 6.73% complete
+============
+Running SMGO
+============
+Iteration: 203
+Progress: 6.77% complete
+============
+Running SMGO
+============
+Iteration: 204
+Progress: 6.80% complete
+============
+Running SMGO
+============
+Iteration: 205
+Progress: 6.83% complete
+============
+Running SMGO
+============
+Iteration: 206
+Progress: 6.87% complete
+============
+Running SMGO
+============
+Iteration: 207
+Progress: 6.90% complete
+============
+Running SMGO
+============
+Iteration: 208
+Progress: 6.93% complete
+============
+Running SMGO
+============
+Iteration: 209
+Progress: 6.97% complete
+============
+Running SMGO
+============
+Iteration: 210
+Progress: 7.00% complete
+============
+Running SMGO
+============
+Iteration: 211
+Progress: 7.03% complete
+============
+Running SMGO
+============
+Iteration: 212
+Progress: 7.07% complete
+============
+Running SMGO
+============
+Iteration: 213
+Progress: 7.10% complete
+============
+Running SMGO
+============
+Iteration: 214
+Progress: 7.13% complete
+============
+Running SMGO
+============
+Iteration: 215
+Progress: 7.17% complete
+============
+Running SMGO
+============
+Iteration: 216
+Progress: 7.20% complete
+============
+Running SMGO
+============
+Iteration: 217
+Progress: 7.23% complete
+============
+Running SMGO
+============
+Iteration: 218
+Progress: 7.27% complete
+============
+Running SMGO
+============
+Iteration: 219
+Progress: 7.30% complete
+============
+Running SMGO
+============
+Iteration: 220
+Progress: 7.33% complete
+============
+Running SMGO
+============
+Iteration: 221
+Progress: 7.37% complete
+============
+Running SMGO
+============
+Iteration: 222
+Progress: 7.40% complete
+============
+Running SMGO
+============
+Iteration: 223
+Progress: 7.43% complete
+============
+Running SMGO
+============
+Iteration: 224
+Progress: 7.47% complete
+============
+Running SMGO
+============
+Iteration: 225
+Progress: 7.50% complete
+============
+Running SMGO
+============
+Iteration: 226
+Progress: 7.53% complete
+============
+Running SMGO
+============
+Iteration: 227
+Progress: 7.57% complete
+============
+Running SMGO
+============
+Iteration: 228
+Progress: 7.60% complete
+============
+Running SMGO
+============
+Iteration: 229
+Progress: 7.63% complete
+============
+Running SMGO
+============
+Iteration: 230
+Progress: 7.67% complete
+============
+Running SMGO
+============
+Iteration: 231
+Progress: 7.70% complete
+============
+Running SMGO
+============
+Iteration: 232
+Progress: 7.73% complete
+============
+Running SMGO
+============
+Iteration: 233
+Progress: 7.77% complete
+============
+Running SMGO
+============
+Iteration: 234
+Progress: 7.80% complete
+============
+Running SMGO
+============
+Iteration: 235
+Progress: 7.83% complete
+============
+Running SMGO
+============
+Iteration: 236
+Progress: 7.87% complete
+============
+Running SMGO
+============
+Iteration: 237
+Progress: 7.90% complete
+============
+Running SMGO
+============
+Iteration: 238
+Progress: 7.93% complete
+============
+Running SMGO
+============
+Iteration: 239
+Progress: 7.97% complete
+============
+Running SMGO
+============
+Iteration: 240
+Progress: 8.00% complete
+============
+Running SMGO
+============
+Iteration: 241
+Progress: 8.03% complete
+============
+Running SMGO
+============
+Iteration: 242
+Progress: 8.07% complete
+============
+Running SMGO
+============
+Iteration: 243
+Progress: 8.10% complete
+============
+Running SMGO
+============
+Iteration: 244
+Progress: 8.13% complete
+============
+Running SMGO
+============
+Iteration: 245
+Progress: 8.17% complete
+============
+Running SMGO
+============
+Iteration: 246
+Progress: 8.20% complete
+============
+Running SMGO
+============
+Iteration: 247
+Progress: 8.23% complete
+============
+Running SMGO
+============
+Iteration: 248
+Progress: 8.27% complete
+============
+Running SMGO
+============
+Iteration: 249
+Progress: 8.30% complete
+============
+Running SMGO
+============
+Iteration: 250
+Progress: 8.33% complete
+============
+Running SMGO
+============
+Iteration: 251
+Progress: 8.37% complete
+============
+Running SMGO
+============
+Iteration: 252
+Progress: 8.40% complete
+============
+Running SMGO
+============
+Iteration: 253
+Progress: 8.43% complete
+============
+Running SMGO
+============
+Iteration: 254
+Progress: 8.47% complete
+============
+Running SMGO
+============
+Iteration: 255
+Progress: 8.50% complete
+============
+Running SMGO
+============
+Iteration: 256
+Progress: 8.53% complete
+============
+Running SMGO
+============
+Iteration: 257
+Progress: 8.57% complete
+============
+Running SMGO
+============
+Iteration: 258
+Progress: 8.60% complete
+============
+Running SMGO
+============
+Iteration: 259
+Progress: 8.63% complete
+============
+Running SMGO
+============
+Iteration: 260
+Progress: 8.67% complete
+============
+Running SMGO
+============
+Iteration: 261
+Progress: 8.70% complete
+============
+Running SMGO
+============
+Iteration: 262
+Progress: 8.73% complete
+============
+Running SMGO
+============
+Iteration: 263
+Progress: 8.77% complete
+============
+Running SMGO
+============
+Iteration: 264
+Progress: 8.80% complete
+============
+Running SMGO
+============
+Iteration: 265
+Progress: 8.83% complete
+============
+Running SMGO
+============
+Iteration: 266
+Progress: 8.87% complete
+============
+Running SMGO
+============
+Iteration: 267
+Progress: 8.90% complete
+============
+Running SMGO
+============
+Iteration: 268
+Progress: 8.93% complete
+============
+Running SMGO
+============
+Iteration: 269
+Progress: 8.97% complete
+============
+Running SMGO
+============
+Iteration: 270
+Progress: 9.00% complete
+============
+Running SMGO
+============
+Iteration: 271
+Progress: 9.03% complete
+============
+Running SMGO
+============
+Iteration: 272
+Progress: 9.07% complete
+============
+Running SMGO
+============
+Iteration: 273
+Progress: 9.10% complete
+============
+Running SMGO
+============
+Iteration: 274
+Progress: 9.13% complete
+============
+Running SMGO
+============
+Iteration: 275
+Progress: 9.17% complete
+============
+Running SMGO
+============
+Iteration: 276
+Progress: 9.20% complete
+============
+Running SMGO
+============
+Iteration: 277
+Progress: 9.23% complete
+============
+Running SMGO
+============
+Iteration: 278
+Progress: 9.27% complete
+============
+Running SMGO
+============
+Iteration: 279
+Progress: 9.30% complete
+============
+Running SMGO
+============
+Iteration: 280
+Progress: 9.33% complete
+============
+Running SMGO
+============
+Iteration: 281
+Progress: 9.37% complete
+============
+Running SMGO
+============
+Iteration: 282
+Progress: 9.40% complete
+============
+Running SMGO
+============
+Iteration: 283
+Progress: 9.43% complete
+============
+Running SMGO
+============
+Iteration: 284
+Progress: 9.47% complete
+============
+Running SMGO
+============
+Iteration: 285
+Progress: 9.50% complete
+============
+Running SMGO
+============
+Iteration: 286
+Progress: 9.53% complete
+============
+Running SMGO
+============
+Iteration: 287
+Progress: 9.57% complete
+============
+Running SMGO
+============
+Iteration: 288
+Progress: 9.60% complete
+============
+Running SMGO
+============
+Iteration: 289
+Progress: 9.63% complete
+============
+Running SMGO
+============
+Iteration: 290
+Progress: 9.67% complete
+============
+Running SMGO
+============
+Iteration: 291
+Progress: 9.70% complete
+============
+Running SMGO
+============
+Iteration: 292
+Progress: 9.73% complete
+============
+Running SMGO
+============
+Iteration: 293
+Progress: 9.77% complete
+============
+Running SMGO
+============
+Iteration: 294
+Progress: 9.80% complete
+============
+Running SMGO
+============
+Iteration: 295
+Progress: 9.83% complete
+============
+Running SMGO
+============
+Iteration: 296
+Progress: 9.87% complete
+============
+Running SMGO
+============
+Iteration: 297
+Progress: 9.90% complete
+============
+Running SMGO
+============
+Iteration: 298
+Progress: 9.93% complete
+============
+Running SMGO
+============
+Iteration: 299
+Progress: 9.97% complete
+============
+Running SMGO
+============
+Iteration: 300
+Progress: 10.00% complete
+============
+Running SMGO
+============
+Iteration: 301
+Progress: 10.03% complete
+============
+Running SMGO
+============
+Iteration: 302
+Progress: 10.07% complete
+============
+Running SMGO
+============
+Iteration: 303
+Progress: 10.10% complete
+============
+Running SMGO
+============
+Iteration: 304
+Progress: 10.13% complete
+============
+Running SMGO
+============
+Iteration: 305
+Progress: 10.17% complete
+============
+Running SMGO
+============
+Iteration: 306
+Progress: 10.20% complete
+============
+Running SMGO
+============
+Iteration: 307
+Progress: 10.23% complete
+============
+Running SMGO
+============
+Iteration: 308
+Progress: 10.27% complete
+============
+Running SMGO
+============
+Iteration: 309
+Progress: 10.30% complete
+============
+Running SMGO
+============
+Iteration: 310
+Progress: 10.33% complete
+============
+Running SMGO
+============
+Iteration: 311
+Progress: 10.37% complete
+============
+Running SMGO
+============
+Iteration: 312
+Progress: 10.40% complete
+============
+Running SMGO
+============
+Iteration: 313
+Progress: 10.43% complete
+============
+Running SMGO
+============
+Iteration: 314
+Progress: 10.47% complete
+============
+Running SMGO
+============
+Iteration: 315
+Progress: 10.50% complete
+============
+Running SMGO
+============
+Iteration: 316
+Progress: 10.53% complete
+============
+Running SMGO
+============
+Iteration: 317
+Progress: 10.57% complete
+============
+Running SMGO
+============
+Iteration: 318
+Progress: 10.60% complete
+============
+Running SMGO
+============
+Iteration: 319
+Progress: 10.63% complete
+============
+Running SMGO
+============
+Iteration: 320
+Progress: 10.67% complete
+============
+Running SMGO
+============
+Iteration: 321
+Progress: 10.70% complete
+============
+Running SMGO
+============
+Iteration: 322
+Progress: 10.73% complete
+============
+Running SMGO
+============
+Iteration: 323
+Progress: 10.77% complete
+============
+Running SMGO
+============
+Iteration: 324
+Progress: 10.80% complete
+============
+Running SMGO
+============
+Iteration: 325
+Progress: 10.83% complete
+============
+Running SMGO
+============
+Iteration: 326
+Progress: 10.87% complete
+============
+Running SMGO
+============
+Iteration: 327
+Progress: 10.90% complete
+============
+Running SMGO
+============
+Iteration: 328
+Progress: 10.93% complete
+============
+Running SMGO
+============
+Iteration: 329
+Progress: 10.97% complete
+============
+Running SMGO
+============
+Iteration: 330
+Progress: 11.00% complete
+============
+Running SMGO
+============
+Iteration: 331
+Progress: 11.03% complete
+============
+Running SMGO
+============
+Iteration: 332
+Progress: 11.07% complete
+============
+Running SMGO
+============
+Iteration: 333
+Progress: 11.10% complete
+============
+Running SMGO
+============
+Iteration: 334
+Progress: 11.13% complete
+============
+Running SMGO
+============
+Iteration: 335
+Progress: 11.17% complete
+============
+Running SMGO
+============
+Iteration: 336
+Progress: 11.20% complete
+============
+Running SMGO
+============
+Iteration: 337
+Progress: 11.23% complete
+============
+Running SMGO
+============
+Iteration: 338
+Progress: 11.27% complete
+============
+Running SMGO
+============
+Iteration: 339
+Progress: 11.30% complete
+============
+Running SMGO
+============
+Iteration: 340
+Progress: 11.33% complete
+============
+Running SMGO
+============
+Iteration: 341
+Progress: 11.37% complete
+============
+Running SMGO
+============
+Iteration: 342
+Progress: 11.40% complete
+============
+Running SMGO
+============
+Iteration: 343
+Progress: 11.43% complete
+============
+Running SMGO
+============
+Iteration: 344
+Progress: 11.47% complete
+============
+Running SMGO
+============
+Iteration: 345
+Progress: 11.50% complete
+============
+Running SMGO
+============
+Iteration: 346
+Progress: 11.53% complete
+============
+Running SMGO
+============
+Iteration: 347
+Progress: 11.57% complete
+============
+Running SMGO
+============
+Iteration: 348
+Progress: 11.60% complete
+============
+Running SMGO
+============
+Iteration: 349
+Progress: 11.63% complete
+============
+Running SMGO
+============
+Iteration: 350
+Progress: 11.67% complete
+============
+Running SMGO
+============
+Iteration: 351
+Progress: 11.70% complete
+============
+Running SMGO
+============
+Iteration: 352
+Progress: 11.73% complete
+============
+Running SMGO
+============
+Iteration: 353
+Progress: 11.77% complete
+============
+Running SMGO
+============
+Iteration: 354
+Progress: 11.80% complete
+============
+Running SMGO
+============
+Iteration: 355
+Progress: 11.83% complete
+============
+Running SMGO
+============
+Iteration: 356
+Progress: 11.87% complete
+============
+Running SMGO
+============
+Iteration: 357
+Progress: 11.90% complete
+============
+Running SMGO
+============
+Iteration: 358
+Progress: 11.93% complete
+============
+Running SMGO
+============
+Iteration: 359
+Progress: 11.97% complete
+============
+Running SMGO
+============
+Iteration: 360
+Progress: 12.00% complete
+============
+Running SMGO
+============
+Iteration: 361
+Progress: 12.03% complete
+============
+Running SMGO
+============
+Iteration: 362
+Progress: 12.07% complete
+============
+Running SMGO
+============
+Iteration: 363
+Progress: 12.10% complete
+============
+Running SMGO
+============
+Iteration: 364
+Progress: 12.13% complete
+============
+Running SMGO
+============
+Iteration: 365
+Progress: 12.17% complete
+============
+Running SMGO
+============
+Iteration: 366
+Progress: 12.20% complete
+============
+Running SMGO
+============
+Iteration: 367
+Progress: 12.23% complete
+============
+Running SMGO
+============
+Iteration: 368
+Progress: 12.27% complete
+============
+Running SMGO
+============
+Iteration: 369
+Progress: 12.30% complete
+============
+Running SMGO
+============
+Iteration: 370
+Progress: 12.33% complete
+============
+Running SMGO
+============
+Iteration: 371
+Progress: 12.37% complete
+============
+Running SMGO
+============
+Iteration: 372
+Progress: 12.40% complete
+============
+Running SMGO
+============
+Iteration: 373
+Progress: 12.43% complete
+============
+Running SMGO
+============
+Iteration: 374
+Progress: 12.47% complete
+============
+Running SMGO
+============
+Iteration: 375
+Progress: 12.50% complete
+============
+Running SMGO
+============
+Iteration: 376
+Progress: 12.53% complete
+============
+Running SMGO
+============
+Iteration: 377
+Progress: 12.57% complete
+============
+Running SMGO
+============
+Iteration: 378
+Progress: 12.60% complete
+============
+Running SMGO
+============
+Iteration: 379
+Progress: 12.63% complete
+============
+Running SMGO
+============
+Iteration: 380
+Progress: 12.67% complete
+============
+Running SMGO
+============
+Iteration: 381
+Progress: 12.70% complete
+============
+Running SMGO
+============
+Iteration: 382
+Progress: 12.73% complete
+============
+Running SMGO
+============
+Iteration: 383
+Progress: 12.77% complete
+============
+Running SMGO
+============
+Iteration: 384
+Progress: 12.80% complete
+============
+Running SMGO
+============
+Iteration: 385
+Progress: 12.83% complete
+============
+Running SMGO
+============
+Iteration: 386
+Progress: 12.87% complete
+============
+Running SMGO
+============
+Iteration: 387
+Progress: 12.90% complete
+============
+Running SMGO
+============
+Iteration: 388
+Progress: 12.93% complete
+============
+Running SMGO
+============
+Iteration: 389
+Progress: 12.97% complete
+============
+Running SMGO
+============
+Iteration: 390
+Progress: 13.00% complete
+============
+Running SMGO
+============
+Iteration: 391
+Progress: 13.03% complete
+============
+Running SMGO
+============
+Iteration: 392
+Progress: 13.07% complete
+============
+Running SMGO
+============
+Iteration: 393
+Progress: 13.10% complete
+============
+Running SMGO
+============
+Iteration: 394
+Progress: 13.13% complete
+============
+Running SMGO
+============
+Iteration: 395
+Progress: 13.17% complete
+============
+Running SMGO
+============
+Iteration: 396
+Progress: 13.20% complete
+============
+Running SMGO
+============
+Iteration: 397
+Progress: 13.23% complete
+============
+Running SMGO
+============
+Iteration: 398
+Progress: 13.27% complete
+============
+Running SMGO
+============
+Iteration: 399
+Progress: 13.30% complete
+============
+Running SMGO
+============
+Iteration: 400
+Progress: 13.33% complete
+============
+Running SMGO
+============
+Iteration: 401
+Progress: 13.37% complete
+============
+Running SMGO
+============
+Iteration: 402
+Progress: 13.40% complete
+============
+Running SMGO
+============
+Iteration: 403
+Progress: 13.43% complete
+============
+Running SMGO
+============
+Iteration: 404
+Progress: 13.47% complete
+============
+Running SMGO
+============
+Iteration: 405
+Progress: 13.50% complete
+============
+Running SMGO
+============
+Iteration: 406
+Progress: 13.53% complete
+============
+Running SMGO
+============
+Iteration: 407
+Progress: 13.57% complete
+============
+Running SMGO
+============
+Iteration: 408
+Progress: 13.60% complete
+============
+Running SMGO
+============
+Iteration: 409
+Progress: 13.63% complete
+============
+Running SMGO
+============
+Iteration: 410
+Progress: 13.67% complete
+============
+Running SMGO
+============
+Iteration: 411
+Progress: 13.70% complete
+============
+Running SMGO
+============
+Iteration: 412
+Progress: 13.73% complete
+============
+Running SMGO
+============
+Iteration: 413
+Progress: 13.77% complete
+============
+Running SMGO
+============
+Iteration: 414
+Progress: 13.80% complete
+============
+Running SMGO
+============
+Iteration: 415
+Progress: 13.83% complete
+============
+Running SMGO
+============
+Iteration: 416
+Progress: 13.87% complete
+============
+Running SMGO
+============
+Iteration: 417
+Progress: 13.90% complete
+============
+Running SMGO
+============
+Iteration: 418
+Progress: 13.93% complete
+============
+Running SMGO
+============
+Iteration: 419
+Progress: 13.97% complete
+============
+Running SMGO
+============
+Iteration: 420
+Progress: 14.00% complete
+============
+Running SMGO
+============
+Iteration: 421
+Progress: 14.03% complete
+============
+Running SMGO
+============
+Iteration: 422
+Progress: 14.07% complete
+============
+Running SMGO
+============
+Iteration: 423
+Progress: 14.10% complete
+============
+Running SMGO
+============
+Iteration: 424
+Progress: 14.13% complete
+============
+Running SMGO
+============
+Iteration: 425
+Progress: 14.17% complete
+============
+Running SMGO
+============
+Iteration: 426
+Progress: 14.20% complete
+============
+Running SMGO
+============
+Iteration: 427
+Progress: 14.23% complete
+============
+Running SMGO
+============
+Iteration: 428
+Progress: 14.27% complete
+============
+Running SMGO
+============
+Iteration: 429
+Progress: 14.30% complete
+============
+Running SMGO
+============
+Iteration: 430
+Progress: 14.33% complete
+============
+Running SMGO
+============
+Iteration: 431
+Progress: 14.37% complete
+============
+Running SMGO
+============
+Iteration: 432
+Progress: 14.40% complete
+============
+Running SMGO
+============
+Iteration: 433
+Progress: 14.43% complete
+============
+Running SMGO
+============
+Iteration: 434
+Progress: 14.47% complete
+============
+Running SMGO
+============
+Iteration: 435
+Progress: 14.50% complete
+============
+Running SMGO
+============
+Iteration: 436
+Progress: 14.53% complete
+============
+Running SMGO
+============
+Iteration: 437
+Progress: 14.57% complete
+============
+Running SMGO
+============
+Iteration: 438
+Progress: 14.60% complete
+============
+Running SMGO
+============
+Iteration: 439
+Progress: 14.63% complete
+============
+Running SMGO
+============
+Iteration: 440
+Progress: 14.67% complete
+============
+Running SMGO
+============
+Iteration: 441
+Progress: 14.70% complete
+============
+Running SMGO
+============
+Iteration: 442
+Progress: 14.73% complete
+============
+Running SMGO
+============
+Iteration: 443
+Progress: 14.77% complete
+============
+Running SMGO
+============
+Iteration: 444
+Progress: 14.80% complete
+============
+Running SMGO
+============
+Iteration: 445
+Progress: 14.83% complete
+============
+Running SMGO
+============
+Iteration: 446
+Progress: 14.87% complete
+============
+Running SMGO
+============
+Iteration: 447
+Progress: 14.90% complete
+============
+Running SMGO
+============
+Iteration: 448
+Progress: 14.93% complete
+============
+Running SMGO
+============
+Iteration: 449
+Progress: 14.97% complete
+============
+Running SMGO
+============
+Iteration: 450
+Progress: 15.00% complete
+============
+Running SMGO
+============
+Iteration: 451
+Progress: 15.03% complete
+============
+Running SMGO
+============
+Iteration: 452
+Progress: 15.07% complete
+============
+Running SMGO
+============
+Iteration: 453
+Progress: 15.10% complete
+============
+Running SMGO
+============
+Iteration: 454
+Progress: 15.13% complete
+============
+Running SMGO
+============
+Iteration: 455
+Progress: 15.17% complete
+============
+Running SMGO
+============
+Iteration: 456
+Progress: 15.20% complete
+============
+Running SMGO
+============
+Iteration: 457
+Progress: 15.23% complete
+============
+Running SMGO
+============
+Iteration: 458
+Progress: 15.27% complete
+============
+Running SMGO
+============
+Iteration: 459
+Progress: 15.30% complete
+============
+Running SMGO
+============
+Iteration: 460
+Progress: 15.33% complete
+============
+Running SMGO
+============
+Iteration: 461
+Progress: 15.37% complete
+============
+Running SMGO
+============
+Iteration: 462
+Progress: 15.40% complete
+============
+Running SMGO
+============
+Iteration: 463
+Progress: 15.43% complete
+============
+Running SMGO
+============
+Iteration: 464
+Progress: 15.47% complete
+============
+Running SMGO
+============
+Iteration: 465
+Progress: 15.50% complete
+============
+Running SMGO
+============
+Iteration: 466
+Progress: 15.53% complete
+============
+Running SMGO
+============
+Iteration: 467
+Progress: 15.57% complete
+============
+Running SMGO
+============
+Iteration: 468
+Progress: 15.60% complete
+============
+Running SMGO
+============
+Iteration: 469
+Progress: 15.63% complete
+============
+Running SMGO
+============
+Iteration: 470
+Progress: 15.67% complete
+============
+Running SMGO
+============
+Iteration: 471
+Progress: 15.70% complete
+============
+Running SMGO
+============
+Iteration: 472
+Progress: 15.73% complete
+============
+Running SMGO
+============
+Iteration: 473
+Progress: 15.77% complete
+============
+Running SMGO
+============
+Iteration: 474
+Progress: 15.80% complete
+============
+Running SMGO
+============
+Iteration: 475
+Progress: 15.83% complete
+============
+Running SMGO
+============
+Iteration: 476
+Progress: 15.87% complete
+============
+Running SMGO
+============
+Iteration: 477
+Progress: 15.90% complete
+============
+Running SMGO
+============
+Iteration: 478
+Progress: 15.93% complete
+============
+Running SMGO
+============
+Iteration: 479
+Progress: 15.97% complete
+============
+Running SMGO
+============
+Iteration: 480
+Progress: 16.00% complete
+============
+Running SMGO
+============
+Iteration: 481
+Progress: 16.03% complete
+============
+Running SMGO
+============
+Iteration: 482
+Progress: 16.07% complete
+============
+Running SMGO
+============
+Iteration: 483
+Progress: 16.10% complete
+============
+Running SMGO
+============
+Iteration: 484
+Progress: 16.13% complete
+============
+Running SMGO
+============
+Iteration: 485
+Progress: 16.17% complete
+============
+Running SMGO
+============
+Iteration: 486
+Progress: 16.20% complete
+============
+Running SMGO
+============
+Iteration: 487
+Progress: 16.23% complete
+============
+Running SMGO
+============
+Iteration: 488
+Progress: 16.27% complete
+============
+Running SMGO
+============
+Iteration: 489
+Progress: 16.30% complete
+============
+Running SMGO
+============
+Iteration: 490
+Progress: 16.33% complete
+============
+Running SMGO
+============
+Iteration: 491
+Progress: 16.37% complete
+============
+Running SMGO
+============
+Iteration: 492
+Progress: 16.40% complete
+============
+Running SMGO
+============
+Iteration: 493
+Progress: 16.43% complete
+============
+Running SMGO
+============
+Iteration: 494
+Progress: 16.47% complete
+============
+Running SMGO
+============
+Iteration: 495
+Progress: 16.50% complete
+============
+Running SMGO
+============
+Iteration: 496
+Progress: 16.53% complete
+============
+Running SMGO
+============
+Iteration: 497
+Progress: 16.57% complete
+============
+Running SMGO
+============
+Iteration: 498
+Progress: 16.60% complete
+============
+Running SMGO
+============
+Iteration: 499
+Progress: 16.63% complete
+============
+Running SMGO
+============
+Iteration: 500
+Progress: 16.67% complete
+============
+Running SMGO
+============
+Iteration: 501
+Progress: 16.70% complete
+============
+Running SMGO
+============
+Iteration: 502
+Progress: 16.73% complete
+============
+Running SMGO
+============
+Iteration: 503
+Progress: 16.77% complete
+============
+Running SMGO
+============
+Iteration: 504
+Progress: 16.80% complete
+============
+Running SMGO
+============
+Iteration: 505
+Progress: 16.83% complete
+============
+Running SMGO
+============
+Iteration: 506
+Progress: 16.87% complete
+============
+Running SMGO
+============
+Iteration: 507
+Progress: 16.90% complete
+============
+Running SMGO
+============
+Iteration: 508
+Progress: 16.93% complete
+============
+Running SMGO
+============
+Iteration: 509
+Progress: 16.97% complete
+============
+Running SMGO
+============
+Iteration: 510
+Progress: 17.00% complete
+============
+Running SMGO
+============
+Iteration: 511
+Progress: 17.03% complete
+============
+Running SMGO
+============
+Iteration: 512
+Progress: 17.07% complete
+============
+Running SMGO
+============
+Iteration: 513
+Progress: 17.10% complete
+============
+Running SMGO
+============
+Iteration: 514
+Progress: 17.13% complete
+============
+Running SMGO
+============
+Iteration: 515
+Progress: 17.17% complete
+============
+Running SMGO
+============
+Iteration: 516
+Progress: 17.20% complete
+============
+Running SMGO
+============
+Iteration: 517
+Progress: 17.23% complete
+============
+Running SMGO
+============
+Iteration: 518
+Progress: 17.27% complete
+============
+Running SMGO
+============
+Iteration: 519
+Progress: 17.30% complete
+============
+Running SMGO
+============
+Iteration: 520
+Progress: 17.33% complete
+============
+Running SMGO
+============
+Iteration: 521
+Progress: 17.37% complete
+============
+Running SMGO
+============
+Iteration: 522
+Progress: 17.40% complete
+============
+Running SMGO
+============
+Iteration: 523
+Progress: 17.43% complete
+============
+Running SMGO
+============
+Iteration: 524
+Progress: 17.47% complete
+============
+Running SMGO
+============
+Iteration: 525
+Progress: 17.50% complete
+============
+Running SMGO
+============
+Iteration: 526
+Progress: 17.53% complete
+============
+Running SMGO
+============
+Iteration: 527
+Progress: 17.57% complete
+============
+Running SMGO
+============
+Iteration: 528
+Progress: 17.60% complete
+============
+Running SMGO
+============
+Iteration: 529
+Progress: 17.63% complete
+============
+Running SMGO
+============
+Iteration: 530
+Progress: 17.67% complete
+============
+Running SMGO
+============
+Iteration: 531
+Progress: 17.70% complete
+============
+Running SMGO
+============
+Iteration: 532
+Progress: 17.73% complete
+============
+Running SMGO
+============
+Iteration: 533
+Progress: 17.77% complete
+============
+Running SMGO
+============
+Iteration: 534
+Progress: 17.80% complete
+============
+Running SMGO
+============
+Iteration: 535
+Progress: 17.83% complete
+============
+Running SMGO
+============
+Iteration: 536
+Progress: 17.87% complete
+============
+Running SMGO
+============
+Iteration: 537
+Progress: 17.90% complete
+============
+Running SMGO
+============
+Iteration: 538
+Progress: 17.93% complete
+============
+Running SMGO
+============
+Iteration: 539
+Progress: 17.97% complete
+============
+Running SMGO
+============
+Iteration: 540
+Progress: 18.00% complete
+============
+Running SMGO
+============
+Iteration: 541
+Progress: 18.03% complete
+============
+Running SMGO
+============
+Iteration: 542
+Progress: 18.07% complete
+============
+Running SMGO
+============
+Iteration: 543
+Progress: 18.10% complete
+============
+Running SMGO
+============
+Iteration: 544
+Progress: 18.13% complete
+============
+Running SMGO
+============
+Iteration: 545
+Progress: 18.17% complete
+============
+Running SMGO
+============
+Iteration: 546
+Progress: 18.20% complete
+============
+Running SMGO
+============
+Iteration: 547
+Progress: 18.23% complete
+============
+Running SMGO
+============
+Iteration: 548
+Progress: 18.27% complete
+============
+Running SMGO
+============
+Iteration: 549
+Progress: 18.30% complete
+============
+Running SMGO
+============
+Iteration: 550
+Progress: 18.33% complete
+============
+Running SMGO
+============
+Iteration: 551
+Progress: 18.37% complete
+============
+Running SMGO
+============
+Iteration: 552
+Progress: 18.40% complete
+============
+Running SMGO
+============
+Iteration: 553
+Progress: 18.43% complete
+============
+Running SMGO
+============
+Iteration: 554
+Progress: 18.47% complete
+============
+Running SMGO
+============
+Iteration: 555
+Progress: 18.50% complete
+============
+Running SMGO
+============
+Iteration: 556
+Progress: 18.53% complete
+============
+Running SMGO
+============
+Iteration: 557
+Progress: 18.57% complete
+============
+Running SMGO
+============
+Iteration: 558
+Progress: 18.60% complete
+============
+Running SMGO
+============
+Iteration: 559
+Progress: 18.63% complete
+============
+Running SMGO
+============
+Iteration: 560
+Progress: 18.67% complete
+============
+Running SMGO
+============
+Iteration: 561
+Progress: 18.70% complete
+============
+Running SMGO
+============
+Iteration: 562
+Progress: 18.73% complete
+============
+Running SMGO
+============
+Iteration: 563
+Progress: 18.77% complete
+============
+Running SMGO
+============
+Iteration: 564
+Progress: 18.80% complete
+============
+Running SMGO
+============
+Iteration: 565
+Progress: 18.83% complete
+============
+Running SMGO
+============
+Iteration: 566
+Progress: 18.87% complete
+============
+Running SMGO
+============
+Iteration: 567
+Progress: 18.90% complete
+============
+Running SMGO
+============
+Iteration: 568
+Progress: 18.93% complete
+============
+Running SMGO
+============
+Iteration: 569
+Progress: 18.97% complete
+============
+Running SMGO
+============
+Iteration: 570
+Progress: 19.00% complete
+============
+Running SMGO
+============
+Iteration: 571
+Progress: 19.03% complete
+============
+Running SMGO
+============
+Iteration: 572
+Progress: 19.07% complete
+============
+Running SMGO
+============
+Iteration: 573
+Progress: 19.10% complete
+============
+Running SMGO
+============
+Iteration: 574
+Progress: 19.13% complete
+============
+Running SMGO
+============
+Iteration: 575
+Progress: 19.17% complete
+============
+Running SMGO
+============
+Iteration: 576
+Progress: 19.20% complete
+============
+Running SMGO
+============
+Iteration: 577
+Progress: 19.23% complete
+============
+Running SMGO
+============
+Iteration: 578
+Progress: 19.27% complete
+============
+Running SMGO
+============
+Iteration: 579
+Progress: 19.30% complete
+============
+Running SMGO
+============
+Iteration: 580
+Progress: 19.33% complete
+============
+Running SMGO
+============
+Iteration: 581
+Progress: 19.37% complete
+============
+Running SMGO
+============
+Iteration: 582
+Progress: 19.40% complete
+============
+Running SMGO
+============
+Iteration: 583
+Progress: 19.43% complete
+============
+Running SMGO
+============
+Iteration: 584
+Progress: 19.47% complete
+============
+Running SMGO
+============
+Iteration: 585
+Progress: 19.50% complete
+============
+Running SMGO
+============
+Iteration: 586
+Progress: 19.53% complete
+============
+Running SMGO
+============
+Iteration: 587
+Progress: 19.57% complete
+============
+Running SMGO
+============
+Iteration: 588
+Progress: 19.60% complete
+============
+Running SMGO
+============
+Iteration: 589
+Progress: 19.63% complete
+============
+Running SMGO
+============
+Iteration: 590
+Progress: 19.67% complete
+============
+Running SMGO
+============
+Iteration: 591
+Progress: 19.70% complete
+============
+Running SMGO
+============
+Iteration: 592
+Progress: 19.73% complete
+============
+Running SMGO
+============
+Iteration: 593
+Progress: 19.77% complete
+============
+Running SMGO
+============
+Iteration: 594
+Progress: 19.80% complete
+============
+Running SMGO
+============
+Iteration: 595
+Progress: 19.83% complete
+============
+Running SMGO
+============
+Iteration: 596
+Progress: 19.87% complete
+============
+Running SMGO
+============
+Iteration: 597
+Progress: 19.90% complete
+============
+Running SMGO
+============
+Iteration: 598
+Progress: 19.93% complete
+============
+Running SMGO
+============
+Iteration: 599
+Progress: 19.97% complete
+============
+Running SMGO
+============
+Iteration: 600
+Progress: 20.00% complete
+============
+Running SMGO
+============
+Iteration: 601
+Progress: 20.03% complete
+============
+Running SMGO
+============
+Iteration: 602
+Progress: 20.07% complete
+============
+Running SMGO
+============
+Iteration: 603
+Progress: 20.10% complete
+============
+Running SMGO
+============
+Iteration: 604
+Progress: 20.13% complete
+============
+Running SMGO
+============
+Iteration: 605
+Progress: 20.17% complete
+============
+Running SMGO
+============
+Iteration: 606
+Progress: 20.20% complete
+============
+Running SMGO
+============
+Iteration: 607
+Progress: 20.23% complete
+============
+Running SMGO
+============
+Iteration: 608
+Progress: 20.27% complete
+============
+Running SMGO
+============
+Iteration: 609
+Progress: 20.30% complete
+============
+Running SMGO
+============
+Iteration: 610
+Progress: 20.33% complete
+============
+Running SMGO
+============
+Iteration: 611
+Progress: 20.37% complete
+============
+Running SMGO
+============
+Iteration: 612
+Progress: 20.40% complete
+============
+Running SMGO
+============
+Iteration: 613
+Progress: 20.43% complete
+============
+Running SMGO
+============
+Iteration: 614
+Progress: 20.47% complete
+============
+Running SMGO
+============
+Iteration: 615
+Progress: 20.50% complete
+============
+Running SMGO
+============
+Iteration: 616
+Progress: 20.53% complete
+============
+Running SMGO
+============
+Iteration: 617
+Progress: 20.57% complete
+============
+Running SMGO
+============
+Iteration: 618
+Progress: 20.60% complete
+============
+Running SMGO
+============
+Iteration: 619
+Progress: 20.63% complete
+============
+Running SMGO
+============
+Iteration: 620
+Progress: 20.67% complete
+============
+Running SMGO
+============
+Iteration: 621
+Progress: 20.70% complete
+============
+Running SMGO
+============
+Iteration: 622
+Progress: 20.73% complete
+============
+Running SMGO
+============
+Iteration: 623
+Progress: 20.77% complete
+============
+Running SMGO
+============
+Iteration: 624
+Progress: 20.80% complete
+============
+Running SMGO
+============
+Iteration: 625
+Progress: 20.83% complete
+============
+Running SMGO
+============
+Iteration: 626
+Progress: 20.87% complete
+============
+Running SMGO
+============
+Iteration: 627
+Progress: 20.90% complete
+============
+Running SMGO
+============
+Iteration: 628
+Progress: 20.93% complete
+============
+Running SMGO
+============
+Iteration: 629
+Progress: 20.97% complete
+============
+Running SMGO
+============
+Iteration: 630
+Progress: 21.00% complete
+============
+Running SMGO
+============
+Iteration: 631
+Progress: 21.03% complete
+============
+Running SMGO
+============
+Iteration: 632
+Progress: 21.07% complete
+============
+Running SMGO
+============
+Iteration: 633
+Progress: 21.10% complete
+============
+Running SMGO
+============
+Iteration: 634
+Progress: 21.13% complete
+============
+Running SMGO
+============
+Iteration: 635
+Progress: 21.17% complete
+============
+Running SMGO
+============
+Iteration: 636
+Progress: 21.20% complete
+============
+Running SMGO
+============
+Iteration: 637
+Progress: 21.23% complete
+============
+Running SMGO
+============
+Iteration: 638
+Progress: 21.27% complete
+============
+Running SMGO
+============
+Iteration: 639
+Progress: 21.30% complete
+============
+Running SMGO
+============
+Iteration: 640
+Progress: 21.33% complete
+============
+Running SMGO
+============
+Iteration: 641
+Progress: 21.37% complete
+============
+Running SMGO
+============
+Iteration: 642
+Progress: 21.40% complete
+============
+Running SMGO
+============
+Iteration: 643
+Progress: 21.43% complete
+============
+Running SMGO
+============
+Iteration: 644
+Progress: 21.47% complete
+============
+Running SMGO
+============
+Iteration: 645
+Progress: 21.50% complete
+============
+Running SMGO
+============
+Iteration: 646
+Progress: 21.53% complete
+============
+Running SMGO
+============
+Iteration: 647
+Progress: 21.57% complete
+============
+Running SMGO
+============
+Iteration: 648
+Progress: 21.60% complete
+============
+Running SMGO
+============
+Iteration: 649
+Progress: 21.63% complete
+============
+Running SMGO
+============
+Iteration: 650
+Progress: 21.67% complete
+============
+Running SMGO
+============
+Iteration: 651
+Progress: 21.70% complete
+============
+Running SMGO
+============
+Iteration: 652
+Progress: 21.73% complete
+============
+Running SMGO
+============
+Iteration: 653
+Progress: 21.77% complete
+============
+Running SMGO
+============
+Iteration: 654
+Progress: 21.80% complete
+============
+Running SMGO
+============
+Iteration: 655
+Progress: 21.83% complete
+============
+Running SMGO
+============
+Iteration: 656
+Progress: 21.87% complete
+============
+Running SMGO
+============
+Iteration: 657
+Progress: 21.90% complete
+============
+Running SMGO
+============
+Iteration: 658
+Progress: 21.93% complete
+============
+Running SMGO
+============
+Iteration: 659
+Progress: 21.97% complete
+============
+Running SMGO
+============
+Iteration: 660
+Progress: 22.00% complete
+============
+Running SMGO
+============
+Iteration: 661
+Progress: 22.03% complete
+============
+Running SMGO
+============
+Iteration: 662
+Progress: 22.07% complete
+============
+Running SMGO
+============
+Iteration: 663
+Progress: 22.10% complete
+============
+Running SMGO
+============
+Iteration: 664
+Progress: 22.13% complete
+============
+Running SMGO
+============
+Iteration: 665
+Progress: 22.17% complete
+============
+Running SMGO
+============
+Iteration: 666
+Progress: 22.20% complete
+============
+Running SMGO
+============
+Iteration: 667
+Progress: 22.23% complete
+============
+Running SMGO
+============
+Iteration: 668
+Progress: 22.27% complete
+============
+Running SMGO
+============
+Iteration: 669
+Progress: 22.30% complete
+============
+Running SMGO
+============
+Iteration: 670
+Progress: 22.33% complete
+============
+Running SMGO
+============
+Iteration: 671
+Progress: 22.37% complete
+============
+Running SMGO
+============
+Iteration: 672
+Progress: 22.40% complete
+============
+Running SMGO
+============
+Iteration: 673
+Progress: 22.43% complete
+============
+Running SMGO
+============
+Iteration: 674
+Progress: 22.47% complete
+============
+Running SMGO
+============
+Iteration: 675
+Progress: 22.50% complete
+============
+Running SMGO
+============
+Iteration: 676
+Progress: 22.53% complete
+============
+Running SMGO
+============
+Iteration: 677
+Progress: 22.57% complete
+============
+Running SMGO
+============
+Iteration: 678
+Progress: 22.60% complete
+============
+Running SMGO
+============
+Iteration: 679
+Progress: 22.63% complete
+============
+Running SMGO
+============
+Iteration: 680
+Progress: 22.67% complete
+============
+Running SMGO
+============
+Iteration: 681
+Progress: 22.70% complete
+============
+Running SMGO
+============
+Iteration: 682
+Progress: 22.73% complete
+============
+Running SMGO
+============
+Iteration: 683
+Progress: 22.77% complete
+============
+Running SMGO
+============
+Iteration: 684
+Progress: 22.80% complete
+============
+Running SMGO
+============
+Iteration: 685
+Progress: 22.83% complete
+============
+Running SMGO
+============
+Iteration: 686
+Progress: 22.87% complete
+============
+Running SMGO
+============
+Iteration: 687
+Progress: 22.90% complete
+============
+Running SMGO
+============
+Iteration: 688
+Progress: 22.93% complete
+============
+Running SMGO
+============
+Iteration: 689
+Progress: 22.97% complete
+============
+Running SMGO
+============
+Iteration: 690
+Progress: 23.00% complete
+============
+Running SMGO
+============
+Iteration: 691
+Progress: 23.03% complete
+============
+Running SMGO
+============
+Iteration: 692
+Progress: 23.07% complete
+============
+Running SMGO
+============
+Iteration: 693
+Progress: 23.10% complete
+============
+Running SMGO
+============
+Iteration: 694
+Progress: 23.13% complete
+============
+Running SMGO
+============
+Iteration: 695
+Progress: 23.17% complete
+============
+Running SMGO
+============
+Iteration: 696
+Progress: 23.20% complete
+============
+Running SMGO
+============
+Iteration: 697
+Progress: 23.23% complete
+============
+Running SMGO
+============
+Iteration: 698
+Progress: 23.27% complete
+============
+Running SMGO
+============
+Iteration: 699
+Progress: 23.30% complete
+============
+Running SMGO
+============
+Iteration: 700
+Progress: 23.33% complete
+============
+Running SMGO
+============
+Iteration: 701
+Progress: 23.37% complete
+============
+Running SMGO
+============
+Iteration: 702
+Progress: 23.40% complete
+============
+Running SMGO
+============
+Iteration: 703
+Progress: 23.43% complete
+============
+Running SMGO
+============
+Iteration: 704
+Progress: 23.47% complete
+============
+Running SMGO
+============
+Iteration: 705
+Progress: 23.50% complete
+============
+Running SMGO
+============
+Iteration: 706
+Progress: 23.53% complete
+============
+Running SMGO
+============
+Iteration: 707
+Progress: 23.57% complete
+============
+Running SMGO
+============
+Iteration: 708
+Progress: 23.60% complete
+============
+Running SMGO
+============
+Iteration: 709
+Progress: 23.63% complete
+============
+Running SMGO
+============
+Iteration: 710
+Progress: 23.67% complete
+============
+Running SMGO
+============
+Iteration: 711
+Progress: 23.70% complete
+============
+Running SMGO
+============
+Iteration: 712
+Progress: 23.73% complete
+============
+Running SMGO
+============
+Iteration: 713
+Progress: 23.77% complete
+============
+Running SMGO
+============
+Iteration: 714
+Progress: 23.80% complete
+============
+Running SMGO
+============
+Iteration: 715
+Progress: 23.83% complete
+============
+Running SMGO
+============
+Iteration: 716
+Progress: 23.87% complete
+============
+Running SMGO
+============
+Iteration: 717
+Progress: 23.90% complete
+============
+Running SMGO
+============
+Iteration: 718
+Progress: 23.93% complete
+============
+Running SMGO
+============
+Iteration: 719
+Progress: 23.97% complete
+============
+Running SMGO
+============
+Iteration: 720
+Progress: 24.00% complete
+============
+Running SMGO
+============
+Iteration: 721
+Progress: 24.03% complete
+============
+Running SMGO
+============
+Iteration: 722
+Progress: 24.07% complete
+============
+Running SMGO
+============
+Iteration: 723
+Progress: 24.10% complete
+============
+Running SMGO
+============
+Iteration: 724
+Progress: 24.13% complete
+============
+Running SMGO
+============
+Iteration: 725
+Progress: 24.17% complete
+============
+Running SMGO
+============
+Iteration: 726
+Progress: 24.20% complete
+============
+Running SMGO
+============
+Iteration: 727
+Progress: 24.23% complete
+============
+Running SMGO
+============
+Iteration: 728
+Progress: 24.27% complete
+============
+Running SMGO
+============
+Iteration: 729
+Progress: 24.30% complete
+============
+Running SMGO
+============
+Iteration: 730
+Progress: 24.33% complete
+============
+Running SMGO
+============
+Iteration: 731
+Progress: 24.37% complete
+============
+Running SMGO
+============
+Iteration: 732
+Progress: 24.40% complete
+============
+Running SMGO
+============
+Iteration: 733
+Progress: 24.43% complete
+============
+Running SMGO
+============
+Iteration: 734
+Progress: 24.47% complete
+============
+Running SMGO
+============
+Iteration: 735
+Progress: 24.50% complete
+============
+Running SMGO
+============
+Iteration: 736
+Progress: 24.53% complete
+============
+Running SMGO
+============
+Iteration: 737
+Progress: 24.57% complete
+============
+Running SMGO
+============
+Iteration: 738
+Progress: 24.60% complete
+============
+Running SMGO
+============
+Iteration: 739
+Progress: 24.63% complete
+============
+Running SMGO
+============
+Iteration: 740
+Progress: 24.67% complete
+============
+Running SMGO
+============
+Iteration: 741
+Progress: 24.70% complete
+============
+Running SMGO
+============
+Iteration: 742
+Progress: 24.73% complete
+============
+Running SMGO
+============
+Iteration: 743
+Progress: 24.77% complete
+============
+Running SMGO
+============
+Iteration: 744
+Progress: 24.80% complete
+============
+Running SMGO
+============
+Iteration: 745
+Progress: 24.83% complete
+============
+Running SMGO
+============
+Iteration: 746
+Progress: 24.87% complete
+============
+Running SMGO
+============
+Iteration: 747
+Progress: 24.90% complete
+============
+Running SMGO
+============
+Iteration: 748
+Progress: 24.93% complete
+============
+Running SMGO
+============
+Iteration: 749
+Progress: 24.97% complete
+============
+Running SMGO
+============
+Iteration: 750
+Progress: 25.00% complete
+============
+Running SMGO
+============
+Iteration: 751
+Progress: 25.03% complete
+============
+Running SMGO
+============
+Iteration: 752
+Progress: 25.07% complete
+============
+Running SMGO
+============
+Iteration: 753
+Progress: 25.10% complete
+============
+Running SMGO
+============...</div></div><div class="inlineElement eoOutputWrapper embeddedOutputsFigure" uid="30C9454A" data-scroll-top="null" data-scroll-left="null" prevent-scroll="true" data-testid="output_2" style="width: 1146px;"><div class="figureElement eoOutputContent"><img class="figureImage figureContainingNode" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAaQAAAE7CAYAAACSfPWjAAAgAElEQVR4AezBb4gkiXnY/y8VBdUGveiqyEJFiK+aOvxoxhjDastCBDS1TjKtF/ariKgVy0z3Sy3ahGD8QodRV+dFQNb9zIkLSw6SdM8bpUkEfiFj6EF4aySdwKplzYG8zSNdpWoRoQSBqsZgbxGz5zAk9/P5dLd3uzd/umeez8f5G2OMMWYDOBhjjDEbwMEYY4zZAA7GGGPMBnAwxhhjNoCDMcYYswEcjDHGmA3gYIwxxmwAB2OMMWYDOBhjjDEbwMEYY4zZAA7GGGPMBnAwxhhjNoCDMcYYswEcjDHGmA3gYIwxxmwAB2OMMWYDOBhjjDEbwMEYY4zZAA7GGGPMBnDYUt/73vcwxhhzeThsoTt37vDCCy9gjDHm8nDYIuv1mq985Sv8p//0nzDGGHO5OGyRl156Cd/3+ff//t9jjDHmcnHYIl/96lf53d/9Xa5du8b78du//duICCKCiCAiiAgigoggIogIIoKIICKICCKCiCAiiAgigoggIogIIoKIICKICCKCiCAiiAgigoggIogIIoKIICKICCKCiCAiiAgigoggIogIIoKIICKICCKCiCAiiAgigoggIogIIoKIICKICCKCiCAiiAgigoggIogIIoKIICKICCKCiCAiiAgigoggIogIIoKIICKICCKCiCAiiAgigoggIogIIoKIICKICCKCiCAiiAgigoggIogIIoKIICKICCKCiCAiiAgigoggIogIIoKIICKICCKCiCAiiAgigoggIogIIoKIICKICCKCiCAiiAgigoggIogIIoKIICKICCKCiCAiiAgigoggIogIIoKIICKICCKCiCAiiAgigoggIogIIoKIICKICCKCiCAiiAgigoggIogIIoKIICKICCKCiCAiiAgigoggIogIIoKIICKICCKCiCAiiAgigoggIogIIoKIICKICCKCiCAiiAgigoggIogIIoKIICKICCKCiCAiiAgigoggIogIIoKIICKICCKCiCAiiAgigoggIogIIoKIICKICCKCiCAiiAgigoggIogIIoKIICKICCKCiCAiiAgigoggIogIIoKIICKICCKCiCAiiAgigoggIogIIoKIICKICCKCiCAiiAgigoggIogIIoKIICKICCKCiCAiiAgigoggIogI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" style="width: 420px; padding-bottom: 0px;"></div><div class="outputLayer selectedOutputDecorationLayer doNotExport"></div><div class="outputLayer activeOutputDecorationLayer doNotExport"></div><div class="outputLayer scrollableOutputDecorationLayer doNotExport"></div></div><div class="inlineElement eoOutputWrapper embeddedOutputsTextElement" uid="056105F5" data-scroll-top="null" data-scroll-left="null" prevent-scroll="true" data-testid="output_3" style="width: 1146px; white-space: pre; font-style: normal; color: rgb(33, 33, 33); font-size: 12px;"><div class="textElement eoOutputContent" data-width="1116" data-height="86" data-hashorizontaloverflow="false" style="max-height: 261px; white-space: pre; font-style: normal; color: rgb(33, 33, 33); font-size: 12px;">============
+Running SMGO
+============
+Iteration: 3000
+Progress: 100.00% complete
+Optimization complete. Results are inside struct 'out'.</div></div></div></div></div>
+<br>
+<!-- 
+##### SOURCE BEGIN #####
+%% SMGO: use with time-varying functions
+% We use SMGO in this example with a function that changes its form with respect 
+% to time. It is assumed here that each evaluation corresponds to a (unitless) 
+% time step.
+% 
+% 
+% 
+% Clear struct |options| to start this example.
+
+clear options;
+%% 
+% 
+% 
+% First, we try to extract an initial model. 
+
+options.objfun  = @(x)fn_styblinski(x);
+options.bounds  = repmat([-5 5], 2, 1);
+options.maxiter = 250;
+init_run        = smgo(options);
+init_dat        = [init_run.hist_x; init_run.hist_z];
+%% 
+% 
+
+clear options;
+%% 
+% 
+% 
+% We supply the objective function handle (the 2-dimensional _time-varying_ 
+% Styblinski-Tang function found in |examples/test_functions/|), the search space 
+% bounds, and the maximum budget of experiments/iterations. Furthermore, we set 
+% the |timevarying| flag to |true|, and to accelerate the computations, we also 
+% set the |filtercdpt| flag.
+
+options.objfun      = @(x)fn_styblinski_tv(x);
+options.bounds      = repmat([-5 5], 2, 1);
+options.maxiter     = 3000;
+options.timevarying = true;
+options.startX      = init_dat;
+options.filtercdpt  = true;
+%% 
+% 
+% 
+% Use an iteration-based feedback function to show the currently-stored samples 
+% collection after each iteration.
+
+options.iterfdbackfun = @(X_n)tvplot(X_n);
+%% 
+% 
+% 
+% Run the SMGO algorithm using the supplied arguments in |options|.
+
+out             = smgo(options);
+##### SOURCE END #####
+-->
+</div></body></html>

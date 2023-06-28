@@ -1,0 +1,1324 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=utf-8"><meta http-equiv="X-UA-Compatible" content="IE=edge,IE=9,chrome=1"><meta name="generator" content="MATLAB 2022a"><title>SMGO: Using a black-box constraint</title><style type="text/css">.rtcContent { padding: 30px; } .S0 { margin: 3px 10px 5px 4px; padding: 0px; line-height: 28.8px; min-height: 0px; white-space: pre-wrap; color: rgb(192, 76, 11); font-family: Helvetica, Arial, sans-serif; font-style: normal; font-size: 24px; font-weight: 400; text-align: left;  }
+.S1 { margin: 2px 10px 9px 4px; padding: 0px; line-height: 21px; min-height: 0px; white-space: pre-wrap; color: rgb(33, 33, 33); font-family: Helvetica, Arial, sans-serif; font-style: normal; font-size: 14px; font-weight: 400; text-align: left;  }
+.CodeBlock { background-color: #F5F5F5; margin: 10px 0 10px 0; }
+.S2 { border-left: 1px solid rgb(191, 191, 191); border-right: 1px solid rgb(191, 191, 191); border-top: 1px solid rgb(191, 191, 191); border-bottom: 1px solid rgb(191, 191, 191); border-radius: 4px; padding: 6px 45px 4px 13px; line-height: 18.004px; min-height: 0px; white-space: nowrap; color: rgb(33, 33, 33); font-family: Menlo, Monaco, Consolas, "Courier New", monospace; font-size: 14px;  }
+.S3 { margin: 10px 10px 9px 4px; padding: 0px; line-height: 21px; min-height: 0px; white-space: pre-wrap; color: rgb(33, 33, 33); font-family: Helvetica, Arial, sans-serif; font-style: normal; font-size: 14px; font-weight: 400; text-align: left;  }
+.S4 { border-left: 1px solid rgb(191, 191, 191); border-right: 1px solid rgb(191, 191, 191); border-top: 1px solid rgb(191, 191, 191); border-bottom: 0px none rgb(33, 33, 33); border-radius: 4px 4px 0px 0px; padding: 6px 45px 0px 13px; line-height: 18.004px; min-height: 0px; white-space: nowrap; color: rgb(33, 33, 33); font-family: Menlo, Monaco, Consolas, "Courier New", monospace; font-size: 14px;  }
+.S5 { border-left: 1px solid rgb(191, 191, 191); border-right: 1px solid rgb(191, 191, 191); border-top: 0px none rgb(33, 33, 33); border-bottom: 0px none rgb(33, 33, 33); border-radius: 0px; padding: 0px 45px 0px 13px; line-height: 18.004px; min-height: 0px; white-space: nowrap; color: rgb(33, 33, 33); font-family: Menlo, Monaco, Consolas, "Courier New", monospace; font-size: 14px;  }
+.S6 { border-left: 1px solid rgb(191, 191, 191); border-right: 1px solid rgb(191, 191, 191); border-top: 0px none rgb(33, 33, 33); border-bottom: 1px solid rgb(191, 191, 191); border-radius: 0px 0px 4px 4px; padding: 0px 45px 4px 13px; line-height: 18.004px; min-height: 0px; white-space: nowrap; color: rgb(33, 33, 33); font-family: Menlo, Monaco, Consolas, "Courier New", monospace; font-size: 14px;  }
+.S7 { border-left: 1px solid rgb(191, 191, 191); border-right: 1px solid rgb(191, 191, 191); border-top: 1px solid rgb(191, 191, 191); border-bottom: 1px solid rgb(191, 191, 191); border-radius: 4px 4px 0px 0px; padding: 6px 45px 4px 13px; line-height: 18.004px; min-height: 0px; white-space: nowrap; color: rgb(33, 33, 33); font-family: Menlo, Monaco, Consolas, "Courier New", monospace; font-size: 14px;  }
+.S8 { color: rgb(33, 33, 33); padding: 10px 0px 6px 17px; background: rgb(255, 255, 255) none repeat scroll 0% 0% / auto padding-box border-box; font-family: Menlo, Monaco, Consolas, "Courier New", monospace; font-size: 14px; overflow-x: hidden; line-height: 17.234px;  }
+/* Styling that is common to warnings and errors is in diagnosticOutput.css */.embeddedOutputsErrorElement {    min-height: 18px;    max-height: 550px;}
+.embeddedOutputsErrorElement .diagnosticMessage-errorType {    overflow: auto;}
+.embeddedOutputsErrorElement.inlineElement {}
+.embeddedOutputsErrorElement.rightPaneElement {}
+/* Styling that is common to warnings and errors is in diagnosticOutput.css */.embeddedOutputsWarningElement {    min-height: 18px;    max-height: 550px;}
+.embeddedOutputsWarningElement .diagnosticMessage-warningType {    overflow: auto;}
+.embeddedOutputsWarningElement.inlineElement {}
+.embeddedOutputsWarningElement.rightPaneElement {}
+/* Copyright 2015-2019 The MathWorks, Inc. *//* In this file, styles are not scoped to rtcContainer since they could be in the Dojo Tooltip */.diagnosticMessage-wrapper {    font-family: Menlo, Monaco, Consolas, "Courier New", monospace;    font-size: 12px;}
+.diagnosticMessage-wrapper.diagnosticMessage-warningType {    color: rgb(255,100,0);}
+.diagnosticMessage-wrapper.diagnosticMessage-warningType a {    color: rgb(255,100,0);    text-decoration: underline;}
+.diagnosticMessage-wrapper.diagnosticMessage-errorType {    color: rgb(230,0,0);}
+.diagnosticMessage-wrapper.diagnosticMessage-errorType a {    color: rgb(230,0,0);    text-decoration: underline;}
+.diagnosticMessage-wrapper .diagnosticMessage-messagePart,.diagnosticMessage-wrapper .diagnosticMessage-causePart {    white-space: pre-wrap;}
+.diagnosticMessage-wrapper .diagnosticMessage-stackPart {    white-space: pre;}
+.embeddedOutputsTextElement,.embeddedOutputsVariableStringElement {    white-space: pre;    word-wrap:  initial;    min-height: 18px;    max-height: 550px;}
+.embeddedOutputsTextElement .textElement,.embeddedOutputsVariableStringElement .textElement {    overflow: auto;}
+.textElement,.rtcDataTipElement .textElement {    padding-top: 2px;}
+.embeddedOutputsTextElement.inlineElement,.embeddedOutputsVariableStringElement.inlineElement {}
+.inlineElement .textElement {}
+.embeddedOutputsTextElement.rightPaneElement,.embeddedOutputsVariableStringElement.rightPaneElement {    min-height: 16px;}
+.rightPaneElement .textElement {    padding-top: 2px;    padding-left: 9px;}</style></head><body><div class = rtcContent><h1  class = 'S0' id = 'T_F95D6ABC' ><span>SMGO: Using a black-box constraint</span></h1><div  class = 'S1'><span>This example uses SMGO with a real-valued black-box inequality constraint, supplied in the field </span><span style=' font-family: monospace;'>options.confun</span><span>.</span></div><div  class = 'S1'><span></span></div><div  class = 'S1'><span>Clear struct </span><span style=' font-family: monospace;'>options</span><span> to start this example.</span></div><div class="CodeBlock"><div class="inlineWrapper"><div  class = 'S2'><span style="white-space: pre"><span >clear </span><span style="color: rgb(167, 9, 245);">options</span><span >;</span></span></div></div></div><div  class = 'S3'><span></span></div><div  class = 'S1'><span>Fill struct </span><span style=' font-family: monospace;'>options</span><span> with the minimal options. In addition, we supply </span><span style=' font-family: monospace;'>options.confun</span><span> with a function handle. According to our </span><a href = "https://doi.org/10.1016/j.ins.2022.05.017"><span>convention</span></a><span>, the constraint </span><span style=' font-family: monospace;'>g</span><span> is fulfilled when </span><span style=' font-family: monospace;'>g</span><span style="font-family: STIXGeneral, STIXGeneral-webfont, serif; font-style: normal; font-weight: 400; color: rgb(33, 33, 33);">≥</span><span style=' font-family: monospace;'>0</span><span>.</span></div><div class="CodeBlock"><div class="inlineWrapper"><div  class = 'S4'><span style="white-space: pre"><span >options.objfun  = @(x)fn_styblinski(x);</span></span></div></div><div class="inlineWrapper"><div  class = 'S5'><span style="white-space: pre"><span >options.bounds  = repmat([-5 5], 2, 1);</span></span></div></div><div class="inlineWrapper"><div  class = 'S5'><span style="white-space: pre"><span >options.maxiter = 250;</span></span></div></div><div class="inlineWrapper"><div  class = 'S6'><span style="white-space: pre"><span >options.confun  = @(x)fn_parab(x);</span></span></div></div></div><div  class = 'S3'><span></span></div><div  class = 'S1'><span>Run the SMGO algorithm.</span></div><div class="CodeBlock"><div class="inlineWrapper outputs"><div  class = 'S7'><span style="white-space: pre"><span >out             = smgo(options);</span></span></div><div  class = 'S8'><div class="inlineElement eoOutputWrapper embeddedOutputsTextElement scrollableOutput" uid="6E3DD6F5" prevent-scroll="true" data-testid="output_0" style="width: 1146px; white-space: pre; font-style: normal; color: rgb(33, 33, 33); font-size: 12px;"><div class="textElement eoOutputContent" data-width="1116" data-height="17530" data-hashorizontaloverflow="false" style="max-height: 261px; white-space: pre; font-style: normal; color: rgb(33, 33, 33); font-size: 12px;">[INFO] No start point supplied. Starting from a random start point.
+============
+Running SMGO
+============
+Iteration: 1
+Progress: 0.40% complete
+============
+Running SMGO
+============
+Iteration: 2
+Progress: 0.80% complete
+============
+Running SMGO
+============
+Iteration: 3
+Progress: 1.20% complete
+============
+Running SMGO
+============
+Iteration: 4
+Progress: 1.60% complete
+============
+Running SMGO
+============
+Iteration: 5
+Progress: 2.00% complete
+============
+Running SMGO
+============
+Iteration: 6
+Progress: 2.40% complete
+============
+Running SMGO
+============
+Iteration: 7
+Progress: 2.80% complete
+============
+Running SMGO
+============
+Iteration: 8
+Progress: 3.20% complete
+============
+Running SMGO
+============
+Iteration: 9
+Progress: 3.60% complete
+============
+Running SMGO
+============
+Iteration: 10
+Progress: 4.00% complete
+============
+Running SMGO
+============
+Iteration: 11
+Progress: 4.40% complete
+============
+Running SMGO
+============
+Iteration: 12
+Progress: 4.80% complete
+============
+Running SMGO
+============
+Iteration: 13
+Progress: 5.20% complete
+============
+Running SMGO
+============
+Iteration: 14
+Progress: 5.60% complete
+============
+Running SMGO
+============
+Iteration: 15
+Progress: 6.00% complete
+============
+Running SMGO
+============
+Iteration: 16
+Progress: 6.40% complete
+============
+Running SMGO
+============
+Iteration: 17
+Progress: 6.80% complete
+============
+Running SMGO
+============
+Iteration: 18
+Progress: 7.20% complete
+============
+Running SMGO
+============
+Iteration: 19
+Progress: 7.60% complete
+============
+Running SMGO
+============
+Iteration: 20
+Progress: 8.00% complete
+============
+Running SMGO
+============
+Iteration: 21
+Progress: 8.40% complete
+============
+Running SMGO
+============
+Iteration: 22
+Progress: 8.80% complete
+============
+Running SMGO
+============
+Iteration: 23
+Progress: 9.20% complete
+============
+Running SMGO
+============
+Iteration: 24
+Progress: 9.60% complete
+============
+Running SMGO
+============
+Iteration: 25
+Progress: 10.00% complete
+============
+Running SMGO
+============
+Iteration: 26
+Progress: 10.40% complete
+============
+Running SMGO
+============
+Iteration: 27
+Progress: 10.80% complete
+============
+Running SMGO
+============
+Iteration: 28
+Progress: 11.20% complete
+============
+Running SMGO
+============
+Iteration: 29
+Progress: 11.60% complete
+============
+Running SMGO
+============
+Iteration: 30
+Progress: 12.00% complete
+============
+Running SMGO
+============
+Iteration: 31
+Progress: 12.40% complete
+============
+Running SMGO
+============
+Iteration: 32
+Progress: 12.80% complete
+============
+Running SMGO
+============
+Iteration: 33
+Progress: 13.20% complete
+============
+Running SMGO
+============
+Iteration: 34
+Progress: 13.60% complete
+============
+Running SMGO
+============
+Iteration: 35
+Progress: 14.00% complete
+============
+Running SMGO
+============
+Iteration: 36
+Progress: 14.40% complete
+============
+Running SMGO
+============
+Iteration: 37
+Progress: 14.80% complete
+============
+Running SMGO
+============
+Iteration: 38
+Progress: 15.20% complete
+============
+Running SMGO
+============
+Iteration: 39
+Progress: 15.60% complete
+============
+Running SMGO
+============
+Iteration: 40
+Progress: 16.00% complete
+============
+Running SMGO
+============
+Iteration: 41
+Progress: 16.40% complete
+============
+Running SMGO
+============
+Iteration: 42
+Progress: 16.80% complete
+============
+Running SMGO
+============
+Iteration: 43
+Progress: 17.20% complete
+============
+Running SMGO
+============
+Iteration: 44
+Progress: 17.60% complete
+============
+Running SMGO
+============
+Iteration: 45
+Progress: 18.00% complete
+============
+Running SMGO
+============
+Iteration: 46
+Progress: 18.40% complete
+============
+Running SMGO
+============
+Iteration: 47
+Progress: 18.80% complete
+============
+Running SMGO
+============
+Iteration: 48
+Progress: 19.20% complete
+============
+Running SMGO
+============
+Iteration: 49
+Progress: 19.60% complete
+============
+Running SMGO
+============
+Iteration: 50
+Progress: 20.00% complete
+============
+Running SMGO
+============
+Iteration: 51
+Progress: 20.40% complete
+============
+Running SMGO
+============
+Iteration: 52
+Progress: 20.80% complete
+============
+Running SMGO
+============
+Iteration: 53
+Progress: 21.20% complete
+============
+Running SMGO
+============
+Iteration: 54
+Progress: 21.60% complete
+============
+Running SMGO
+============
+Iteration: 55
+Progress: 22.00% complete
+============
+Running SMGO
+============
+Iteration: 56
+Progress: 22.40% complete
+============
+Running SMGO
+============
+Iteration: 57
+Progress: 22.80% complete
+============
+Running SMGO
+============
+Iteration: 58
+Progress: 23.20% complete
+============
+Running SMGO
+============
+Iteration: 59
+Progress: 23.60% complete
+============
+Running SMGO
+============
+Iteration: 60
+Progress: 24.00% complete
+============
+Running SMGO
+============
+Iteration: 61
+Progress: 24.40% complete
+============
+Running SMGO
+============
+Iteration: 62
+Progress: 24.80% complete
+============
+Running SMGO
+============
+Iteration: 63
+Progress: 25.20% complete
+============
+Running SMGO
+============
+Iteration: 64
+Progress: 25.60% complete
+============
+Running SMGO
+============
+Iteration: 65
+Progress: 26.00% complete
+============
+Running SMGO
+============
+Iteration: 66
+Progress: 26.40% complete
+============
+Running SMGO
+============
+Iteration: 67
+Progress: 26.80% complete
+============
+Running SMGO
+============
+Iteration: 68
+Progress: 27.20% complete
+============
+Running SMGO
+============
+Iteration: 69
+Progress: 27.60% complete
+============
+Running SMGO
+============
+Iteration: 70
+Progress: 28.00% complete
+============
+Running SMGO
+============
+Iteration: 71
+Progress: 28.40% complete
+============
+Running SMGO
+============
+Iteration: 72
+Progress: 28.80% complete
+============
+Running SMGO
+============
+Iteration: 73
+Progress: 29.20% complete
+============
+Running SMGO
+============
+Iteration: 74
+Progress: 29.60% complete
+============
+Running SMGO
+============
+Iteration: 75
+Progress: 30.00% complete
+============
+Running SMGO
+============
+Iteration: 76
+Progress: 30.40% complete
+============
+Running SMGO
+============
+Iteration: 77
+Progress: 30.80% complete
+============
+Running SMGO
+============
+Iteration: 78
+Progress: 31.20% complete
+============
+Running SMGO
+============
+Iteration: 79
+Progress: 31.60% complete
+============
+Running SMGO
+============
+Iteration: 80
+Progress: 32.00% complete
+============
+Running SMGO
+============
+Iteration: 81
+Progress: 32.40% complete
+============
+Running SMGO
+============
+Iteration: 82
+Progress: 32.80% complete
+============
+Running SMGO
+============
+Iteration: 83
+Progress: 33.20% complete
+============
+Running SMGO
+============
+Iteration: 84
+Progress: 33.60% complete
+============
+Running SMGO
+============
+Iteration: 85
+Progress: 34.00% complete
+============
+Running SMGO
+============
+Iteration: 86
+Progress: 34.40% complete
+============
+Running SMGO
+============
+Iteration: 87
+Progress: 34.80% complete
+============
+Running SMGO
+============
+Iteration: 88
+Progress: 35.20% complete
+============
+Running SMGO
+============
+Iteration: 89
+Progress: 35.60% complete
+============
+Running SMGO
+============
+Iteration: 90
+Progress: 36.00% complete
+============
+Running SMGO
+============
+Iteration: 91
+Progress: 36.40% complete
+============
+Running SMGO
+============
+Iteration: 92
+Progress: 36.80% complete
+============
+Running SMGO
+============
+Iteration: 93
+Progress: 37.20% complete
+============
+Running SMGO
+============
+Iteration: 94
+Progress: 37.60% complete
+============
+Running SMGO
+============
+Iteration: 95
+Progress: 38.00% complete
+============
+Running SMGO
+============
+Iteration: 96
+Progress: 38.40% complete
+============
+Running SMGO
+============
+Iteration: 97
+Progress: 38.80% complete
+============
+Running SMGO
+============
+Iteration: 98
+Progress: 39.20% complete
+============
+Running SMGO
+============
+Iteration: 99
+Progress: 39.60% complete
+============
+Running SMGO
+============
+Iteration: 100
+Progress: 40.00% complete
+============
+Running SMGO
+============
+Iteration: 101
+Progress: 40.40% complete
+============
+Running SMGO
+============
+Iteration: 102
+Progress: 40.80% complete
+============
+Running SMGO
+============
+Iteration: 103
+Progress: 41.20% complete
+============
+Running SMGO
+============
+Iteration: 104
+Progress: 41.60% complete
+============
+Running SMGO
+============
+Iteration: 105
+Progress: 42.00% complete
+============
+Running SMGO
+============
+Iteration: 106
+Progress: 42.40% complete
+============
+Running SMGO
+============
+Iteration: 107
+Progress: 42.80% complete
+============
+Running SMGO
+============
+Iteration: 108
+Progress: 43.20% complete
+============
+Running SMGO
+============
+Iteration: 109
+Progress: 43.60% complete
+============
+Running SMGO
+============
+Iteration: 110
+Progress: 44.00% complete
+============
+Running SMGO
+============
+Iteration: 111
+Progress: 44.40% complete
+============
+Running SMGO
+============
+Iteration: 112
+Progress: 44.80% complete
+============
+Running SMGO
+============
+Iteration: 113
+Progress: 45.20% complete
+============
+Running SMGO
+============
+Iteration: 114
+Progress: 45.60% complete
+============
+Running SMGO
+============
+Iteration: 115
+Progress: 46.00% complete
+============
+Running SMGO
+============
+Iteration: 116
+Progress: 46.40% complete
+============
+Running SMGO
+============
+Iteration: 117
+Progress: 46.80% complete
+============
+Running SMGO
+============
+Iteration: 118
+Progress: 47.20% complete
+============
+Running SMGO
+============
+Iteration: 119
+Progress: 47.60% complete
+============
+Running SMGO
+============
+Iteration: 120
+Progress: 48.00% complete
+============
+Running SMGO
+============
+Iteration: 121
+Progress: 48.40% complete
+============
+Running SMGO
+============
+Iteration: 122
+Progress: 48.80% complete
+============
+Running SMGO
+============
+Iteration: 123
+Progress: 49.20% complete
+============
+Running SMGO
+============
+Iteration: 124
+Progress: 49.60% complete
+============
+Running SMGO
+============
+Iteration: 125
+Progress: 50.00% complete
+============
+Running SMGO
+============
+Iteration: 126
+Progress: 50.40% complete
+============
+Running SMGO
+============
+Iteration: 127
+Progress: 50.80% complete
+============
+Running SMGO
+============
+Iteration: 128
+Progress: 51.20% complete
+============
+Running SMGO
+============
+Iteration: 129
+Progress: 51.60% complete
+============
+Running SMGO
+============
+Iteration: 130
+Progress: 52.00% complete
+============
+Running SMGO
+============
+Iteration: 131
+Progress: 52.40% complete
+============
+Running SMGO
+============
+Iteration: 132
+Progress: 52.80% complete
+============
+Running SMGO
+============
+Iteration: 133
+Progress: 53.20% complete
+============
+Running SMGO
+============
+Iteration: 134
+Progress: 53.60% complete
+============
+Running SMGO
+============
+Iteration: 135
+Progress: 54.00% complete
+============
+Running SMGO
+============
+Iteration: 136
+Progress: 54.40% complete
+============
+Running SMGO
+============
+Iteration: 137
+Progress: 54.80% complete
+============
+Running SMGO
+============
+Iteration: 138
+Progress: 55.20% complete
+============
+Running SMGO
+============
+Iteration: 139
+Progress: 55.60% complete
+============
+Running SMGO
+============
+Iteration: 140
+Progress: 56.00% complete
+============
+Running SMGO
+============
+Iteration: 141
+Progress: 56.40% complete
+============
+Running SMGO
+============
+Iteration: 142
+Progress: 56.80% complete
+============
+Running SMGO
+============
+Iteration: 143
+Progress: 57.20% complete
+============
+Running SMGO
+============
+Iteration: 144
+Progress: 57.60% complete
+============
+Running SMGO
+============
+Iteration: 145
+Progress: 58.00% complete
+============
+Running SMGO
+============
+Iteration: 146
+Progress: 58.40% complete
+============
+Running SMGO
+============
+Iteration: 147
+Progress: 58.80% complete
+============
+Running SMGO
+============
+Iteration: 148
+Progress: 59.20% complete
+============
+Running SMGO
+============
+Iteration: 149
+Progress: 59.60% complete
+============
+Running SMGO
+============
+Iteration: 150
+Progress: 60.00% complete
+============
+Running SMGO
+============
+Iteration: 151
+Progress: 60.40% complete
+============
+Running SMGO
+============
+Iteration: 152
+Progress: 60.80% complete
+============
+Running SMGO
+============
+Iteration: 153
+Progress: 61.20% complete
+============
+Running SMGO
+============
+Iteration: 154
+Progress: 61.60% complete
+============
+Running SMGO
+============
+Iteration: 155
+Progress: 62.00% complete
+============
+Running SMGO
+============
+Iteration: 156
+Progress: 62.40% complete
+============
+Running SMGO
+============
+Iteration: 157
+Progress: 62.80% complete
+============
+Running SMGO
+============
+Iteration: 158
+Progress: 63.20% complete
+============
+Running SMGO
+============
+Iteration: 159
+Progress: 63.60% complete
+============
+Running SMGO
+============
+Iteration: 160
+Progress: 64.00% complete
+============
+Running SMGO
+============
+Iteration: 161
+Progress: 64.40% complete
+============
+Running SMGO
+============
+Iteration: 162
+Progress: 64.80% complete
+============
+Running SMGO
+============
+Iteration: 163
+Progress: 65.20% complete
+============
+Running SMGO
+============
+Iteration: 164
+Progress: 65.60% complete
+============
+Running SMGO
+============
+Iteration: 165
+Progress: 66.00% complete
+============
+Running SMGO
+============
+Iteration: 166
+Progress: 66.40% complete
+============
+Running SMGO
+============
+Iteration: 167
+Progress: 66.80% complete
+============
+Running SMGO
+============
+Iteration: 168
+Progress: 67.20% complete
+============
+Running SMGO
+============
+Iteration: 169
+Progress: 67.60% complete
+============
+Running SMGO
+============
+Iteration: 170
+Progress: 68.00% complete
+============
+Running SMGO
+============
+Iteration: 171
+Progress: 68.40% complete
+============
+Running SMGO
+============
+Iteration: 172
+Progress: 68.80% complete
+============
+Running SMGO
+============
+Iteration: 173
+Progress: 69.20% complete
+============
+Running SMGO
+============
+Iteration: 174
+Progress: 69.60% complete
+============
+Running SMGO
+============
+Iteration: 175
+Progress: 70.00% complete
+============
+Running SMGO
+============
+Iteration: 176
+Progress: 70.40% complete
+============
+Running SMGO
+============
+Iteration: 177
+Progress: 70.80% complete
+============
+Running SMGO
+============
+Iteration: 178
+Progress: 71.20% complete
+============
+Running SMGO
+============
+Iteration: 179
+Progress: 71.60% complete
+============
+Running SMGO
+============
+Iteration: 180
+Progress: 72.00% complete
+============
+Running SMGO
+============
+Iteration: 181
+Progress: 72.40% complete
+============
+Running SMGO
+============
+Iteration: 182
+Progress: 72.80% complete
+============
+Running SMGO
+============
+Iteration: 183
+Progress: 73.20% complete
+============
+Running SMGO
+============
+Iteration: 184
+Progress: 73.60% complete
+============
+Running SMGO
+============
+Iteration: 185
+Progress: 74.00% complete
+============
+Running SMGO
+============
+Iteration: 186
+Progress: 74.40% complete
+============
+Running SMGO
+============
+Iteration: 187
+Progress: 74.80% complete
+============
+Running SMGO
+============
+Iteration: 188
+Progress: 75.20% complete
+============
+Running SMGO
+============
+Iteration: 189
+Progress: 75.60% complete
+============
+Running SMGO
+============
+Iteration: 190
+Progress: 76.00% complete
+============
+Running SMGO
+============
+Iteration: 191
+Progress: 76.40% complete
+============
+Running SMGO
+============
+Iteration: 192
+Progress: 76.80% complete
+============
+Running SMGO
+============
+Iteration: 193
+Progress: 77.20% complete
+============
+Running SMGO
+============
+Iteration: 194
+Progress: 77.60% complete
+============
+Running SMGO
+============
+Iteration: 195
+Progress: 78.00% complete
+============
+Running SMGO
+============
+Iteration: 196
+Progress: 78.40% complete
+============
+Running SMGO
+============
+Iteration: 197
+Progress: 78.80% complete
+============
+Running SMGO
+============
+Iteration: 198
+Progress: 79.20% complete
+============
+Running SMGO
+============
+Iteration: 199
+Progress: 79.60% complete
+============
+Running SMGO
+============
+Iteration: 200
+Progress: 80.00% complete
+============
+Running SMGO
+============
+Iteration: 201
+Progress: 80.40% complete
+============
+Running SMGO
+============
+Iteration: 202
+Progress: 80.80% complete
+============
+Running SMGO
+============
+Iteration: 203
+Progress: 81.20% complete
+============
+Running SMGO
+============
+Iteration: 204
+Progress: 81.60% complete
+============
+Running SMGO
+============
+Iteration: 205
+Progress: 82.00% complete
+============
+Running SMGO
+============
+Iteration: 206
+Progress: 82.40% complete
+============
+Running SMGO
+============
+Iteration: 207
+Progress: 82.80% complete
+============
+Running SMGO
+============
+Iteration: 208
+Progress: 83.20% complete
+============
+Running SMGO
+============
+Iteration: 209
+Progress: 83.60% complete
+============
+Running SMGO
+============
+Iteration: 210
+Progress: 84.00% complete
+============
+Running SMGO
+============
+Iteration: 211
+Progress: 84.40% complete
+============
+Running SMGO
+============
+Iteration: 212
+Progress: 84.80% complete
+============
+Running SMGO
+============
+Iteration: 213
+Progress: 85.20% complete
+============
+Running SMGO
+============
+Iteration: 214
+Progress: 85.60% complete
+============
+Running SMGO
+============
+Iteration: 215
+Progress: 86.00% complete
+============
+Running SMGO
+============
+Iteration: 216
+Progress: 86.40% complete
+============
+Running SMGO
+============
+Iteration: 217
+Progress: 86.80% complete
+============
+Running SMGO
+============
+Iteration: 218
+Progress: 87.20% complete
+============
+Running SMGO
+============
+Iteration: 219
+Progress: 87.60% complete
+============
+Running SMGO
+============
+Iteration: 220
+Progress: 88.00% complete
+============
+Running SMGO
+============
+Iteration: 221
+Progress: 88.40% complete
+============
+Running SMGO
+============
+Iteration: 222
+Progress: 88.80% complete
+============
+Running SMGO
+============
+Iteration: 223
+Progress: 89.20% complete
+============
+Running SMGO
+============
+Iteration: 224
+Progress: 89.60% complete
+============
+Running SMGO
+============
+Iteration: 225
+Progress: 90.00% complete
+============
+Running SMGO
+============
+Iteration: 226
+Progress: 90.40% complete
+============
+Running SMGO
+============
+Iteration: 227
+Progress: 90.80% complete
+============
+Running SMGO
+============
+Iteration: 228
+Progress: 91.20% complete
+============
+Running SMGO
+============
+Iteration: 229
+Progress: 91.60% complete
+============
+Running SMGO
+============
+Iteration: 230
+Progress: 92.00% complete
+============
+Running SMGO
+============
+Iteration: 231
+Progress: 92.40% complete
+============
+Running SMGO
+============
+Iteration: 232
+Progress: 92.80% complete
+============
+Running SMGO
+============
+Iteration: 233
+Progress: 93.20% complete
+============
+Running SMGO
+============
+Iteration: 234
+Progress: 93.60% complete
+============
+Running SMGO
+============
+Iteration: 235
+Progress: 94.00% complete
+============
+Running SMGO
+============
+Iteration: 236
+Progress: 94.40% complete
+============
+Running SMGO
+============
+Iteration: 237
+Progress: 94.80% complete
+============
+Running SMGO
+============
+Iteration: 238
+Progress: 95.20% complete
+============
+Running SMGO
+============
+Iteration: 239
+Progress: 95.60% complete
+============
+Running SMGO
+============
+Iteration: 240
+Progress: 96.00% complete
+============
+Running SMGO
+============
+Iteration: 241
+Progress: 96.40% complete
+============
+Running SMGO
+============
+Iteration: 242
+Progress: 96.80% complete
+============
+Running SMGO
+============
+Iteration: 243
+Progress: 97.20% complete
+============
+Running SMGO
+============
+Iteration: 244
+Progress: 97.60% complete
+============
+Running SMGO
+============
+Iteration: 245
+Progress: 98.00% complete
+============
+Running SMGO
+============
+Iteration: 246
+Progress: 98.40% complete
+============
+Running SMGO
+============
+Iteration: 247
+Progress: 98.80% complete
+============
+Running SMGO
+============
+Iteration: 248
+Progress: 99.20% complete
+============
+Running SMGO
+============
+Iteration: 249
+Progress: 99.60% complete
+============
+Running SMGO
+============
+Iteration: 250
+Progress: 100.00% complete
+Optimization complete. Results are inside struct 'out'.</div></div></div></div></div><div  class = 'S3'><span></span></div><div  class = 'S1'><span>Plot the resulting samples distribution. We will see a stark difference in samples density between the feasible region (where </span><span texencoding="g(\textbf{x})\geq0" style="vertical-align:-5px"><img src="data:image/png;base64,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" width="54" height="18" /></span><span>), and the unfeasible one.</span></div><div class="CodeBlock"><div class="inlineWrapper outputs"><div  class = 'S7'><span style="white-space: pre"><span >plot(out.hist_x(1,:), out.hist_x(2,:), </span><span style="color: rgb(167, 9, 245);">'.'</span><span >); grid </span><span style="color: rgb(167, 9, 245);">on</span><span >, title(</span><span style="color: rgb(167, 9, 245);">'Sampled points'</span><span >);</span></span></div><div  class = 'S8'><div class="inlineElement eoOutputWrapper embeddedOutputsFigure" uid="6907A9A4" prevent-scroll="true" data-testid="output_1" style="width: 1146px;"><div class="figureElement eoOutputContent"><img class="figureImage figureContainingNode" src="data:image/png;base64,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" style="width: 560px; padding-bottom: 0px;"></div><div class="outputLayer selectedOutputDecorationLayer doNotExport"></div><div class="outputLayer activeOutputDecorationLayer doNotExport"></div><div class="outputLayer scrollableOutputDecorationLayer doNotExport"></div></div></div></div></div>
+<br>
+<!-- 
+##### SOURCE BEGIN #####
+%% SMGO: Using a black-box constraint
+% This example uses SMGO with a real-valued black-box inequality constraint, 
+% supplied in the field |options.confun|.
+% 
+% 
+% 
+% Clear struct |options| to start this example.
+
+clear options;
+%% 
+% 
+% 
+% Fill struct |options| with the minimal options. In addition, we supply |options.confun| 
+% with a function handle. According to our <https://doi.org/10.1016/j.ins.2022.05.017 
+% convention>, the constraint |g| is fulfilled when |g|$\geq$|0|.
+
+options.objfun  = @(x)fn_styblinski(x);
+options.bounds  = repmat([-5 5], 2, 1);
+options.maxiter = 250;
+options.confun  = @(x)fn_parab(x);
+%% 
+% 
+% 
+% Run the SMGO algorithm.
+
+out             = smgo(options);
+%% 
+% 
+% 
+% Plot the resulting samples distribution. We will see a stark difference in 
+% samples density between the feasible region (where $g(\textbf{x})\geq0$), and 
+% the unfeasible one.
+
+plot(out.hist_x(1,:), out.hist_x(2,:), '.'); grid on, title('Sampled points');
+##### SOURCE END #####
+-->
+</div></body></html>

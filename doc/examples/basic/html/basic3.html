@@ -1,0 +1,93 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=utf-8"><meta http-equiv="X-UA-Compatible" content="IE=edge,IE=9,chrome=1"><meta name="generator" content="MATLAB 2022a"><title>SMGO: Using initial samples</title><style type="text/css">.rtcContent { padding: 30px; } .S0 { margin: 3px 10px 5px 4px; padding: 0px; line-height: 28.8px; min-height: 0px; white-space: pre-wrap; color: rgb(192, 76, 11); font-family: Helvetica, Arial, sans-serif; font-style: normal; font-size: 24px; font-weight: 400; text-align: left;  }
+.S1 { margin: 2px 10px 9px 4px; padding: 0px; line-height: 21px; min-height: 0px; white-space: pre-wrap; color: rgb(33, 33, 33); font-family: Helvetica, Arial, sans-serif; font-style: normal; font-size: 14px; font-weight: 400; text-align: left;  }
+.CodeBlock { background-color: #F5F5F5; margin: 10px 0 10px 0; }
+.S2 { border-left: 1px solid rgb(191, 191, 191); border-right: 1px solid rgb(191, 191, 191); border-top: 1px solid rgb(191, 191, 191); border-bottom: 1px solid rgb(191, 191, 191); border-radius: 4px; padding: 6px 45px 4px 13px; line-height: 18.004px; min-height: 0px; white-space: nowrap; color: rgb(33, 33, 33); font-family: Menlo, Monaco, Consolas, "Courier New", monospace; font-size: 14px;  }
+.S3 { margin: 10px 10px 9px 4px; padding: 0px; line-height: 21px; min-height: 0px; white-space: pre-wrap; color: rgb(33, 33, 33); font-family: Helvetica, Arial, sans-serif; font-style: normal; font-size: 14px; font-weight: 400; text-align: left;  }
+.S4 { border-left: 1px solid rgb(191, 191, 191); border-right: 1px solid rgb(191, 191, 191); border-top: 1px solid rgb(191, 191, 191); border-bottom: 0px none rgb(33, 33, 33); border-radius: 4px 4px 0px 0px; padding: 6px 45px 0px 13px; line-height: 18.004px; min-height: 0px; white-space: nowrap; color: rgb(33, 33, 33); font-family: Menlo, Monaco, Consolas, "Courier New", monospace; font-size: 14px;  }
+.S5 { border-left: 1px solid rgb(191, 191, 191); border-right: 1px solid rgb(191, 191, 191); border-top: 0px none rgb(33, 33, 33); border-bottom: 0px none rgb(33, 33, 33); border-radius: 0px; padding: 0px 45px 0px 13px; line-height: 18.004px; min-height: 0px; white-space: nowrap; color: rgb(33, 33, 33); font-family: Menlo, Monaco, Consolas, "Courier New", monospace; font-size: 14px;  }
+.S6 { border-left: 1px solid rgb(191, 191, 191); border-right: 1px solid rgb(191, 191, 191); border-top: 0px none rgb(33, 33, 33); border-bottom: 1px solid rgb(191, 191, 191); border-radius: 0px 0px 4px 4px; padding: 0px 45px 4px 13px; line-height: 18.004px; min-height: 0px; white-space: nowrap; color: rgb(33, 33, 33); font-family: Menlo, Monaco, Consolas, "Courier New", monospace; font-size: 14px;  }
+.S7 { margin: 10px 0px 20px; padding-left: 0px; font-family: Helvetica, Arial, sans-serif; font-size: 14px;  }
+.S8 { margin-left: 56px; line-height: 21px; min-height: 0px; text-align: left; white-space: pre-wrap;  }</style></head><body><div class = rtcContent><h1  class = 'S0' id = 'T_EF428535' ><span>SMGO: Using initial samples</span></h1><div  class = 'S1'><span>In this example, we supply SMGO with </span><span style=' font-style: italic;'>initial samples</span><span>, i.e., a set of points, together with their corresponding function (and constraints, if applicable) values. This is different from supplying a set of initial sampling points as in </span><a href = "C:\Users\lrsab\OneDrive - Politecnico di Milano\Documents\MATLAB\smgo\examples\basic\basic2.html#T_CB9065F2"><span>this example</span></a><span>, which still need to be sampled.</span></div><div  class = 'S1'><span></span></div><div  class = 'S1'><span>Clear struct </span><span style=' font-family: monospace;'>options</span><span> to start this example.</span></div><div class="CodeBlock"><div class="inlineWrapper"><div  class = 'S2'><span style="white-space: pre"><span >clear </span><span style="color: rgb(167, 9, 245);">options</span><span >;</span></span></div></div></div><div  class = 'S3'><span></span></div><div  class = 'S1'><span>We supply the minimum required arguments for SMGO, as done in the </span><a href = "./basic1.html#M_B03F19E6"><span>minimal example</span></a><span> for a 2-dimensional Styblinski-Tang objective function.</span></div><div class="CodeBlock"><div class="inlineWrapper"><div  class = 'S4'><span style="white-space: pre"><span >options.objfun  = @(x)fn_styblinski(x);</span></span></div></div><div class="inlineWrapper"><div  class = 'S5'><span style="white-space: pre"><span >options.bounds  = repmat([-5 5], 2, 1);</span></span></div></div><div class="inlineWrapper"><div  class = 'S6'><span style="white-space: pre"><span >options.maxiter = 250;</span></span></div></div></div><div  class = 'S3'><span></span></div><div  class = 'S1'><span>Here, we generate the initial samples matrix </span><span style=' font-family: monospace;'>X0</span><span>, composed of 50 randomly-generated points within the search bounds, and their corresponding evaluations. </span><span style=' font-family: monospace;'>X0</span><span> should be size </span><span style=' font-family: monospace;'>(D+1+S) x N0</span><span> where</span></div><ul  class = 'S7'><li  class = 'S8'><span style=' font-family: monospace;'>N0</span><span> is the number of initial samples: each column is a sample </span><span style=' font-family: monospace;'>i</span></li><li  class = 'S8'><span>Rows </span><span style=' font-family: monospace;'>1</span><span> to </span><span style=' font-family: monospace;'>D</span><span> are the location for sample </span><span style=' font-family: monospace;'>i</span><span> (</span><span style=' font-family: monospace;'>D</span><span> is the dimensionality)</span></li><li  class = 'S8'><span>Row </span><span style=' font-family: monospace;'>D + 1</span><span> is the objective sampled value</span></li><li  class = 'S8'><span>Next </span><span style=' font-family: monospace;'>S</span><span> rows are the respective constraints sampled values (</span><span style=' font-family: monospace;'>S</span><span> can be </span><span style=' font-family: monospace;'>0</span><span> for without black-box constraints, as in this example)</span></li></ul><div  class = 'S1'><span>In the current example, we are just considering an unconstrained optimization, i.e., </span><span style=' font-family: monospace;'>S=0</span><span>, so </span><span style=' font-family: monospace;'>X0</span><span> is only </span><span style=' font-family: monospace;'>(D+1) x N0</span><span>.</span></div><div class="CodeBlock"><div class="inlineWrapper"><div  class = 'S4'><span style="white-space: pre"><span >X0 = [];</span></span></div></div><div class="inlineWrapper"><div  class = 'S5'><span style="white-space: pre"><span style="color: rgb(14, 0, 255);">for </span><span >i = 1:50</span></span></div></div><div class="inlineWrapper"><div  class = 'S5'><span style="white-space: pre"><span >    x0_n = normd2real(rand(2,1),options.bounds);</span></span></div></div><div class="inlineWrapper"><div  class = 'S5'><span style="white-space: pre"><span >    X0 = [X0 [x0_n; fn_styblinski(x0_n)]];</span></span></div></div><div class="inlineWrapper"><div  class = 'S6'><span style="white-space: pre"><span style="color: rgb(14, 0, 255);">end</span></span></div></div></div><div  class = 'S3'><span></span></div><div  class = 'S1'><span>We supply </span><span style=' font-family: monospace;'>X0</span><span> to the struct field </span><span style=' font-family: monospace;'>options.startX</span><span>.</span></div><div class="CodeBlock"><div class="inlineWrapper"><div  class = 'S2'><span style="white-space: pre"><span >options.startX = X0;</span></span></div></div></div><div  class = 'S3'><span></span></div><div  class = 'S1'><span style=' font-style: italic;'>Optional: </span><span>in addition to </span><span style=' font-family: monospace;'>options.startX</span><span>, we can also fill </span><span style=' font-family: monospace;'>options.startpt</span><span>, if we want to have initial sampling point/s aside from your initial samples</span></div><ul  class = 'S7'><li  class = 'S8'><span>(1st commented line): one initial sampling point</span></li><li  class = 'S8'><span>(2nd commented line): a collection of sampling points</span></li></ul><div class="CodeBlock"><div class="inlineWrapper"><div  class = 'S4'><span style="white-space: pre"><span style="color: rgb(0, 128, 19);">% options.startpt = normd2real(rand(2,1), options.bounds);</span></span></div></div><div class="inlineWrapper"><div  class = 'S6'><span style="white-space: pre"><span style="color: rgb(0, 128, 19);">% options.startpt = normd2real(rand(2,100), options.bounds);</span></span></div></div></div><div  class = 'S3'><span>Without </span><span style=' font-family: monospace;'>options.startpt</span><span>, SMGO will automatically decide on the first sampling point based on the initial samples set.</span></div><div  class = 'S1'><span></span></div><div  class = 'S1'><span>We run SMGO with the options supplied.</span></div><div class="CodeBlock"><div class="inlineWrapper"><div  class = 'S2'><span style="white-space: pre"><span >out             = smgo(options);</span></span></div></div></div><div  class = 'S3'><span></span></div><div  class = 'S1'><span>The results are now plotted, with the initial samples marked with </span><span style=' font-family: monospace;'>o</span><span>.</span></div><div class="CodeBlock"><div class="inlineWrapper"><div  class = 'S4'><span style="white-space: pre"><span style="color: rgb(0, 128, 19);">% Plot output</span></span></div></div><div class="inlineWrapper"><div  class = 'S5'><span style="white-space: pre"><span >plot(out.hist_x(1,:), out.hist_x(2,:), </span><span style="color: rgb(167, 9, 245);">'.'</span><span >); grid </span><span style="color: rgb(167, 9, 245);">on</span><span >, title(</span><span style="color: rgb(167, 9, 245);">'Sampled points'</span><span >);</span></span></div></div><div class="inlineWrapper"><div  class = 'S6'><span style="white-space: pre"><span >hold </span><span style="color: rgb(167, 9, 245);">on</span><span >; plot(options.startX(1,:), options.startX(2,:), </span><span style="color: rgb(167, 9, 245);">'o'</span><span >);</span></span></div></div></div>
+<br>
+<!-- 
+##### SOURCE BEGIN #####
+%% SMGO: Using initial samples
+% In this example, we supply SMGO with _initial samples_, i.e., a set of points, 
+% together with their corresponding function (and constraints, if applicable) 
+% values. This is different from supplying a set of initial sampling points as 
+% in <C:\Users\lrsab\OneDrive - Politecnico di Milano\Documents\MATLAB\smgo\examples\basic\basic2.mlx 
+% this example>, which still need to be sampled.
+% 
+% 
+% 
+% Clear struct |options| to start this example.
+
+clear options;
+%% 
+% 
+% 
+% We supply the minimum required arguments for SMGO, as done in the <./basic1.mlx 
+% minimal example> for a 2-dimensional Styblinski-Tang objective function.
+
+options.objfun  = @(x)fn_styblinski(x);
+options.bounds  = repmat([-5 5], 2, 1);
+options.maxiter = 250;
+%% 
+% 
+% 
+% Here, we generate the initial samples matrix |X0|, composed of 50 randomly-generated 
+% points within the search bounds, and their corresponding evaluations. |X0| should 
+% be size |(D+1+S) x N0| where
+%% 
+% * |N0| is the number of initial samples: each column is a sample |i|
+% * Rows |1| to |D| are the location for sample |i| (|D| is the dimensionality)
+% * Row |D + 1| is the objective sampled value
+% * Next |S| rows are the respective constraints sampled values (|S| can be 
+% |0| for without black-box constraints, as in this example)
+%% 
+% In the current example, we are just considering an unconstrained optimization, 
+% i.e., |S=0|, so |X0| is only |(D+1) x N0|.
+
+X0 = [];
+for i = 1:50
+    x0_n = normd2real(rand(2,1),options.bounds);
+    X0 = [X0 [x0_n; fn_styblinski(x0_n)]];
+end
+%% 
+% 
+% 
+% We supply |X0| to the struct field |options.startX|.
+
+options.startX = X0;
+%% 
+% 
+% 
+% _Optional:_ in addition to |options.startX|, we can also fill |options.startpt|, 
+% if we want to have initial sampling point/s aside from your initial samples
+%% 
+% * (1st commented line): one initial sampling point
+% * (2nd commented line): a collection of sampling points
+
+% options.startpt = normd2real(rand(2,1), options.bounds);
+% options.startpt = normd2real(rand(2,100), options.bounds);
+%% 
+% Without |options.startpt|, SMGO will automatically decide on the first sampling 
+% point based on the initial samples set.
+% 
+% 
+% 
+% We run SMGO with the options supplied.
+
+out             = smgo(options);
+%% 
+% 
+% 
+% The results are now plotted, with the initial samples marked with |o|.
+
+% Plot output
+plot(out.hist_x(1,:), out.hist_x(2,:), '.'); grid on, title('Sampled points');
+hold on; plot(options.startX(1,:), options.startX(2,:), 'o');
+##### SOURCE END #####
+-->
+</div></body></html>

@@ -1,0 +1,243 @@
+<deployment-project plugin="plugin.toolbox" plugin-version="1.0">
+  <configuration build-checksum="4096281491" file="D:\OneDrive - Politecnico di Milano\Documents\MATLAB\smgo\smgo.prj" location="D:\OneDrive - Politecnico di Milano\Documents\MATLAB\smgo" name="smgo" target="target.toolbox" target-name="Package Toolbox">
+    <param.appname>Set Membership Global Optimization</param.appname>
+    <param.authnamewatermark>Lorenzo Sabug, Jr.</param.authnamewatermark>
+    <param.email>lorenzojr.sabug@polimi.it</param.email>
+    <param.company>Politecnico di Milano</param.company>
+    <param.summary>A new global optimization package based on a Set Membership framework.</param.summary>
+    <param.description />
+    <param.screenshot>${PROJECT_ROOT}\pic.png</param.screenshot>
+    <param.version>0.930</param.version>
+    <param.output>${PROJECT_ROOT}\Set Membership Global Optimization.mltbx</param.output>
+    <param.products.name />
+    <param.products.id />
+    <param.products.version />
+    <param.platforms />
+    <param.guid>c6328900-9972-4db7-9339-b022c61585b8</param.guid>
+    <param.exclude.filters>% List files contained in your toolbox folder that you would like to exclude
+% from packaging.  Excludes should be listed relative to the toolbox folder.
+% Some examples of how to specify excludes are provided below:
+%
+% A single file in the toolbox folder:
+% .svn
+%
+% A single file in a subfolder of the toolbox folder:
+% example/.svn
+%
+% All files in a subfolder of the toolbox folder:
+% example/*
+%
+% All files of a certain name in all subfolders of the toolbox folder:
+% **/.svn
+%
+% All files matching a pattern in all subfolders of the toolbox folder:
+% **/*.bak
+%</param.exclude.filters>
+    <param.exclude.pcodedmfiles>true</param.exclude.pcodedmfiles>
+    <param.examples>&lt;?xml version="1.0" encoding="utf-8"?&gt;
+&lt;examples&gt;
+   &lt;exampleCategory name="time_varying"&gt;
+      &lt;example name="timevarying1" type="html"&gt;
+         &lt;file type="source"&gt;/doc/examples/time_varying/html/timevarying1.html&lt;/file&gt;
+         &lt;file type="main"&gt;/doc/examples/time_varying/timevarying1.mlx&lt;/file&gt;
+         &lt;file type="thumbnail"/&gt;
+      &lt;/example&gt;
+   &lt;/exampleCategory&gt;
+   &lt;exampleCategory name="basic"&gt;
+      &lt;example name="basic1" type="html"&gt;
+         &lt;file type="source"&gt;/doc/examples/basic/html/basic1.html&lt;/file&gt;
+         &lt;file type="main"&gt;/doc/examples/basic/basic1.mlx&lt;/file&gt;
+         &lt;file type="thumbnail"/&gt;
+      &lt;/example&gt;
+      &lt;example name="basic2" type="html"&gt;
+         &lt;file type="source"&gt;/doc/examples/basic/html/basic2.html&lt;/file&gt;
+         &lt;file type="main"&gt;/doc/examples/basic/basic2.mlx&lt;/file&gt;
+         &lt;file type="thumbnail"/&gt;
+      &lt;/example&gt;
+      &lt;example name="basic3" type="html"&gt;
+         &lt;file type="source"&gt;/doc/examples/basic/html/basic3.html&lt;/file&gt;
+         &lt;file type="main"&gt;/doc/examples/basic/basic3.mlx&lt;/file&gt;
+         &lt;file type="thumbnail"/&gt;
+      &lt;/example&gt;
+      &lt;example name="basic4" type="html"&gt;
+         &lt;file type="source"&gt;/doc/examples/basic/html/basic4.html&lt;/file&gt;
+         &lt;file type="main"&gt;/doc/examples/basic/basic4.mlx&lt;/file&gt;
+         &lt;file type="thumbnail"/&gt;
+      &lt;/example&gt;
+   &lt;/exampleCategory&gt;
+   &lt;exampleCategory name="constraints"&gt;
+      &lt;example name="constrained1" type="html"&gt;
+         &lt;file type="source"&gt;/doc/examples/constraints/html/constrained1.html&lt;/file&gt;
+         &lt;file type="main"&gt;/doc/examples/constraints/constrained1.mlx&lt;/file&gt;
+         &lt;file type="thumbnail"/&gt;
+      &lt;/example&gt;
+      &lt;example name="constrained2" type="html"&gt;
+         &lt;file type="source"&gt;/doc/examples/constraints/html/constrained2.html&lt;/file&gt;
+         &lt;file type="main"&gt;/doc/examples/constraints/constrained2.mlx&lt;/file&gt;
+         &lt;file type="thumbnail"&gt;/doc/examples/constraints/html/constrained2.png&lt;/file&gt;
+         &lt;file type="image"&gt;/doc/examples/constraints/html/constrained2_01.png&lt;/file&gt;
+         &lt;file type="image"&gt;/doc/examples/constraints/html/constrained2_02.png&lt;/file&gt;
+         &lt;file type="image"&gt;/doc/examples/constraints/html/constrained2_03.png&lt;/file&gt;
+         &lt;file type="image"&gt;/doc/examples/constraints/html/constrained2_04.png&lt;/file&gt;
+      &lt;/example&gt;
+      &lt;example name="constrained3" type="html"&gt;
+         &lt;file type="source"&gt;/doc/examples/constraints/html/constrained3.html&lt;/file&gt;
+         &lt;file type="main"&gt;/doc/examples/constraints/constrained3.mlx&lt;/file&gt;
+         &lt;file type="thumbnail"/&gt;
+      &lt;/example&gt;
+      &lt;example name="constrained4" type="html"&gt;
+         &lt;file type="source"&gt;/doc/examples/constraints/html/constrained4.html&lt;/file&gt;
+         &lt;file type="main"&gt;/doc/examples/constraints/constrained4.mlx&lt;/file&gt;
+         &lt;file type="thumbnail"/&gt;
+      &lt;/example&gt;
+   &lt;/exampleCategory&gt;
+   &lt;exampleCategory name="network"&gt;
+      &lt;example name="network1_cl" type="html"&gt;
+         &lt;file type="source"&gt;/doc/examples/network/html/network1_cl.html&lt;/file&gt;
+         &lt;file type="main"&gt;/doc/examples/network/network1_cl.mlx&lt;/file&gt;
+         &lt;file type="thumbnail"/&gt;
+      &lt;/example&gt;
+      &lt;example name="network1_sv" type="html"&gt;
+         &lt;file type="source"&gt;/doc/examples/network/html/network1_sv.html&lt;/file&gt;
+         &lt;file type="main"&gt;/doc/examples/network/network1_sv.mlx&lt;/file&gt;
+         &lt;file type="thumbnail"/&gt;
+      &lt;/example&gt;
+   &lt;/exampleCategory&gt;
+&lt;/examples&gt;</param.examples>
+    <param.demosxml />
+    <param.apps />
+    <param.registered.apps />
+    <param.docs>${PROJECT_ROOT}\info.xml</param.docs>
+    <param.getting.started.guide>${PROJECT_ROOT}\doc\GettingStarted.mlx</param.getting.started.guide>
+    <param.matlabpath.excludes>
+      <item>/C__/Users/lrsab/OneDrive - Politecnico di Milano/Documents/MATLAB</item>
+    </param.matlabpath.excludes>
+    <param.javaclasspath.excludes />
+    <param.exported.on.package>false</param.exported.on.package>
+    <param.required.addons>
+      <requiredaddons />
+    </param.required.addons>
+    <param.matlab.project.id />
+    <param.matlab.project.name />
+    <param.release.start />
+    <param.release.end />
+    <param.release.current.only>false</param.release.current.only>
+    <param.compatiblity.windows>true</param.compatiblity.windows>
+    <param.compatiblity.macos>true</param.compatiblity.macos>
+    <param.compatiblity.linux>true</param.compatiblity.linux>
+    <param.compatiblity.matlabonline>true</param.compatiblity.matlabonline>
+    <param.installation.map />
+    <param.additional.sw.names />
+    <param.additional.sw.licenses />
+    <param.additional.sw.win.url />
+    <param.additional.sw.mac.url />
+    <param.additional.sw.linux.url />
+    <unset>
+      <param.authnamewatermark />
+      <param.company />
+      <param.description />
+      <param.output />
+      <param.products.name />
+      <param.products.id />
+      <param.products.version />
+      <param.platforms />
+      <param.exclude.pcodedmfiles />
+      <param.demosxml />
+      <param.apps />
+      <param.registered.apps />
+      <param.javaclasspath.excludes />
+      <param.exported.on.package />
+      <param.matlab.project.id />
+      <param.matlab.project.name />
+      <param.release.start />
+      <param.release.end />
+      <param.release.current.only />
+      <param.compatiblity.windows />
+      <param.compatiblity.macos />
+      <param.compatiblity.linux />
+      <param.compatiblity.matlabonline />
+      <param.installation.map />
+      <param.additional.sw.names />
+      <param.additional.sw.licenses />
+      <param.additional.sw.win.url />
+      <param.additional.sw.mac.url />
+      <param.additional.sw.linux.url />
+    </unset>
+    <fileset.rootdir>
+      <file>${PROJECT_ROOT}</file>
+    </fileset.rootdir>
+    <fileset.rootfiles>
+      <file>${PROJECT_ROOT}\demos.xml</file>
+      <file>${PROJECT_ROOT}\doc</file>
+      <file>${PROJECT_ROOT}\info.xml</file>
+      <file>${PROJECT_ROOT}\pic.png</file>
+      <file>${PROJECT_ROOT}\smgo.asv</file>
+      <file>${PROJECT_ROOT}\smgo.m</file>
+      <file>${PROJECT_ROOT}\unit_tests.m</file>
+      <file>${PROJECT_ROOT}\util</file>
+    </fileset.rootfiles>
+    <fileset.depfun.included />
+    <fileset.depfun.excluded />
+    <fileset.package />
+    <build-deliverables>
+      <file location="${PROJECT_ROOT}" name="Set Membership Global Optimization.mltbx" optional="false">D:\OneDrive - Politecnico di Milano\Documents\MATLAB\smgo\Set Membership Global Optimization.mltbx</file>
+    </build-deliverables>
+    <workflow />
+    <matlab>
+      <root>C:\Program Files\MATLAB\R2022a</root>
+      <toolboxes>
+        <toolbox name="matlabcoder" />
+        <toolbox name="embeddedcoder" />
+        <toolbox name="gpucoder" />
+        <toolbox name="fixedpoint" />
+        <toolbox name="matlabhdlcoder" />
+        <toolbox name="neuralnetwork" />
+      </toolboxes>
+      <toolbox>
+        <matlabcoder>
+          <enabled>true</enabled>
+        </matlabcoder>
+      </toolbox>
+      <toolbox>
+        <embeddedcoder>
+          <enabled>true</enabled>
+        </embeddedcoder>
+      </toolbox>
+      <toolbox>
+        <gpucoder>
+          <enabled>true</enabled>
+        </gpucoder>
+      </toolbox>
+      <toolbox>
+        <fixedpoint>
+          <enabled>true</enabled>
+        </fixedpoint>
+      </toolbox>
+      <toolbox>
+        <matlabhdlcoder>
+          <enabled>true</enabled>
+        </matlabhdlcoder>
+      </toolbox>
+      <toolbox>
+        <neuralnetwork>
+          <enabled>true</enabled>
+        </neuralnetwork>
+      </toolbox>
+    </matlab>
+    <platform>
+      <unix>false</unix>
+      <mac>false</mac>
+      <windows>true</windows>
+      <win2k>false</win2k>
+      <winxp>false</winxp>
+      <vista>false</vista>
+      <linux>false</linux>
+      <solaris>false</solaris>
+      <osver>10.0</osver>
+      <os32>false</os32>
+      <os64>true</os64>
+      <arch>win64</arch>
+      <matlab>true</matlab>
+    </platform>
+  </configuration>
+</deployment-project>
