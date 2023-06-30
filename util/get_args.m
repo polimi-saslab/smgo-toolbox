@@ -320,7 +320,7 @@ end
 if isfield(options, 'filtercdpt')
     filtercdpt = options.filtercdpt;
 else
-    filtercdpt = false;
+    filtercdpt = true;
 end
 
 if isfield(options, 'filtercdpt_horiz')
