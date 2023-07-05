@@ -221,17 +221,18 @@ if isfield(options, 'startpt')
             % TODO: if outside of the linear inequalities, do a projection
             if any(A_iq*x0 > b_iq,'all')
                 disp('[ERROR] Specified starting point is outside the bounds! Have you checked if the start point is also within the linear inequalities (if present)?');
-            end
-            rndgen_ctr = 0;
-            while any(A_iq*x0 > b_iq,'all') && (rndgen_ctr < D*1000)
-                x0 = rand(D, 1);
-                rndgen_ctr = rndgen_ctr+1;
-            end
-            if A_iq*x0 <= b_iq
-                disp('[INFO] Starting instead from a randomly-generated start point.');
-            else
-                disp('[ERROR] Failed to generate random start point given the linear inequality. Are you sure that the resulting search space is not empty?');
-                err_flag = true;
+                
+                rndgen_ctr = 0;
+                while any(A_iq*x0 > b_iq,'all') && (rndgen_ctr < D*1000)
+                    x0 = rand(D, 1);
+                    rndgen_ctr = rndgen_ctr+1;
+                end
+                if A_iq*x0 <= b_iq
+                    disp('[INFO] Starting instead from a randomly-generated start point.');
+                else
+                    disp('[ERROR] Failed to generate random start point given the linear inequality. Are you sure that the resulting search space is not empty?');
+                    err_flag = true;
+                end
             end
         end
     end
