@@ -1,4 +1,4 @@
-if iter > 1
+if ~h_len && iter > 1
     if (mode_prev == MODE_EXPLOIT) && opt_z_upd
         if z_n < exploit_thr
             % If the actual sample is actually less than expected improvement, 
@@ -16,6 +16,6 @@ if iter > 1
 end
 tr_bnds = ones(D, 1) * [-0.5 0.5] * tr_size * (tr_coeff ^ tr_exp) + opt_x * ones(1, 2);
 if h_len
-    tr_bnds(end-h_len+1:end,:) = repmat(h_n,1,2);
+    tr_bnds(1:h_len,:) = repmat(h_n,1,2);
 end
 tr_bnds = max(min(tr_bnds, 1.0), 0.0);

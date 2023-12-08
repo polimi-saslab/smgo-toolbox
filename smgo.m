@@ -17,7 +17,8 @@ defines_const;
 get_args;
 if err_flag, out = []; return; end
 
-diam = sqrt(D); % diameter of search space, used in update_gen_cdpt.m and update_db_cdpt.m
+diam = sqrt(D); % diameter of search space (included are decision and context variables), 
+                % used in update_gen_cdpt.m and update_db_cdpt.m
 
 %% =============================
 % Define initial variable values
@@ -69,6 +70,13 @@ X_n      = [];    % database of samples (only contains valid samples, i.e., not 
 %   - rows 3 and beyond are stacked uncertainties for the constraints (if present)
 T_n      = [];
 
+% Simple database of assigned trust region sizes (used in the contextual case)
+% - each column corresponds to a column in X_n
+% - contains the EXPONENTS to the trust region size coefficient
+%   (0 means default size, higher means smaller trust region, lower means larger trust region)
+% NOTE: this database is updated/appended in Algorithm part (3)
+R_n      = [];
+
 % Some more databases (for time-varying case)
 X_n_all  = []; % Database of ALL sampled points (all valid, and ALSO discarded samples)
 X_lf_all = []; % Database of sampled points lifetimes, i.e., the respective ages when discarded
@@ -112,17 +120,27 @@ db_samp    = []; % Stores the upper- and lower-bounds information AT the samples
 % (6) Exploration routine (similarly just a selection process of candidate point)
 
 for iter = 1:max_iter
-    if iter == 1
-        x_n = x0;        
-        if exist('X0', 'var') % X0 SHOULD already include context samples (if applicable)
+    if iter == 1      
+        % If initial samples set is already available, put into database already
+        % X0 samples SHOULD already include the corresponding contexts (if applicable)
+        if exist('X0', 'var')
             X0_nrm  = real2normd(X0(1:D,:), bnds);
-            X0_size = size(X0_nrm, 2);
-            X_n     = [X0_nrm; X0((D+1):end,:); 1:X0_size; zeros(1,X0_size)];
+            X0_len  = size(X0_nrm, 2);
+            X_n     = [X0_nrm; X0((D+1):end,:); 1:X0_len; zeros(1,X0_len)];
             X_n_all = [X0_nrm; X0((D+1):end,:)];
-            T_n     = [1:X0_size; zeros(1 + g_len, X0_size)];
-    
-            xn_id   = X0_size + 1;
+            T_n     = [1:X0_len; zeros(1 + g_len, X0_len)];
+            R_n     = zeros(1,X0_len);
+
+            xn_id   = X0_len + 1;
+        else
+            X0_len  = 0; 
         end
+
+        % Assign the initial sampling point
+        x_n = x0;  
+        
+        % If with context, evaluate the context NOW, and 
+        % associate with the initial sampling point
         if h_len % || exact_calc
             % Get all context values
             h_n = NaN(h_len,1);
@@ -135,7 +153,7 @@ for iter = 1:max_iter
                 h_n = real2normd(h_n,bnds((end-h_len+1):end,:));
             end
             if ~isempty(x_n)
-                x_n((end-h_len+1):end,:) = repmat(h_n,1,size(x_n,2));
+                x_n(1:h_len,:) = repmat(h_n,1,size(x_n,2));
             end
         end
     end
@@ -160,62 +178,47 @@ for iter = 1:max_iter
     % Iterate over each sampling point in x_n, and evaluate the objective and constraints
     for j = 1:x_n_len
         zc = NaN(1 + g_len, 1);
-%         if ~timev
-            % If underlying functions are static (not time-varying)
 
-            % If TCP interface has been set up
-            if tcp_en
-                % Read the data received by the SMGO TCP server
-                % Data should be a string composed of space-separated numerical values
-                % (American convention, period as decimal separator)
-                % - objective value
-                % - constraint value/s (if present)
-                % - context variable measurement/s (if present)
-                snd_dat = num2str(normd2real(x_n,bnds)');
-                fprintf("Sent %s\n", snd_dat);
-                write(f_tcp,snd_dat,"string");
-                while ~f_tcp.NumBytesAvailable
-                    pause(0.01);
-                end
-                rcv_dat = read(f_tcp,f_tcp.NumBytesAvailable,"string");
-                fprintf("Received %s\n",rcv_dat);
-                zc = str2num(rcv_dat);  
-            else
-                if ~isfield(options, 'confun') % && ~isfield(options, 'cxtfun')
-                    % If the objective and constraints values are already
-                    % contained in the 'f' function as a vector
-                    if ~isempty(f)
-                        zc = f(normd2real(x_n(:,j), bnds)); 
-                    else
-                        zc = [];
-                    end
+        % If TCP interface has been set up
+        if tcp_en
+            % Read the data received by the SMGO TCP server
+            % Data should be a string composed of space-separated numerical values
+            % (American convention, period as decimal separator)
+            % - objective value
+            % - constraint value/s (if present)
+            % - context variable measurement/s (if present)
+            snd_dat = num2str(normd2real(x_n,bnds)');
+            fprintf("Sent %s\n", snd_dat);
+            write(f_tcp,snd_dat,"string");
+            while ~f_tcp.NumBytesAvailable
+                pause(0.01);
+            end
+            rcv_dat = read(f_tcp,f_tcp.NumBytesAvailable,"string");
+            fprintf("Received %s\n",rcv_dat);
+            zc = str2num(rcv_dat);  
+        else
+            if ~isfield(options, 'confun') % && ~isfield(options, 'cxtfun')
+                % If the objective and constraints values are already
+                % contained in the 'f' function as a vector
+                if ~isempty(f)
+                    zc = f(normd2real(x_n(:,j), bnds)); 
                 else
-                    % If the constraint functions are enumerated separately
-                    % in the field options.confun. NOTE: if h_len > 0 (contextual
-                    % case), x_n ALREADY contains the context!!! See Algorithm (4)b
-                    zc(1) = f(normd2real(x_n(:,j), bnds));
+                    zc = [];
+                end
+            else
+                % If the constraint functions are enumerated separately
+                % in the field options.confun. NOTE: if h_len > 0 (contextual
+                % case), x_n ALREADY contains the context!!! See Algorithm (4)b
+                zc(1) = f(normd2real(x_n(:,j), bnds));
 
-                    % Run all constraint functions
-                    if isfield(options, 'confun')
-                        for g_i = 1:g_len
-                            zc(1 + g_i) = g{g_i}(normd2real(x_n(:,j), bnds));
-                        end  
-                    end
+                % Run all constraint functions
+                if isfield(options, 'confun')
+                    for g_i = 1:g_len
+                        zc(1 + g_i) = g{g_i}(normd2real(x_n(:,j), bnds));
+                    end  
                 end
             end
-%         else
-%             % TODO: REMOVE. Actually, I don't need this clause, since in the practical case,
-%             % repeated evaluation of f and g_s should already give me
-%             % time-varying values, even when using the other clause above!
-%             if isfield(options, 'confun')
-%                 zc(1) = f(normd2real(x_n(:,j), bnds), max(iter-timev_init,0));
-%                 for g_i = 1:g_len
-%                     zc(1 + g_i) = g{g_i}(normd2real(x_n(:,j), bnds), max(iter-timev_init,0));
-%                 end
-%             else
-%                 zc = f(normd2real(x_n(:,j), bnds), max(iter-timev_init,0));
-%             end
-%         end
+        end
         
         if ~isempty(zc)
             if size(zc,2) ~= 1
@@ -234,9 +237,9 @@ for iter = 1:max_iter
             X_n     = [X_n [x_n(:,j); z_n; c_n; xn_id; iter]];   % Side-stacking the column vector to collection of samples (fat matrix)
             X_n_all = [X_n_all [x_n(:,j); z_n; c_n]];
             T_n     = [T_n [xn_id; zeros(1 + g_len, 1)]];        % Similarly stacking the time-related column vector to the collection 
-                                                                 % TODO: 'iter' should be the timestamp instead) 
-                                                                 % TODO: why do I have the zeros** vector here? ANSWER: see definition for T_n
-    
+                                                                 % TODO: 'iter' should be the timestamp instead 
+                                                                 % TODO: why do I have the zeros** vector here? ANSWER: see definition for T_n (smgo.m, lines 63-69)
+            R_n     = [R_n NaN];                                 % Stacking the TR radius vector with a dummy value (will be updated with a real one in Algorithm part (3))
             xn_id   = xn_id + 1;
         end
     end
@@ -294,8 +297,8 @@ for iter = 1:max_iter
     % ==================
 
     % Identifying the best feasible sample
-    % There are different approaches, the one in the below clause is for
-    % the case WITHOUT contextual variables
+    % There are different approaches, the one in the below
+    % clause is for the case WITHOUT contextual variables
     if ~h_len
         % Find the minimum value of z among valid samples
         X_n_vld   = X_n(:,all(X_n(XN_GVAL:end-2,:)<=0, 1));
@@ -315,19 +318,17 @@ for iter = 1:max_iter
             opt_z_upd = false;
         end
 
-    % The below clause is run if the context optimization mode is 'classic', 
-    % i.e., with Mode 1 (exploitation) and Mode 2 (exploration).
-    % In such a case, I will also identify a "best sample"
-    elseif cxt_mode == CXTMODE_CLASSC
+    % The below clause describes the case WITH context
+    else
         % Filter samples which are feasible
-        X_n_vld     = X_n(:,all(X_n(XN_GVAL:end-2,:)>0, 1));
+        X_n_vld     = X_n(:,all(X_n(XN_GVAL:end-2,1:end-1)>0, 1));
         X_n_vld_len = size(X_n_vld,2);
 
         % Filter samples which are close
-        if h_len > 1
-            cxt_dist = vecnorm(X_n_vld((D-h_len+1):D,:) - repmat(h_n, 1, X_n_vld_len));
-        else
-            cxt_dist = abs(X_n_vld((D-h_len+1):D,:) - repmat(h_n, 1, X_n_vld_len));
+        if h_len == 1 % If context is 1-dimensional
+            cxt_dist = abs(X_n_vld(1:h_len,:) - repmat(h_n, 1, X_n_vld_len));
+        else          % If context is more-dimensional
+            cxt_dist = vecnorm(X_n_vld(1:h_len,:) - repmat(h_n, 1, X_n_vld_len));
         end
         cxt_near = cxt_dist < cxt_rad;
 
@@ -343,7 +344,7 @@ for iter = 1:max_iter
                                               % NOT the presently-measured context
             
             % Project data from (opt_x, opt_z) to the just-measured context
-            opt_x((end-h_len+1):end) = h_n; % Project opt_x to new context
+            opt_x(1:h_len) = h_n; % Project opt_x to new context
 
             % TODO: calculate the exact central approximation at the projected opt_x
             pt_dst       = vecnorm(X_n(1:D, :) - repmat(opt_x, 1, X_n_len));
@@ -368,16 +369,39 @@ for iter = 1:max_iter
                 c_lb = max(g_ulb_lookup(1, :) - g_ulb_lookup(2, :) - geps(g_i) - T_n(2+g_i, :));
                 opt_c(g_i) = (c_ub + c_lb)/2;
             end
+            
+            % Update/append the TR radius database
+            % Trust region dynamics (contextual optimization) happens here
+            % - get the sample index of the best (context-related) sample
+            % - if generated through exploitation, compare with the best sample
+            %   - if better at least by the expected improvement, best sample TR entry decreases
+            %   - if NOT better, best sample TR entry increases
+            %   - else (not shown anymore in code), best sample TR entry does NOT change
+            % - COPY TR entry of new sample from that of best sample
+            R_n_idx = X_n_near(XN_ID,opt_z_idx);
+            if iter == 1
+                R_n(end) = 0;
+            else
+                if mode_prev == MODE_EXPLOIT
+                    if z_n < exploit_thr
+                        R_n(R_n_idx) = R_n(R_n_idx) - 1;
+                    elseif z_n > opt_z
+                        R_n(R_n_idx) = R_n(R_n_idx) + 1;
+                    end
+                end
+                R_n(end) = R_n(R_n_idx);
+            end
+
         % IF X_n_near DOES NOT EXIST
-        % then go directly to explore!
+        % then go directly to explore (Algorithm part (6))!
         else
             opt_x = NaN(D, 1);
             opt_z = Inf;
             opt_c = NaN(g_len,1);
             opt_z_upd = false;
+            R_n(end) = 0;
         end
     end
-
     % =========================
     % End of algorithm part (3)
     % =========================
@@ -389,7 +413,7 @@ for iter = 1:max_iter
 
     if ~h_len
         % ================================================
-        % Iteratively update the midpoint database db_cdpt
+        % Iteratively update the candidate points database db_cdpt
         % ================================================
         % - Saves the vertex value of the upper (lower) bound
         % - Also saves the hypercone height value
@@ -410,6 +434,8 @@ for iter = 1:max_iter
         % Introduce additional cdpts to db_cdpt
         % =====================================
         update_gen_cdpt;
+        % TODO: update_gen_cdpt also in contextual optimization
+        %       - when initial samples are supplied BUT no initial point
     
         % ===========================================================================
         % Remove non-informative samples (only applicable for time-varying case)
@@ -426,14 +452,13 @@ for iter = 1:max_iter
     % End of algorithm part (4)a
     % ==========================
 
-    %% ===========================================
-    % Algorithm part (4)b: re-calculate all bounds
-    % ============================================
+    %% ========================================================================
+    % Algorithm part (4)b: Measure context and re-calculate all SM-based bounds
+    % =========================================================================
     % Runs IF there are contextual variables
 
     if h_len % || exact_calc
         % Get all context values
-%         h_n_prev = h_n;
         h_n      = NaN(h_len,1);
         if isfield(options, 'cxtfun')
             for h_i = 1:h_len
@@ -447,6 +472,62 @@ for iter = 1:max_iter
         % Regenerate the candidate points, projecting them to the new context
         % and calculating their corresponding bounds from scratch
         update_regen_cdpt;
+
+        % Filter samples which are feasible
+        X_n_vld     = X_n(:,all(X_n(XN_GVAL:end-2,1:end-1)>0, 1));
+        X_n_vld_len = size(X_n_vld,2);
+
+        % Filter samples which are close
+        if h_len == 1 % If context is 1-dimensional
+            cxt_dist = abs(X_n_vld(1:h_len,:) - repmat(h_n, 1, X_n_vld_len));
+        else          % If context is more-dimensional
+            cxt_dist = vecnorm(X_n_vld(1:h_len,:) - repmat(h_n, 1, X_n_vld_len));
+        end
+        cxt_near = cxt_dist < cxt_rad;
+
+        X_n_near = [];
+        if ~isempty(X_n_vld)
+            X_n_near = X_n_vld(:, cxt_near);
+        end
+
+        % IF X_n_near EXISTS
+        if ~isempty(X_n_near)
+            [~, opt_z_idx] = min(X_n_near(XN_FVAL,:));
+            opt_x = X_n_near(1:D, opt_z_idx); % This opt_x STILL contains its (only nearby) sampled context
+                                              % NOT the presently-measured context
+            
+            % Project data from (opt_x, opt_z) to the just-measured context
+            opt_x(1:h_len) = h_n; % Project opt_x to new context
+
+            % TODO: calculate the exact central approximation at the projected opt_x
+            pt_dst       = vecnorm(X_n(1:D, :) - repmat(opt_x, 1, X_n_len));
+            f_ulb_lookup = [X_n(XN_FVAL, :); fgam*pt_dst];
+            opt_x_ub = min(f_ulb_lookup(1, :) + f_ulb_lookup(2, :) + feps + T_n(2, :)); % Calculating individual upper bound values
+            opt_x_lb = max(f_ulb_lookup(1, :) - f_ulb_lookup(2, :) - feps - T_n(2, :)); % Calculating individual lower bound values 
+
+            opt_z = (opt_x_ub + opt_x_lb)/2;
+
+            % TODO: opt_c MIGHT be unfeasible because of the projections 
+            % of the constraint functions
+            opt_c = NaN(g_len,1);
+            for g_i = 1:g_len
+                XN_GVAL_I = XN_GVAL + g_i - 1;
+                g_ulb_lookup = [X_n(XN_GVAL_I, :); ggam(g_i)*pt_dst];
+                c_ub = min(g_ulb_lookup(1, :) + g_ulb_lookup(2, :) + geps(g_i) + T_n(2+g_i, :));
+                c_lb = max(g_ulb_lookup(1, :) - g_ulb_lookup(2, :) - geps(g_i) - T_n(2+g_i, :));
+                opt_c(g_i) = (c_ub + c_lb)/2;
+            end
+            tr_exp = R_n(opt_z_idx);
+
+        % IF X_n_near DOES NOT EXIST
+        % then go directly to explore (Algorithm part (6))!
+        else
+            opt_x = NaN(D, 1);
+            opt_z = Inf;
+            opt_c = NaN(g_len,1);
+            opt_z_upd = false;
+            R_n(end) = 0;
+        end
     end
 
     %% =========================================================
@@ -458,8 +539,7 @@ for iter = 1:max_iter
     %   THEN do a trust region update just like in classical (contextless) SMGO
     % - IF current context is super different, THEN trust region is reset to the default size
     % - EITHER WAY, initialize the Sobol-generated candidate points
-    % IF opt_x does NOT exist, then there is NO trust region
-%     if (~h_len && (opt_z < Inf)) || (h_len && (norm(h_n - h_n_prev) < cxt_rad))
+    % IF opt_x does NOT exist, then there is NO trust region, and proceed directly to exploration
     if opt_z < Inf 
         update_tr_exp;
         hist_tr(iter) = tr_exp;
@@ -505,8 +585,8 @@ for iter = 1:max_iter
         end    
     
         % Filtering due to trust region
-        cdpt_vld_idx = cdpt_vld_idx & prod(db_cdpt(1:D, :) > tr_bnds(:, 1)); % The product ('prod') operation is performed PER COLUMN.
-        cdpt_vld_idx = cdpt_vld_idx & prod(db_cdpt(1:D, :) < tr_bnds(:, 2)); % The resulting (row) vector is AND-gated
+        cdpt_vld_idx = cdpt_vld_idx & prod(db_cdpt(1:D, :) >= tr_bnds(:, 1)); % The product ('prod') operation is performed PER COLUMN.
+        cdpt_vld_idx = cdpt_vld_idx & prod(db_cdpt(1:D, :) <= tr_bnds(:, 2)); % The resulting (row) vector is AND-gated
         
         % Filtering due to linear inequalities (if present)
         if isfield(options,'ineq')
@@ -535,7 +615,9 @@ for iter = 1:max_iter
                 w_vld(:, cdpt_idx)      = [];
                 cdpt_vld_idx(cdpt_idx)  = [];
                 db_cdpt(:, cdpt_idx)    = [];
-                db_cdpt_cn(:, cdpt_idx) = [];
+                if ~h_len
+                    db_cdpt_cn(:, cdpt_idx) = [];
+                end
                 [~, cdpt_idx]         = max(w_vld + (~cdpt_vld_idx*-INFTY));
                 cdpt_tmp              = db_cdpt(1:D, cdpt_idx);
             end
@@ -630,18 +712,16 @@ for iter = 1:max_iter
     end
 
     w_vld = (db_cdpt(CDPT_F_LAMBDA, :)) .* cdpt_vld_idx / fgam;
-    if ~h_len || cxt_mode == CXTMODE_CLASSC % If problem has Modes 1 and 2
-        mode2_mrt = ((1-sdelta)*w_vld + sdelta*w_unc.*w_bst/(2^g_len)).*db_cdpt(end-1, :) + phi.*db_cdpt(end, :);
-    else % If problem only has Mode 2
-        w_min     = -(db_cdpt(CDPT_F_UB, :) + db_cdpt(CDPT_F_LB, :)).*cdpt_vld_idx/(2*fgam) + sbeta*w_vld;
-        mode2_mrt = (1-salpha)*w_min + salpha*((1-sdelta)*w_vld + sdelta*w_unc.*w_bst/(2^g_len)).*db_cdpt(end-1, :) + phi.*db_cdpt(end, :);
-    end
+    mode2_mrt = ((1-sdelta)*w_vld + sdelta*w_unc.*w_bst/(2^g_len)).*db_cdpt(end-1, :) + phi.*db_cdpt(end, :);
     
-    % ================================
-    % Clean up some cdpts from db_cdpt which are most likely not selected 
-    % up until the next filtercdpt_horiz iterations
-    % ================================
+    
+    % ==========================================================
+    % Clean up some cdpts from db_cdpt which are most likely 
+    % not selected up until the next filtercdpt_horiz iterations
+    % ==========================================================
     % TODO: Should edit for contextual optimization
+    %       - the entry should NOT be deleted
+    %       - instead, the age should just be reset
     if filtercdpt && (iter >= filtercdpt_horiz)
         cdpt_clnup_idx = ((max(mode2_mrt) - mode2_mrt)/phi >= filtercdpt_horiz);
         cdpt_clnup_idx(1:sbl_size)    = 0;
@@ -652,12 +732,7 @@ for iter = 1:max_iter
         w_vld(:, cdpt_clnup_idx)      = [];
         w_unc(:, cdpt_clnup_idx)      = [];
         w_bst(:, cdpt_clnup_idx)      = [];
-        if ~h_len || cxt_mode == CXTMODE_CLASSC
-            mode2_mrt = ((1-sdelta)*w_vld + sdelta*w_unc.*w_bst/(2^g_len)).*db_cdpt(end-1, :) + phi.*db_cdpt(end, :);
-        else
-            w_min(:, cdpt_clnup_idx) = [];
-            mode2_mrt = (1-salpha)*w_min + salpha*((1-sdelta)*w_vld + sdelta*w_unc.*w_bst/(2^g_len)).*db_cdpt(end-1, :) + phi.*db_cdpt(end, :);
-        end
+        mode2_mrt = ((1-sdelta)*w_vld + sdelta*w_unc.*w_bst/(2^g_len)).*db_cdpt(end-1, :) + phi.*db_cdpt(end, :);
     end
 
     % ================================
@@ -680,12 +755,9 @@ for iter = 1:max_iter
             w_vld(:, cdpt_idx)      = [];
             w_unc(:, cdpt_idx)      = [];
             w_bst(:, cdpt_idx)      = [];
-            if ~h_len || cxt_mode == CXTMODE_CLASSC
-                mode2_mrt = ((1-sdelta)*w_vld + sdelta*w_unc.*w_bst/(2^g_len)).*db_cdpt(end-1, :) + phi.*db_cdpt(end, :);
-            else
-                w_min(:, cdpt_idx) = [];
-                mode2_mrt = (1-salpha)*w_min + salpha*((1-sdelta)*w_vld + sdelta*w_unc.*w_bst/(2^g_len)).*db_cdpt(end-1, :) + phi.*db_cdpt(end, :);
-            end
+
+            mode2_mrt = ((1-sdelta)*w_vld + sdelta*w_unc.*w_bst/(2^g_len)).*db_cdpt(end-1, :) + phi.*db_cdpt(end, :);
+            
             [~, cdpt_idx] = max(mode2_mrt);
             x_n = db_cdpt(1:D, cdpt_idx);
         end
@@ -696,17 +768,23 @@ for iter = 1:max_iter
     % End of algorithm part (6)
     % =========================
 
-    % Clean up entries in the candidate points database 
-    % with same location as x_n
+    % If no context, we can remove the sampling
+    % point from the candidate points database
     cdpt_idx = all(db_cdpt(1:D, :) == x_n);
-    db_cdpt(:, cdpt_idx)    = [];
     if ~h_len
+        db_cdpt(:, cdpt_idx)    = [];
         db_cdpt_cn(:, cdpt_idx) = [];
+        w_vld(:, cdpt_idx)      = [];
+        w_unc(:, cdpt_idx)      = [];
+        w_bst(:, cdpt_idx)      = [];
+
+    % If instead we have contexts, we DO NOT
+    % remove the sampling point from the database,
+    % instead we just reset the age to zero
+    else
+        db_cdpt(end, cdpt_idx)  = 0;
     end
-    w_vld(:, cdpt_idx)      = [];
-    w_unc(:, cdpt_idx)      = [];
-    w_bst(:, cdpt_idx)      = [];
-    
+
     % Clip x_n inside the (normalized) search space
     x_n = min(1.0, max(0.0, x_n));
 
@@ -740,14 +818,6 @@ for iter = 1:max_iter
     else
         fprintf("No feasible point found yet.\n");
     end
-
-%     figure(1);
-%     plot(X_n(1,:),X_n(2,:),'x'); xlim([0 1]); ylim([0 1]); hold on;
-%     if cxt_mode == CXTMODE_CLASSC
-%         plot(sbl_cdpt(1,:),sbl_cdpt(2,:),'+');
-%     end
-%     drawnow; hold off;
-
 end
 fprintf("Optimization complete. Results are stored inside the output struct.\n")
 
@@ -767,7 +837,7 @@ out.opt_z = opt_z;                          out.hist_z = hist_z;                
 out.nxt_x = normd2real(x_n, bnds);
 
 if g_len > 0
-    out.opt_c = opt_c;        
+    out.opt_c = opt_c;
     out.hist_c = hist_c;       
     out.hist_opt_c = hist_opt_c;
 end

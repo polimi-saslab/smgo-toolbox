@@ -9,7 +9,7 @@
 
 clear options; close all;
 
-init_context_gen;
+context_gen_fn;
 
 % Populating basic fields in options
 options.objfun  = @(x)fn_styblinski(x);
@@ -19,11 +19,9 @@ options.maxiter = 500;
 options.beta    = 0.1;
 options.alpha   = 0.005;
 options.filtercdpt = true;
-options.cxtmode = 2;
 
 % Run SMGO
 out             = smgo(options);
-
 
 % Output animation
 animate_result;

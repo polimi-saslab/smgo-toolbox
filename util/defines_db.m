@@ -105,4 +105,10 @@ if h_len
     CDPT_G_LAMBDA = 2;
     CDPT_G_EST    = 3;
     CDPT_G_ROWS   = 4;
+    
+    % The last two rows describe the remoteness measure and the candidate point age
+    % end-1: Remoteness measure of each candidate point
+    % end:   Age of candidate point (measured as the difference between iteration 
+    %        of its generation to the current iteration)
+    % ===============================================
 end

@@ -11,6 +11,7 @@ if ~isempty(del_age_idx)
     % Clear entries associated with the 'too old' samples
     X_n(:,del_age_idx)         = [];
     T_n(:,del_age_idx)         = [];
+    R_n(:,del_age_idx)         = [];
     db_samp(:, del_age_idx)    = [];
     db_samp_cn(:, del_age_idx) = [];
     X_n_len                    = size(X_n,2);
@@ -90,6 +91,7 @@ if ~isempty(del_mdl_idx)
     % Clear entries associated with uninformative samples
     X_n(:,del_mdl_idx)         = [];
     T_n(:,del_mdl_idx)         = [];
+    R_n(:,del_mdl_idx)         = [];
     db_samp(:, del_mdl_idx)    = [];
     db_samp_cn(:, del_mdl_idx) = [];
     X_n_len                    = size(X_n,2);

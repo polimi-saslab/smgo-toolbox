@@ -70,26 +70,19 @@ end
 % ===========================================
 if isfield(options, 'cxtfun')
     h = options.cxtfun;
-    h_len = length(h);
-    if isa(h, 'function_handle')
-        h = {h};
+    if isa(h, 'function_handle') % If h is only one function, try to see the 
+        h = {h};                 % dimensionality of its output
+        if isfield(options, 'cxtlen')
+            h_len = options.cxtlen; % If options.cxtlen is given, assume that h outputs that dimensionality
+        else
+            h_len = 1;              % Otherwise, assume that h is a scalar function
+        end
+    else
+        h_len = length(h); % Assumes that each function in h outputs a scalar
     end
-elseif isfield(options, 'cxtlen')
-    h_len = options.cxtlen;
 else
     h_len = 0;
     h = {};
-end
-
-% My new option 'cxtmode' describes which approach SMGO uses to
-% treat contextual optimization
-% 1 - DIRECTLY using Mode 2, having the merit function decided by a mixture
-%     of lower bounds and uncertainty
-% 2 - Using Mode 1 and Mode 2, similar to classical SMGO
-if isfield(options, 'cxtmode')
-    cxt_mode = options.cxtmode;
-else
-    cxt_mode = CXTMODE_CLASSC;
 end
 
 % New option 'cxtrad' sets the ball radius around the current context, such that
@@ -218,7 +211,6 @@ if isfield(options, 'startpt')
     else
         x0 = real2normd(options.startpt, bnds);
         if isfield(options,'ineq')
-            % TODO: if outside of the linear inequalities, do a projection
             if any(A_iq*x0 > b_iq,'all')
                 disp('[ERROR] Specified starting point is outside the bounds! Have you checked if the start point is also within the linear inequalities (if present)?');
                 

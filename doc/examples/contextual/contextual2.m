@@ -8,7 +8,7 @@
 
 clear options; close all;
 
-init_context_gen;
+context_gen_fn;
 
 % Populating basic fields in options
 options.objfun  = @(x)fn_styblinski(x);
