@@ -22,5 +22,5 @@ function f = fn_styblinski_tv( x_e )
         x = R*x;
     end
 
-    f = sum( x .^ 4 - 16 * x .^ 2 + 5 * x ) / 2 + 2*(rand(1) - 0.5);
+    f = sum( x .^ 4 - 16 * x .^ 2 + 5 * x ) / 2;
 end

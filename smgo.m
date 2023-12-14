@@ -466,7 +466,7 @@ for iter = 1:max_iter
                 % these are simply measurements of the environment
                 h_n(h_i) = h{h_i}(); % Definition of h in get_args.m as list of function handles
             end
-            h_n = real2normd(h_n,bnds((end-h_len+1):end,:));
+            h_n = real2normd(h_n,bnds(1:h_len,:));
         end
 
         % Regenerate the candidate points, projecting them to the new context
@@ -813,11 +813,14 @@ for iter = 1:max_iter
         fprintf("============\nRunning SMGO\n============\n");
     end
     fprintf("Iteration: %d/%d, ",iter, max_iter);
-    if opt_z < Inf
-        fprintf("Best z: %.3f\n", opt_z);
-    else
-        fprintf("No feasible point found yet.\n");
+    if ~h_len % Only display a 'best value' when not in contextual optimization. `opt_z` does not make sense in contextual case.
+        if opt_z < Inf
+            fprintf("Best z: %.3f\n", opt_z);
+        else
+            fprintf("No feasible point found yet.");
+        end
     end
+    fprintf("\n");
 end
 fprintf("Optimization complete. Results are stored inside the output struct.\n")
 

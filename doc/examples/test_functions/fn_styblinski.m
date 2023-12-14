@@ -9,6 +9,5 @@ function f = fn_styblinski( x_e )
         x = x_e;
     end
 
-    f = sum( x .^ 4 - 16 * x .^ 2 + 5 * x ) / 2 + 2*(rand(1) - 0.5);
-    
+    f = sum( x .^ 4 - 16 * x .^ 2 + 5 * x ) / 2;    
 end

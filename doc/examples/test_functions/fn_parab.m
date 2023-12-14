@@ -7,5 +7,5 @@ function f = fn_parab( x_e )
         x = x_e;
     end
 
-    f = sum( ( x - [ -5 -5 ]' ) .^ 2 ) - 64 + 0.25*(rand(1) - 0.5);
+    f = sum( ( x - [ -5 -5 ]' ) .^ 2 ) - 64;
 end

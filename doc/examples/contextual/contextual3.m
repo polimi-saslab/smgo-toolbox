@@ -23,5 +23,6 @@ options.filtercdpt = true;
 % Run SMGO
 out             = smgo(options);
 
+
 % Output animation
 animate_result;
