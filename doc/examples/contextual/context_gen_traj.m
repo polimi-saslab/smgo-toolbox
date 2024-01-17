@@ -1,6 +1,6 @@
 % D_c        = 2;   % Dimensionality of the context
+max_iter   = 1000; % Number of iteration, for which we generate the context
 max_trials = 25;  % Number of optimization runs ("trials")
-max_iter   = 500; % Number of iteration, for which we generate the context
 p_jump     = 0.1; % Probability at every iteration of generating a random ("jumping") context
                   % If not triggered, the context will just move at a random direction
 
