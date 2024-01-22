@@ -8,7 +8,7 @@ for rad = 0.1:0.1:1.0
     ball_rad = rad * diam/2;
     ball_idx = zeros(X_n_len);
     for k = 1:X_n_len
-        ball_idx(k, :) = vecnorm(X_n(1:D, :) - repmat(X_n(1:D, k), 1, X_n_len)) <= ball_rad;
+        ball_idx(k, :) = vecnorm(X_n(1:D, :) - repmat(X_n(1:D, k), 1, X_n_len)) < ball_rad;
         ball_idx(k, k) = 0;
     end
     if sum(ball_idx,'all') > 0
@@ -16,7 +16,9 @@ for rad = 0.1:0.1:1.0
     end
 end
 ball_idx = logical(ball_idx);
-
+if iter == 3
+    iter;
+end
 % Collecting the noise values
 if isnan(eps_col(1))
     % If first entry of eps_col (supplied as options.noise) is NaN, let SMGO estimate the noise bound
@@ -30,7 +32,6 @@ if isnan(eps_col(1))
 else
     feps = eps_col(1);
 end
-
 for g_i = 1:g_len
     if isnan(eps_col(g_i + 1))
         % If entry of eps_col (supplied as options.noise) is NaN, let SMGO estimate the noise bound

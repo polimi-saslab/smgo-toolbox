@@ -150,7 +150,7 @@ for iter = 1:max_iter
                     % these are simply measurements of the environment
                     h_n(h_i) = h{h_i}(); % Definition of h in get_args.m as list of function handles
                 end
-                h_n = real2normd(h_n,bnds((end-h_len+1):end,:));
+                h_n = real2normd(h_n,bnds(1:h_len,:));
             end
             if ~isempty(x_n)
                 x_n(1:h_len,:) = repmat(h_n,1,size(x_n,2));
@@ -456,8 +456,11 @@ for iter = 1:max_iter
     % Algorithm part (4)b: Measure context and re-calculate all SM-based bounds
     % =========================================================================
     % Runs IF there are contextual variables
-
-    if h_len % || exact_calc
+    skip2end = false;
+    if iter == options.maxiter
+        skip2end = true;
+    end
+    if h_len && ~skip2end% || exact_calc
         % Get all context values
         h_n      = NaN(h_len,1);
         if isfield(options, 'cxtfun')
@@ -540,7 +543,7 @@ for iter = 1:max_iter
     % - IF current context is super different, THEN trust region is reset to the default size
     % - EITHER WAY, initialize the Sobol-generated candidate points
     % IF opt_x does NOT exist, then there is NO trust region, and proceed directly to exploration
-    if opt_z < Inf 
+    if opt_z < Inf && ~skip2end
         update_tr_exp;
         hist_tr(iter) = tr_exp;
         
@@ -572,7 +575,7 @@ for iter = 1:max_iter
     % The exploitation should remain the same, and will not consider the time-related uncertainty. 
     % It should remain only dependent on the uncertainty w.r.t. existing (valid) samples.
     mode1_ok = false;
-    if opt_z < Inf
+    if opt_z < Inf && ~skip2end
         % Processing and choosing exploitation point from candidate points database
         cdpts        = size(db_cdpt, 2);
         cdpt_vld_idx = true(1, cdpts);
@@ -722,7 +725,7 @@ for iter = 1:max_iter
     % TODO: Should edit for contextual optimization
     %       - the entry should NOT be deleted
     %       - instead, the age should just be reset
-    if filtercdpt && (iter >= filtercdpt_horiz)
+    if filtercdpt && (iter >= filtercdpt_horiz) && ~skip2end
         cdpt_clnup_idx = ((max(mode2_mrt) - mode2_mrt)/phi >= filtercdpt_horiz);
         cdpt_clnup_idx(1:sbl_size)    = 0;
         db_cdpt(:, cdpt_clnup_idx)    = [];
@@ -738,7 +741,7 @@ for iter = 1:max_iter
     % ================================
     % The actual exploration routine
     % ================================
-    if ~mode1_ok
+    if ~mode1_ok && ~skip2end
         [~, cdpt_idx] = max(mode2_mrt);
         x_n = db_cdpt(1:D, cdpt_idx);
 
@@ -812,15 +815,15 @@ for iter = 1:max_iter
     if iter == 1
         fprintf("============\nRunning SMGO\n============\n");
     end
-    fprintf("Iteration: %d/%d, ",iter, max_iter);
-    if ~h_len % Only display a 'best value' when not in contextual optimization. `opt_z` does not make sense in contextual case.
-        if opt_z < Inf
-            fprintf("Best z: %.3f\n", opt_z);
-        else
-            fprintf("No feasible point found yet.");
-        end
-    end
-    fprintf("\n");
+    % fprintf("Iteration: %d/%d, ",iter, max_iter);
+    % if ~h_len % Only display a 'best value' when not in contextual optimization. `opt_z` does not make sense in contextual case.
+    %     if opt_z < Inf
+    %         fprintf("Best z: %.3f\n", opt_z);
+    %     else
+    %         fprintf("No feasible point found yet.");
+    %     end
+    % end
+    % fprintf("\n");
 end
 fprintf("Optimization complete. Results are stored inside the output struct.\n")
 
