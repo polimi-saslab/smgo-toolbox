@@ -145,11 +145,11 @@ for iter = 1:max_iter
             % Get all context values
             h_n = NaN(h_len,1);
             if isfield(options, 'cxtfun')
-                for h_i = 1:h_len
+                % for h_i = 1:h_len
                     % Context variables are NOT functions of the input x_n,
                     % these are simply measurements of the environment
-                    h_n(h_i) = h{h_i}(); % Definition of h in get_args.m as list of function handles
-                end
+                    h_n = h{1}(); % Definition of h in get_args.m as list of function handles
+                % end
                 h_n = real2normd(h_n,bnds(1:h_len,:));
             end
             if ~isempty(x_n)
@@ -464,11 +464,11 @@ for iter = 1:max_iter
         % Get all context values
         h_n      = NaN(h_len,1);
         if isfield(options, 'cxtfun')
-            for h_i = 1:h_len
+            % for h_i = 1:h_len
                 % Context variables are NOT functions of the input x_n,
                 % these are simply measurements of the environment
-                h_n(h_i) = h{h_i}(); % Definition of h in get_args.m as list of function handles
-            end
+                h_n = h{1}(); % Definition of h in get_args.m as list of function handles
+            % end
             h_n = real2normd(h_n,bnds(1:h_len,:));
         end
 
@@ -552,7 +552,8 @@ for iter = 1:max_iter
             % Matrix sbl_seq is [D x sbl_seq]
             sbl_cdpt = [[sbl_seq*tr_size*(tr_coeff ^ tr_exp); zeros(h_len, sbl_size)] + tr_bnds(:, 1)*ones(1, sbl_size);  % Matrix tr_bnds is defined in update_tr_exp.m
                         zeros(2 + 2*g_len, sbl_size)];
-        
+            sbl_cdpt(1:h_len,:) = repmat(h_n, 1, sbl_size);
+
             % For each Sobol candidate point, calculate SM-bounds from scratch
             for sbl_i = 1:sbl_size
                 sbl_dst = vecnorm(X_n(1:D,:) - repmat(sbl_cdpt(1:D, sbl_i), 1, X_n_len));
@@ -840,7 +841,7 @@ x_lf_all = X_lf_all;
 % ===================
 out.opt_x = normd2real(opt_x, bnds);        out.hist_x = normd2real(hist_x, bnds);       out.hist_opt_x = normd2real(hist_opt_x, bnds);
 out.opt_z = opt_z;                          out.hist_z = hist_z;                         out.hist_opt_z = hist_opt_z;
-out.nxt_x = normd2real(x_n, bnds);
+out.nxt_x = normd2real(x_n, bnds);          out.hist_x_normd = hist_x;
 
 if g_len > 0
     out.opt_c = opt_c;

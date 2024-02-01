@@ -95,7 +95,7 @@ end
 if isfield(options, 'cxtrad')
     cxt_rad = options.cxtrad;
 else
-    cxt_rad = 0.1;
+    cxt_rad = 0.1*sqrt(h_len);
 end
 % ===========================================
 
