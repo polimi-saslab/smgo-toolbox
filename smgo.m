@@ -681,7 +681,7 @@ for iter = 1:max_iter
             x_n_tmp = [];
         end
         
-        exploit_thr = opt_z - salpha*fgam;
+        exploit_thr = opt_z - feps - salpha*fgam;
         if ~isempty(x_n_tmp)
             if opt_z < Inf && max((X_n(XN_FVAL,:) - feps) - fgam*vecnorm(X_n(1:D,:) - repmat(x_n_tmp, 1, X_n_len))) < exploit_thr
                 x_n = x_n_tmp;
