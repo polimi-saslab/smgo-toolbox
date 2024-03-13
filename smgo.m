@@ -552,7 +552,9 @@ for iter = 1:max_iter
             % Matrix sbl_seq is [D x sbl_seq]
             sbl_cdpt = [[sbl_seq*tr_size*(tr_coeff ^ tr_exp); zeros(h_len, sbl_size)] + tr_bnds(:, 1)*ones(1, sbl_size);  % Matrix tr_bnds is defined in update_tr_exp.m
                         zeros(2 + 2*g_len, sbl_size)];
-            sbl_cdpt(1:h_len,:) = repmat(h_n, 1, sbl_size);
+            if h_len > 0
+                sbl_cdpt(1:h_len,:) = repmat(h_n, 1, sbl_size);
+            end
 
             % For each Sobol candidate point, calculate SM-bounds from scratch
             for sbl_i = 1:sbl_size
@@ -689,6 +691,10 @@ for iter = 1:max_iter
                 mode_prev       = MODE_EXPLOIT;
                 mode1_ok        = true;
             end
+        end
+
+        if iter >= 250
+            salpha = 0.000;
         end
     end
     % =========================
